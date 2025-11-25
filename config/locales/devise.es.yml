@@ -1,0 +1,20 @@
+es:
+  devise:
+    sessions:
+      signed_in: "Has iniciado sesión correctamente."
+      signed_out: "Has cerrado sesión correctamente."
+      already_signed_out: "Has cerrado sesión correctamente."
+    registrations:
+      signed_up: "¡Bienvenido! Te has registrado correctamente."
+    passwords:
+      send_instructions: "Se ha enviado un correo con instrucciones para restablecer la contraseña si la cuenta existe en nuestro sistema."
+      updated: "Tu contraseña ha sido cambiada correctamente."
+    mailer:
+      reset_password_instructions:
+        subject: "Instrucciones para restablecer tu contraseña"
+      confirmation_instructions:
+        subject: "Instrucciones para confirmar tu cuenta"
+      unlock_instructions:
+        subject: "Instrucciones para desbloquear tu cuenta"
+    confirmations:
+      confirmed: "Tu cuenta ha sido confirmada correctamente."

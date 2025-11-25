@@ -1,0 +1,44 @@
+<div style="max-width: 400px; margin: 60px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Iniciar Sesión</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
+    <% if resource.errors.any? %>
+      <div id="error_explanation" style="padding: 15px; margin-bottom: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;">
+        <h4 style="margin-top: 0;"><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
+        <ul style="margin: 10px 0 0 20px;">
+          <% resource.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 20px;">
+      <%= f.label :email, "Correo Electrónico", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <%= f.label :password, "Contraseña", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+      <%= f.password_field :password, autocomplete: "current-password", 
+        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div style="margin-bottom: 20px;">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me, "Recuérdame" %>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 20px;">
+      <%= f.submit "Iniciar Sesión", 
+        style: "width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;" %>
+    </div>
+  <% end %>
+
+  <div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

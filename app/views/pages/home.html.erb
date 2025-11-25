@@ -1,0 +1,49 @@
+<div style="text-align: center; padding: 60px 20px;">
+  <h1 style="font-size: 48px; margin-bottom: 20px; color: #333;">Bienvenido a Onboarding Record</h1>
+  <p style="font-size: 18px; color: #666; margin-bottom: 40px;">
+    Sistema de reclutamiento y onboarding de personal
+  </p>
+
+  <% if user_signed_in? %>
+    <div style="background-color: #d4edda; padding: 20px; border-radius: 8px; color: #155724; margin-bottom: 30px;">
+      <h2>¡Bienvenido, <%= current_user.email %>!</h2>
+      <p>Tu sesión está activa y puedes comenzar a usar el sistema.</p>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h3 style="color: #333; margin-bottom: 20px;">Opciones disponibles:</h3>
+      <p style="font-size: 16px; color: #666;">
+        Las funcionalidades adicionales estarán disponibles próximamente.
+      </p>
+    </div>
+  <% else %>
+    <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 40px;">
+      <div style="border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px;">
+        <h3 style="color: #333; margin-bottom: 15px;">¿Eres nuevo?</h3>
+        <p style="color: #666; margin-bottom: 20px;">
+          Crea una cuenta para acceder a todas las funcionalidades.
+        </p>
+        <%= link_to "Crear cuenta", new_user_registration_path, 
+          style: "display: inline-block; padding: 12px 30px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;" %>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px;">
+        <h3 style="color: #333; margin-bottom: 15px">¿Ya tienes cuenta?</h3>
+        <p style="color: #666; margin-bottom: 20px;">
+          Inicia sesión con tu correo electrónico y contraseña.
+        </p>
+        <%= link_to "Iniciar sesión", new_user_session_path, 
+          style: "display: inline-block; padding: 12px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;" %>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+      <h3 style="color: #333;">¿Olvidaste tu contraseña?</h3>
+      <p style="color: #666; margin-bottom: 15px;">
+        No te preocupes, puedes recuperarla fácilmente.
+      </p>
+      <%= link_to "Recuperar contraseña", new_user_password_path, 
+        style: "color: #007bff; text-decoration: none; font-weight: bold;" %>
+    </div>
+  <% end %>
+</div>
