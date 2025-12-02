@@ -1,0 +1,46 @@
+<div style="max-width: 1000px; margin: 20px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Panel de Administración - Gestión de Usuarios</h2>
+
+  <div style="margin-bottom: 30px;">
+    <%= link_to "Crear nuevo usuario", new_admin_user_path, style: "padding:10px 16px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;" %>
+  </div>
+
+  <% if @users.any? %>
+    <table style="width: 100%; border-collapse: collapse; background: white;">
+      <thead>
+        <tr style="background-color: #f0f0f0;">
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Email</th>
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Rol</th>
+          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Creado</th>
+          <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px;"><%= user.email %></td>
+            <td style="padding: 12px;"><%= user.id %></td>
+            <td style="padding: 12px;">
+              <span style="padding: 4px 8px; border-radius: 4px; 
+                <%= case user.role
+                    when 'admin' then 'background-color: #e7e7ff; color: #0052cc;'
+                    when 'recruiter' then 'background-color: #fff4e6; color: #cc5d00;'
+                    else 'background-color: #e8f5e9; color: #2e7d32;'
+                    end %>">
+                <%= user.role.capitalize %>
+              </span>
+            </td>
+            <td style="padding: 12px;"><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+            <td style="padding: 12px; text-align: center;">
+              <%= link_to "Editar", edit_admin_user_path(user), style: "padding: 6px 12px; background-color: #ffc107; color: #333; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; margin-right: 5px;" %>
+              <%= link_to "Eliminar", admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro?" }, style: "padding: 6px 12px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block;" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p style="text-align: center; color: #666; padding: 20px;">No hay usuarios en el sistema.</p>
+  <% end %>
+</div>

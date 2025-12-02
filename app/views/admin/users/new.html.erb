@@ -1,0 +1,49 @@
+<div style="max-width: 400px; margin: 60px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+	<h2 style="text-align: center; margin-bottom: 30px; color: #333;">Crear nuevo usuario</h2>
+
+	<%= form_with(model: [@user], local: true, url: admin_users_path) do |form| %>
+		<% if @user.errors.any? %>
+			<div id="error_explanation" style="padding: 15px; margin-bottom: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;">
+				<h4 style="margin-top: 0;"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
+				<ul style="margin: 10px 0 0 20px;">
+					<% @user.errors.full_messages.each do |message| %>
+						<li><%= message %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+
+		<div style="margin-bottom: 20px;">
+			<%= form.label :email, "Correo Electrónico", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+			<%= form.email_field :email, autofocus: true, autocomplete: "email", 
+				style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+		</div>
+
+		<div style="margin-bottom: 20px;">
+			<%= form.label :password, "Contraseña", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+			<%= form.password_field :password, autocomplete: "new-password", 
+				style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+		</div>
+
+		<div style="margin-bottom: 20px;">
+			<%= form.label :password_confirmation, "Confirmar contraseña", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+			<%= form.password_field :password_confirmation, autocomplete: "new-password", 
+				style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+		</div>
+
+		<div style="margin-bottom: 20px;">
+			<%= form.label :role, "Rol", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
+			<%= form.select :role, { "Admin" => "admin", "Usuario" => "usuario", "Recruiter" => "recruiter" }, {}, 
+				style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+		</div>
+
+		<div style="margin-bottom: 20px;">
+			<%= form.submit "Crear usuario", 
+				style: "width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;" %>
+		</div>
+	<% end %>
+
+	<div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
+		<%= link_to "Volver a usuarios", admin_users_path, style: "color: #007bff; text-decoration: none;" %>
+	</div>
+</div>
