@@ -9,6 +9,9 @@ es:
     passwords:
       send_instructions: "Se ha enviado un correo con instrucciones para restablecer la contraseña si la cuenta existe en nuestro sistema."
       updated: "Tu contraseña ha sido cambiada correctamente."
+      updated_not_active: "Tu contraseña ha sido cambiada correctamente."
+      send_paranoid_instructions: "Si tu correo electrónico existe en nuestra base de datos, recibirás un enlace de recuperación en unos minutos."
+      no_token: "No puedes acceder a esta página sin venir desde un correo de restablecimiento de contraseña. Si vienes desde un correo de restablecimiento, asegúrate de usar la URL completa proporcionada."
     mailer:
       reset_password_instructions:
         subject: "Instrucciones para restablecer tu contraseña"
