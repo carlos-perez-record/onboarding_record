@@ -33,8 +33,16 @@
             </td>
             <td style="padding: 12px;"><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
             <td style="padding: 12px; text-align: center;">
-              <%= link_to "Editar", edit_admin_user_path(user), style: "padding: 6px 12px; background-color: #ffc107; color: #333; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; margin-right: 5px;" %>
-              <%= link_to "Eliminar", admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro?" }, style: "padding: 6px 12px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block;" %>
+              <%= link_to edit_admin_user_path(user), title: "Editar usuario", style: "display: inline-block; margin-right: 10px; text-decoration: none;" do %>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
+                </svg>
+              <% end %>
+              <%= link_to admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro de eliminar este usuario?" }, title: "Eliminar usuario", style: "display: inline-block; text-decoration: none;" do %>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="#dc3545"/>
+                </svg>
+              <% end %>
             </td>
           </tr>
         <% end %>
