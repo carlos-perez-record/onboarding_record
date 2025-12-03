@@ -8,8 +8,8 @@ class CurriculumsController < ApplicationController
   end
 
   def create
-    @curriculum = current_user.build_curriculum(curriculum_params)
-    merge_other_languages(@curriculum)
+    params_with_languages = process_languages(curriculum_params)
+    @curriculum = current_user.build_curriculum(params_with_languages)
     if @curriculum.save
       redirect_to curriculum_path(@curriculum), notice: "Currículum registrado correctamente."
     else
@@ -24,9 +24,8 @@ class CurriculumsController < ApplicationController
   end
 
   def update
-    if @curriculum.update(curriculum_params)
-      merge_other_languages(@curriculum)
-      @curriculum.save
+    params_with_languages = process_languages(curriculum_params)
+    if @curriculum.update(params_with_languages)
       redirect_to curriculum_path(@curriculum), notice: "Currículum actualizado correctamente."
     else
       render :edit, status: :unprocessable_entity
@@ -54,19 +53,27 @@ class CurriculumsController < ApplicationController
   end
 
   def curriculum_params
-    params.require(:curriculum).permit(
+    permitted = params.require(:curriculum).permit(
       :first_name, :last_name, :birth_date, :identification,
       :phone_number, :address, :city, :department, :country,
       :profile_description, :available_to_travel, :available_to_relocate,
       :photo, :other_languages, languages: []
     )
+    # Remover other_languages del hash permitido
+    permitted.except(:other_languages)
   end
 
-  def merge_other_languages(curriculum)
-    other_langs = params[:curriculum][:other_languages].to_s.split(',').map(&:strip).reject(&:blank?)
-    if other_langs.any?
-      curriculum.languages = (curriculum.languages || []) + other_langs
-      curriculum.languages = curriculum.languages.uniq
-    end
+  def process_languages(params_hash)
+    # Extraer idiomas personalizados desde params (string), limpiar y combinar
+    other_langs = params.dig(:curriculum, :other_languages).to_s.split(',').map(&:strip).reject(&:blank?)
+    languages = Array(params_hash[:languages]).reject(&:blank?)
+
+    combined = (languages + other_langs).uniq
+
+    # Construir un Hash limpio que no incluya keys no permitidas (como other_languages)
+    safe_hash = params_hash.to_h.reject { |k, _| k.to_s == 'other_languages' }
+    safe_hash['languages'] = combined
+
+    safe_hash
   end
 end
