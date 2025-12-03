@@ -60,6 +60,12 @@ es:
       too_long: "es demasiado largo (máximo %{count} caracteres)"
       too_short: "es demasiado corto (mínimo %{count} caracteres)"
       wrong_length: "no tiene la longitud correcta (debe ser %{count} caracteres)"
+  enums:
+    user:
+      role:
+        admin: "Admin"
+        aspirante: "Aspirante"
+        recruiter: "Reclutador"
   layout:
     navigation:
       home: "Inicio"

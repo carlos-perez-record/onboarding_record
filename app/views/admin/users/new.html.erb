@@ -1,5 +1,5 @@
 <div style="max-width: 400px; margin: 60px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-	<h2 style="text-align: center; margin-bottom: 30px; color: #333;">Crear nuevo usuario</h2>
+	<h2 style="text-align: center; margin-bottom: 30px; color: #333;">Crear nuevo aspirante</h2>
 
 	<%= form_with(model: [@user], local: true, url: admin_users_path) do |form| %>
 		<% if @user.errors.any? %>
@@ -33,17 +33,17 @@
 
 		<div style="margin-bottom: 20px;">
 			<%= form.label :role, "Rol", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
-			<%= form.select :role, { "Admin" => "admin", "Usuario" => "usuario", "Recruiter" => "recruiter" }, {}, 
+			<%= form.select :role, { "Admin" => "admin", "Aspirante" => "aspirante", "Reclutador" => "recruiter" }, {}, 
 				style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
 		</div>
 
 		<div style="margin-bottom: 20px;">
-			<%= form.submit "Crear usuario", 
+			<%= form.submit "Crear aspirante", 
 				style: "width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;" %>
 		</div>
 	<% end %>
 
 	<div style="text-align: center; padding-top: 20px; border-top: 1px solid #ddd;">
-		<%= link_to "Volver a usuarios", admin_users_path, style: "color: #007bff; text-decoration: none;" %>
+		<%= link_to "Volver a aspirantes", admin_users_path, style: "color: #007bff; text-decoration: none;" %>
 	</div>
 </div>
