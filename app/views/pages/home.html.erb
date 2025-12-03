@@ -14,27 +14,7 @@
       <h3 style="color: #333; margin-bottom: 20px;">Opciones disponibles:</h3>
       
       <% if current_user.aspirante? %>
-        <div style="display: flex; gap: 20px; justify-content: center;">
-          <% if current_user.curriculum %>
-            <div style="border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px;">
-              <h4 style="color: #333; margin-bottom: 15px;">Mi Currículum</h4>
-              <p style="color: #666; margin-bottom: 20px;">
-                Visualiza y edita tu currículum registrado.
-              </p>
-              <%= link_to "Ver mi currículum", curriculum_path(current_user.curriculum), 
-                style: "display: inline-block; padding: 12px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;" %>
-            </div>
-          <% else %>
-            <div style="border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px;">
-              <h4 style="color: #333; margin-bottom: 15px;">Registrar Currículum</h4>
-              <p style="color: #666; margin-bottom: 20px;">
-                Crea tu currículum para participar en procesos de selección.
-              </p>
-              <%= link_to "Registrar currículum", new_curriculum_path, 
-                style: "display: inline-block; padding: 12px 30px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;" %>
-            </div>
-          <% end %>
-        </div>
+        <!-- Enlaces a currículum movidos al menú lateral -->
       <% elsif current_user.recruiter? %>
         <div style="border: 1px solid #ddd; padding: 30px; border-radius: 8px; width: 300px; margin: 0 auto;">
           <h4 style="color: #333; margin-bottom: 15px;">Gestión de Aspirantes</h4>

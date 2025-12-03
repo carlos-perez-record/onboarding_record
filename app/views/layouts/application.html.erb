@@ -51,6 +51,12 @@
                 <li style="margin-bottom: 8px;">
                   <%= link_to "Inicio", root_path, style: "display: block; padding: 8px 10px; background-color: #e9ecef; color: #333; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
                 </li>
+                <% if current_user.aspirante? %>
+                  <li style="margin-bottom: 8px;">
+                    <%= link_to "Mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path),
+                      style: "display: block; padding: 8px 10px; background-color: #e9ecef; color: #333; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
+                  </li>
+                <% end %>
               </ul>
             </div>
 

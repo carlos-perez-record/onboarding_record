@@ -37,7 +37,7 @@ class Curriculum < ApplicationRecord
   def validate_photo
     if photo.attached?
       # Validar tipo de contenido
-      unless photo.content_type.in?('image/jpeg', 'image/png')
+      unless photo.content_type.in?(%w[image/jpeg image/png])
         errors.add(:photo, "debe ser JPEG o PNG")
       end
       
