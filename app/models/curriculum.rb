@@ -1,0 +1,47 @@
+class Curriculum < ApplicationRecord
+  belongs_to :user
+  has_one_attached :photo, dependent: :destroy
+
+  # Validaciones
+  validates :first_name, :last_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :birth_date, presence: true
+  validates :identification, presence: true, uniqueness: true, length: { minimum: 5, maximum: 20 }
+  validates :phone_number, presence: true, format: { with: /\A[0-9\-\+\s\(\)]+\z/, message: "debe ser un formato válido" }
+  validates :address, :city, :department, :country, presence: true, length: { minimum: 2, maximum: 100 }
+  validates :profile_description, length: { maximum: 2000 }, allow_blank: true
+  validates :available_to_travel, :available_to_relocate, inclusion: { in: [true, false] }
+  validates :photo, attached: false, or: [{ content_type: { in: ['image/jpeg', 'image/png'], message: 'debe ser JPEG o PNG' } }, { size: { less_than: 2.megabytes, message: 'debe ser menor a 2 MB' } }]
+
+  # Validación de edad (mayor a 18 años)
+  validate :must_be_at_least_18_years_old
+
+  # Serialización de idiomas
+  serialize :languages, type: Array, coder: JSON
+
+  # Enum para estados del curriculum
+  enum status: { draft: 0, submitted: 1, reviewed: 2, rejected: 3 }, prefix: true
+
+  scope :active, -> { where(status: [:submitted, :reviewed]) }
+
+  private
+
+  def must_be_at_least_18_years_old
+    return unless birth_date.present?
+    
+    age = calculate_age
+    if age < 18
+      errors.add(:birth_date, "debes ser mayor de 18 años para registrar tu currículum")
+    end
+  end
+
+  def calculate_age
+    today = Date.today
+    age = today.year - birth_date.year
+    age -= 1 if today.month < birth_date.month || (today.month == birth_date.month && today.day < birth_date.day)
+    age
+  end
+
+  def age
+    calculate_age
+  end
+end

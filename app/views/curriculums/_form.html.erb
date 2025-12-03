@@ -1,0 +1,226 @@
+<div style="max-width: 700px; margin: 30px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">
+    <%= curriculum.new_record? ? "Registrar Currículum" : "Editar Currículum" %>
+  </h2>
+
+  <div style="margin-bottom: 20px;">
+    <% if curriculum.errors.any? %>
+      <div style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0;">Errores encontrados:</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <% curriculum.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <%= form_with(model: curriculum, local: true) do |form| %>
+    <!-- Sección: Datos Personales -->
+    <fieldset style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px;">
+      <legend style="font-weight: 700; font-size: 16px; color: #333; padding: 0 10px;">Datos Personales</legend>
+
+      <!-- Nombre -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :first_name, "Nombre(s)", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :first_name, placeholder: "Ej: Juan", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Apellido -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :last_name, "Apellidos", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :last_name, placeholder: "Ej: Pérez García", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Fecha de Nacimiento -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :birth_date, "Fecha de Nacimiento (Debes ser mayor de 18 años)", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.date_field :birth_date, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+        <small style="color: #666;">Restrictivo: No se permite menores de 18 años</small>
+      </div>
+
+      <!-- Identificación -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :identification, "Número de Identificación", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :identification, placeholder: "Ej: 1234567890", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Teléfono -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :phone_number, "Teléfono", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :phone_number, placeholder: "Ej: +57 300 1234567", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Dirección -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :address, "Dirección de Residencia", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :address, placeholder: "Ej: Carrera 5 #23-45", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Ciudad -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :city, "Ciudad", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :city, placeholder: "Ej: Bogotá", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Departamento -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :department, "Departamento/Región", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :department, placeholder: "Ej: Cundinamarca", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- País -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :country, "País", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_field :country, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+      </div>
+
+      <!-- Foto de Perfil -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :photo, "Foto de Perfil (JPEG o PNG, máximo 2 MB)", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.file_field :photo, accept: "image/jpeg,image/png", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+        <% if curriculum.photo.attached? %>
+          <div style="margin-top: 10px;">
+            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" style="max-width: 200px; border-radius: 4px;">
+            <p style="color: #666; font-size: 12px; margin-top: 5px;">Foto actual</p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Perfil/Descripción Personal -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :profile_description, "Perfil o Descripción Personal", style: "display: block; margin-bottom: 5px; font-weight: 500; color: #333;" %>
+        <%= form.text_area :profile_description, placeholder: "Describe brevemente tu perfil profesional, habilidades e intereses...", rows: 5, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; font-family: Arial, sans-serif;" %>
+        <small style="color: #666;">Máximo 2000 caracteres</small>
+      </div>
+
+      <!-- Disponibilidad para Viajar -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :available_to_travel, "¿Disponibilidad para Viajar?", style: "display: block; margin-bottom: 8px; font-weight: 500; color: #333;" %>
+        <div style="display: flex; gap: 20px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <%= form.radio_button :available_to_travel, true %>
+            <span>Sí</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <%= form.radio_button :available_to_travel, false %>
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Disponibilidad para Cambio de Residencia -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :available_to_relocate, "¿Disponibilidad para Cambio de Residencia?", style: "display: block; margin-bottom: 8px; font-weight: 500; color: #333;" %>
+        <div style="display: flex; gap: 20px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <%= form.radio_button :available_to_relocate, true %>
+            <span>Sí</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <%= form.radio_button :available_to_relocate, false %>
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Idiomas -->
+      <div style="margin-bottom: 15px;">
+        <%= form.label :languages, "Idiomas", style: "display: block; margin-bottom: 8px; font-weight: 500; color: #333;" %>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+          <!-- Checkboxes predefinidos -->
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" name="curriculum[languages][]" value="Español" <%= 'checked' if (curriculum.languages || []).include?('Español') %> style="width: 18px; height: 18px; cursor: pointer;">
+            <span>Español</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" name="curriculum[languages][]" value="Inglés" <%= 'checked' if (curriculum.languages || []).include?('Inglés') %> style="width: 18px; height: 18px; cursor: pointer;">
+            <span>Inglés</span>
+          </label>
+
+          <!-- Campo oculto para enviar arrays vacíos si no hay selección -->
+          <input type="hidden" name="curriculum[languages][]" value="">
+        </div>
+
+        <div style="background-color: #f0f0f0; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+          <p style="margin: 0 0 10px 0; font-weight: 500; font-size: 14px;">Otros idiomas:</p>
+          <div id="languages-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
+              <span style="background-color: #007bff; color: white; padding: 6px 10px; border-radius: 20px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">
+                <%= lang %>
+                <button type="button" class="remove-language" data-language="<%= lang %>" style="background: none; border: none; color: white; cursor: pointer; font-size: 14px;">×</button>
+              </span>
+            <% end %>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="new-language" placeholder="Agregar otro idioma" style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+            <button type="button" id="add-language-btn" style="padding: 8px 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">Agregar</button>
+          </div>
+
+          <!-- Input oculto para otros idiomas -->
+          <input type="hidden" name="curriculum[other_languages]" id="other-languages" value="<%= ((curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }).join(',') %>">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Botones de acción -->
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <%= form.submit(curriculum.new_record? ? "Registrar Currículum" : "Actualizar Currículum"), 
+        style: "flex: 1; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-weight: 700; cursor: pointer;" %>
+      <%= link_to "Cancelar", root_path, 
+        style: "flex: 1; padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 700; text-align: center;" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  // Manejo de idiomas dinámicos
+  document.getElementById('add-language-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const input = document.getElementById('new-language');
+    const language = input.value.trim();
+    
+    if (language && !document.querySelector(`button[data-language="${language}"]`)) {
+      const container = document.getElementById('languages-container');
+      const span = document.createElement('span');
+      span.style.cssText = 'background-color: #007bff; color: white; padding: 6px 10px; border-radius: 20px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;';
+      
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'remove-language';
+      btn.dataset.language = language;
+      btn.textContent = '×';
+      btn.style.cssText = 'background: none; border: none; color: white; cursor: pointer; font-size: 14px;';
+      
+      span.textContent = language;
+      span.appendChild(btn);
+      container.appendChild(span);
+      
+      updateOtherLanguages();
+      input.value = '';
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-language')) {
+      e.preventDefault();
+      e.target.parentElement.remove();
+      updateOtherLanguages();
+    }
+  });
+
+  function updateOtherLanguages() {
+    const languages = Array.from(document.querySelectorAll('.remove-language')).map(btn => btn.dataset.language);
+    document.getElementById('other-languages').value = languages.join(',');
+  }
+
+  // Permitir Enter para agregar idioma
+  document.getElementById('new-language').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('add-language-btn').click();
+    }
+  });
+</script>
