@@ -131,6 +131,22 @@
               Inglés
             </label>
           </div>
+          <div style="margin-bottom: 10px; padding-top: 10px; border-top: 1px solid #ccc;">
+            <p style="margin: 0 0 8px 0; font-weight: 500; font-size: 14px;">Otros idiomas:</p>
+            <div id="other-languages-container" style="margin-bottom: 10px;">
+              <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
+                <div style="margin-bottom: 8px; padding: 6px; background-color: white; border-radius: 3px; display: flex; justify-content: space-between; align-items: center;">
+                  <span><%= lang %></span>
+                  <button type="button" class="remove-other-language" data-language="<%= lang %>" style="background: none; border: none; color: #dc3545; cursor: pointer; padding: 0; font-size: 16px;">×</button>
+                </div>
+              <% end %>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="new-other-language" placeholder="Ej: Portugués, Francés, etc." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+              <button type="button" id="add-other-language-btn" style="padding: 8px 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">Agregar</button>
+            </div>
+            <input type="hidden" id="other-languages-hidden" name="curriculum[other_languages]" value="<% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.join(',') %>">
+          </div>
           <input type="hidden" name="curriculum[languages][]" value="">
         </div>
       </div>
@@ -144,3 +160,63 @@
     </div>
   <% end %>
 </div>
+
+<script>
+document.getElementById('add-other-language-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+  const input = document.getElementById('new-other-language');
+  const language = input.value.trim();
+  
+  if (!language) {
+    alert('Por favor ingresa un idioma');
+    return;
+  }
+  
+  const container = document.getElementById('other-languages-container');
+  const div = document.createElement('div');
+  div.style.cssText = 'margin-bottom: 8px; padding: 6px; background-color: white; border-radius: 3px; display: flex; justify-content: space-between; align-items: center;';
+  
+  const span = document.createElement('span');
+  span.textContent = language;
+  
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'remove-other-language';
+  btn.dataset.language = language;
+  btn.textContent = '×';
+  btn.style.cssText = 'background: none; border: none; color: #dc3545; cursor: pointer; padding: 0; font-size: 16px;';
+  
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    div.remove();
+    updateOtherLanguagesHidden();
+  });
+  
+  div.appendChild(span);
+  div.appendChild(btn);
+  container.appendChild(div);
+  
+  updateOtherLanguagesHidden();
+  input.value = '';
+});
+
+document.getElementById('new-other-language').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('add-other-language-btn').click();
+  }
+});
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('remove-other-language') && e.target.tagName === 'BUTTON') {
+    e.preventDefault();
+    e.target.parentElement.remove();
+    updateOtherLanguagesHidden();
+  }
+});
+
+function updateOtherLanguagesHidden() {
+  const languages = Array.from(document.querySelectorAll('.remove-other-language')).map(btn => btn.dataset.language);
+  document.getElementById('other-languages-hidden').value = languages.join(',');
+}
+</script>
