@@ -19,10 +19,9 @@ class Curriculum < ApplicationRecord
   # Serialización de idiomas
   serialize :languages, type: Array, coder: JSON
 
-  # Enum para estados del curriculum
-  enum status: { draft: 0, submitted: 1, reviewed: 2, rejected: 3 }, prefix: true
-
-  scope :active, -> { where(status: [:submitted, :reviewed]) }
+  def age
+    calculate_age
+  end
 
   private
 
@@ -54,9 +53,5 @@ class Curriculum < ApplicationRecord
     age = today.year - birth_date.year
     age -= 1 if today.month < birth_date.month || (today.month == birth_date.month && today.day < birth_date.day)
     age
-  end
-
-  def age
-    calculate_age
   end
 end
