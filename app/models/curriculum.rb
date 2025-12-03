@@ -10,10 +10,11 @@ class Curriculum < ApplicationRecord
   validates :address, :city, :department, :country, presence: true, length: { minimum: 2, maximum: 100 }
   validates :profile_description, length: { maximum: 2000 }, allow_blank: true
   validates :available_to_travel, :available_to_relocate, inclusion: { in: [true, false] }
-  validates :photo, attached: false, or: [{ content_type: { in: ['image/jpeg', 'image/png'], message: 'debe ser JPEG o PNG' } }, { size: { less_than: 2.megabytes, message: 'debe ser menor a 2 MB' } }]
 
   # Validación de edad (mayor a 18 años)
   validate :must_be_at_least_18_years_old
+  # Validación de foto
+  validate :validate_photo
 
   # Serialización de idiomas
   serialize :languages, type: Array, coder: JSON
@@ -31,6 +32,20 @@ class Curriculum < ApplicationRecord
     age = calculate_age
     if age < 18
       errors.add(:birth_date, "debes ser mayor de 18 años para registrar tu currículum")
+    end
+  end
+
+  def validate_photo
+    if photo.attached?
+      # Validar tipo de contenido
+      unless photo.content_type.in?('image/jpeg', 'image/png')
+        errors.add(:photo, "debe ser JPEG o PNG")
+      end
+      
+      # Validar tamaño
+      if photo.byte_size > 2.megabytes
+        errors.add(:photo, "debe ser menor a 2 MB")
+      end
     end
   end
 
