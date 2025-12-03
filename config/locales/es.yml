@@ -77,7 +77,7 @@ es:
       role:
         admin: "Admin"
         aspirante: "Aspirante"
-        recruiter: "Reclutador"
+        reclutador: "Reclutador"
   layout:
     navigation:
       home: "Inicio"

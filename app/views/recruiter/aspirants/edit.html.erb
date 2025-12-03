@@ -1,5 +1,5 @@
-<div style="max-width: 500px; margin: 50px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Editar aspirante</h2>
+<div style="max-width: 600px; margin: 30px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Editar cuenta</h2>
 
   <div style="margin-bottom: 20px;">
     <% if @aspirant.errors.any? %>
@@ -31,7 +31,7 @@
     </div>
 
     <div style="display: flex; gap: 10px;">
-      <%= form.submit "Actualizar aspirante", 
+      <%= form.submit "Actualizar cuenta", 
         style: "flex: 1; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-weight: 700; cursor: pointer;" %>
       <%= link_to "Cancelar", recruiter_aspirants_path, 
         style: "flex: 1; padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 700; text-align: center;" %>

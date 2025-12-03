@@ -50,6 +50,6 @@ class Recruiter::AspirantsController < ApplicationController
   end
 
   def authorize_recruiter!
-    redirect_to root_path, alert: "No tienes permiso para acceder a esta sección." unless current_user.recruiter?
+    redirect_to root_path, alert: "No tienes permiso para acceder a esta sección." unless current_user.reclutador?
   end
 end

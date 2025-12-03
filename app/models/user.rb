@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  # Roles enum: 0=admin, 1=aspirante (default), 2=recruiter
-  enum :role, { admin: 0, aspirante: 1, recruiter: 2 }
+  # Roles enum: 0=admin, 1=aspirante (default), 2=reclutador
+  enum :role, { admin: 0, aspirante: 1, reclutador: 2 }
 
   # Associations
   has_one :curriculum, dependent: :destroy
