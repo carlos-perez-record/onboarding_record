@@ -87,11 +87,21 @@ class Curriculum < ApplicationRecord
     
     # Solo reorganizar si el key es diferente
     if old_key != new_key
-      # Buscar y eliminar archivos anteriores en la carpeta del aspirante
+      # Buscar y eliminar blobs anteriores con la misma key
+      ActiveStorage::Blob.where(key: new_key).where.not(id: blob.id).find_each do |old_blob|
+        # Eliminar el archivo físico
+        old_path = ActiveStorage::Blob.service.path_for(old_blob.key)
+        File.delete(old_path) if File.exist?(old_path)
+        
+        # Eliminar el blob de la base de datos
+        old_blob.purge
+      end
+      
+      # Buscar y eliminar archivos huérfanos en la carpeta del aspirante
       directory = File.join(ActiveStorage::Blob.service.root, identification.to_s)
       if Dir.exist?(directory)
         Dir.glob(File.join(directory, "Foto_personal_#{identification}*")).each do |old_file|
-          File.delete(old_file) if File.exist?(old_file)
+          File.delete(old_file) if File.exist?(old_file) && old_file != ActiveStorage::Blob.service.path_for(new_key)
         end
       end
       
