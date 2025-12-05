@@ -196,7 +196,7 @@ function initializeLanguages() {
 // Inicializar estudios
 function initializeStudies(studyIndex) {
   const addStudyBtn = document.getElementById('add-study-btn');
-  const educationLevelSelect = document.getElementById('education-level-select');
+  const educationLevelSelect = document.getElementById('curriculum_education_level');
   
   function updateAddStudyButton() {
     if (educationLevelSelect && addStudyBtn) {
