@@ -1,11 +1,65 @@
 /* Custom Application Styles */
 
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 /* General Styles */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #333;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+h5, h6 {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+p, li, td {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /* Container */
@@ -29,14 +83,17 @@ body {
 
 .home-hero h1 {
   font-size: 48px;
+  font-weight: 700;
   margin-bottom: 20px;
   color: #333;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .home-hero p {
   font-size: 18px;
   color: #666;
   margin-bottom: 40px;
+  line-height: 1.8;
 }
 
 .welcome-box {
@@ -49,10 +106,15 @@ body {
 
 .welcome-box h2 {
   margin: 0 0 10px 0;
+  font-weight: 700;
+  font-size: 24px;
+  color: #155724;
 }
 
 .welcome-box p {
   margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .options-section {
@@ -62,6 +124,8 @@ body {
 .options-section h3 {
   color: #333;
   margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 .card-grid {
@@ -87,6 +151,14 @@ body {
 .card h3, .card h4 {
   color: #333;
   margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.card p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
 }
 
 .card p {
@@ -255,19 +327,20 @@ legend {
 .form-group label {
   display: block;
   margin-bottom: 5px;
-  font-weight: 500;
+  font-weight: 600;
   color: #333;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .form-control {
   width: 100%;
   max-width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .form-control:focus {
@@ -410,16 +483,18 @@ legend {
 }
 
 .info-label {
-  font-weight: bold;
+  font-weight: 700;
   color: #666;
   font-size: 12px;
   text-transform: uppercase;
   margin-bottom: 5px;
+  letter-spacing: 0.5px;
 }
 
 .info-value {
   color: #333;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .section-box {
@@ -436,20 +511,25 @@ legend {
   color: #333;
   border-bottom: 2px solid #007bff;
   padding-bottom: 10px;
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .profile-text {
   margin: 0;
   line-height: 1.6;
   white-space: pre-wrap;
-  color: #333;
+  color: #666;
+  font-size: 16px;
 }
 
 .curriculum-title {
   margin: 0;
   color: #333;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .photo-info-container {
@@ -654,8 +734,33 @@ legend {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Responsive Typography */
+  h1 {
+    font-size: 36px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+
+  p, li, td {
+    font-size: 16px;
+  }
+
   .home-hero h1 {
-    font-size: 32px;
+    font-size: 36px;
+  }
+
+  .home-hero p {
+    font-size: 16px;
   }
 
   .card-grid {
@@ -719,6 +824,9 @@ legend {
   text-align: center;
   margin-bottom: 30px;
   color: #333;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .recruiter-actions {
@@ -811,18 +919,27 @@ legend {
   text-align: center;
   margin-bottom: 30px;
   color: #333;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .auth-header-medium {
   text-align: center;
   margin-bottom: 22px;
   color: #222;
+  font-size: 26px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .auth-header-small {
   text-align: center;
   margin-bottom: 18px;
   color: #222;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .auth-footer {
