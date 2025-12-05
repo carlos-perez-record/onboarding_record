@@ -16,7 +16,10 @@ export default class extends Controller {
     const level = this.educationLevelTarget.value
     if (!this.hasButtonTarget) return
     
-    if (level === 'Técnico' || level === 'Tecnólogo' || level === 'Profesional' || level === 'Especialización' || level === 'Maestría' || level === 'Doctorado') {
+    // Niveles que permiten agregar estudios
+    const levelsWithStudies = ['tecnico', 'tecnologico', 'profesional', 'posgrado']
+    
+    if (levelsWithStudies.includes(level)) {
       this.buttonTarget.disabled = false
       this.buttonTarget.style.opacity = '1'
       this.buttonTarget.style.cursor = 'pointer'

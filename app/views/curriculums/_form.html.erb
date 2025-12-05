@@ -214,15 +214,13 @@
             <%= form.label :education_level, "Nivel de Estudios", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
             <%= form.select :education_level, 
               [
-                ['Ninguno', 'Ninguno'], 
-                ['Primaria', 'Primaria'], 
-                ['Secundaria', 'Secundaria'], 
-                ['Técnico', 'Técnico'], 
-                ['Tecnólogo', 'Tecnólogo'], 
-                ['Profesional', 'Profesional'], 
-                ['Especialización', 'Especialización'], 
-                ['Maestría', 'Maestría'], 
-                ['Doctorado', 'Doctorado']
+                ['Ninguno', 'ninguno'], 
+                ['Primaria', 'primaria'], 
+                ['Secundaria', 'secundaria'], 
+                ['Técnico', 'tecnico'], 
+                ['Tecnólogo', 'tecnologico'], 
+                ['Profesional', 'profesional'], 
+                ['Posgrado', 'posgrado']
               ], 
               { prompt: 'Escoja el nivel de estudios' }, 
               { 
