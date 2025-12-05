@@ -87,7 +87,8 @@ function updateDepartmentField(country, currentValue, currentCity) {
         updateCityField(this.value, '');
       });
       
-      if (defaultValue && country === 'Colombia') {
+      // Si hay un valor seleccionado (default o guardado), actualizar ciudad
+      if (defaultValue) {
         updateCityField(defaultValue, currentCity);
       }
     }
@@ -104,15 +105,23 @@ function updateDepartmentField(country, currentValue, currentCity) {
 
 // Inicializar funcionalidad de país/departamento/ciudad
 function initializeLocationFields() {
-  const initialDepartment = document.getElementById('department-field')?.value || '';
-  const initialCity = document.getElementById('city-field')?.value || '';
+  // Obtener valores iniciales antes de que JavaScript modifique el DOM
+  const departmentField = document.getElementById('department-field');
+  const cityField = document.getElementById('city-field');
+  const initialDepartment = departmentField?.value || '';
+  const initialCity = cityField?.value || '';
   
   const countrySelect = document.getElementById('country-select');
   if (countrySelect) {
     const initialCountry = countrySelect.value || 'Colombia';
+    
+    // Si hay un departamento guardado, usarlo; si no y es Colombia, usar Córdoba
     const departmentValue = initialDepartment || (initialCountry === 'Colombia' ? 'Córdoba' : '');
+    
+    // Actualizar el campo de departamento según el país
     updateDepartmentField(initialCountry, departmentValue, initialCity);
 
+    // Escuchar cambios en el país
     countrySelect.addEventListener('change', function() {
       updateDepartmentField(this.value, '', '');
     });
