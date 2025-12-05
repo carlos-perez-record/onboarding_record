@@ -54,11 +54,13 @@ p, li, td {
 }
 
 a {
-  color: #007bff;
+  color: #0056b3;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
+  color: #004494;
   text-decoration: underline;
 }
 
@@ -215,41 +217,69 @@ a:hover {
   display: inline-block;
   padding: 12px 30px;
   text-decoration: none;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 6px;
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  transition: opacity 0.2s;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
 }
 
 .btn:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Azul corporativo - Acción principal */
 .btn-primary {
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
 }
 
+.btn-primary:hover {
+  background-color: #004494;
+}
+
+/* Verde - Acciones positivas (crear, guardar, confirmar) */
 .btn-success {
   background-color: #28a745;
   color: white;
 }
 
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Rojo - Acciones destructivas (eliminar, cancelar) */
 .btn-danger {
   background-color: #dc3545;
   color: white;
 }
 
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Gris - Acciones secundarias */
 .btn-secondary {
   background-color: #6c757d;
   color: white;
 }
 
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
 .btn-sm {
-  padding: 4px 8px;
-  font-size: 13px;
+  padding: 6px 16px;
+  font-size: 14px;
 }
 
 .btn-full {
@@ -257,15 +287,20 @@ a:hover {
 }
 
 .btn-link {
-  color: #007bff;
+  color: #0056b3;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   background: none;
   padding: 0;
+  box-shadow: none;
+  transition: color 0.2s ease;
 }
 
 .btn-link:hover {
+  color: #004494;
   text-decoration: underline;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Alerts */
@@ -375,8 +410,8 @@ legend {
 
 .form-control:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #0056b3;
+  box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
 }
 
 .form-grid-2 {
@@ -487,7 +522,7 @@ legend {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  border: 3px solid #007bff;
+  border: 3px solid #0056b3;
 }
 
 .info-container {
@@ -539,7 +574,7 @@ legend {
   margin-top: 0;
   margin-bottom: 16px;
   color: #333;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid #0056b3;
   padding-bottom: 10px;
   font-size: 24px;
   font-weight: 700;
@@ -595,7 +630,7 @@ legend {
 }
 
 .badge {
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
   padding: 6px 12px;
   border-radius: 20px;
@@ -651,7 +686,7 @@ legend {
 }
 
 .study-item {
-  border-left: 4px solid #007bff;
+  border-left: 4px solid #0056b3;
   padding: 16px;
   margin-bottom: 24px;
   background-color: #f8f9fa;
