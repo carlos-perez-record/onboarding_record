@@ -78,7 +78,7 @@
       <div class="form-group">
         <%= form.label :photo, "Foto de Perfil (JPEG o PNG, máximo 2 MB)" %>
         <%= form.file_field :photo, accept: "image/jpeg,image/png", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
-        <% if curriculum.photo.attached? %>
+        <% if curriculum.persisted? && curriculum.photo.attached? %>
           <div class="current-photo">
             <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" class="photo-preview-img">
             <p>Foto actual</p>
