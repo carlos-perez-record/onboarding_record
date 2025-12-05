@@ -5,6 +5,10 @@ class Curriculum < ApplicationRecord
   
   accepts_nested_attributes_for :studies, allow_destroy: true, reject_if: :all_blank
 
+  # Callbacks para organizar archivos
+  before_save :prepare_photo_key, if: :photo_attached_and_new?
+  after_commit :organize_photo_storage, if: :should_organize_photo?
+
   # Validaciones
   validates :first_name, :last_name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :birth_date, presence: true
@@ -56,5 +60,58 @@ class Curriculum < ApplicationRecord
     age = today.year - birth_date.year
     age -= 1 if today.month < birth_date.month || (today.month == birth_date.month && today.day < birth_date.day)
     age
+  end
+
+  def photo_attached_and_new?
+    photo.attached? && photo.attachment.new_record?
+  end
+
+  def should_organize_photo?
+    @should_organize_photo ||= false
+  end
+
+  def prepare_photo_key
+    @should_organize_photo = true if photo.attached?
+  end
+
+  def organize_photo_storage
+    return unless photo.attached?
+    
+    blob = photo.blob
+    old_key = blob.key
+    
+    # Estructura: identificacion/Foto_personal_identificacion.extension
+    extension = File.extname(blob.filename.to_s)
+    new_filename = "Foto_personal_#{identification}#{extension}"
+    new_key = "#{identification}/#{new_filename}"
+    
+    # Solo reorganizar si el key es diferente
+    if old_key != new_key
+      # Obtener rutas usando el path_for personalizado
+      old_path = ActiveStorage::Blob.service.path_for(old_key)
+      new_path = ActiveStorage::Blob.service.path_for(new_key)
+      
+      # Crear directorio si no existe
+      FileUtils.mkdir_p(File.dirname(new_path))
+      
+      # Mover archivo si existe
+      if File.exist?(old_path)
+        FileUtils.mv(old_path, new_path)
+        
+        # Limpiar carpeta antigua si está vacía
+        old_dir = File.dirname(old_path)
+        if Dir.exist?(old_dir) && Dir.empty?(old_dir)
+          FileUtils.rmdir(old_dir)
+          # Intentar limpiar directorios padres vacíos
+          parent_dir = File.dirname(old_dir)
+          FileUtils.rmdir(parent_dir) if Dir.exist?(parent_dir) && Dir.empty?(parent_dir)
+        end
+      end
+      
+      # Actualizar la clave y el filename en la base de datos
+      blob.update_columns(key: new_key, filename: new_filename)
+    end
+    
+    @should_organize_photo = false
   end
 end
