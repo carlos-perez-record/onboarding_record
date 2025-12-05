@@ -1,9 +1,9 @@
 <div class="curriculum-container">
   <div class="curriculum-header">
-    <h2 class="curriculum-title">Mi Currículum</h2>
+    <h2 class="curriculum-title">📄 Mi Currículum</h2>
     <div class="btn-group">
-      <%= link_to "Editar", edit_curriculum_path(@curriculum), style: "padding: 8px 12px; background-color: #ffc107; color: #333; text-decoration: none; border-radius: 4px; font-weight: 600;", "aria-label": "Editar mi currículum" %>
-      <%= link_to "Volver", root_path, style: "padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;", "aria-label": "Volver a la página de inicio" %>
+      <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning", "aria-label": "Editar mi currículum" %>
+      <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary", "aria-label": "Volver a la página de inicio" %>
     </div>
   </div>
 

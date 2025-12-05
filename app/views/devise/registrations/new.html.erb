@@ -1,5 +1,6 @@
 <div class="auth-container-medium">
-  <h2 class="auth-header-medium">Crear cuenta</h2>
+  <h2 class="auth-header-medium">🎉 Comienza ahora</h2>
+  <p style="text-align: center; color: #555; margin-bottom: 24px;">Crea tu cuenta y accede a todas las funcionalidades</p>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), local: true) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -23,7 +24,7 @@
     </div>
 
     <div>
-      <%= f.submit "Crear cuenta", class: "btn btn-success btn-full", "aria-label": "Enviar formulario de creación de cuenta" %>
+      <%= f.submit "Comienza ahora", class: "btn btn-success btn-full btn-large", "aria-label": "Enviar formulario de creación de cuenta" %>
     </div>
   <% end %>
 

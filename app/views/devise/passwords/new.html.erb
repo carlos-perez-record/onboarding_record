@@ -1,5 +1,6 @@
 <div class="auth-container-small">
-  <h2 class="auth-header-small">Recuperar contraseña</h2>
+  <h2 class="auth-header-small">🔑 Recuperar contraseña</h2>
+  <p style="text-align: center; color: #555; margin-bottom: 24px;">Te enviaremos instrucciones por correo</p>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, local: true) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>

@@ -1,8 +1,8 @@
 <div class="recruiter-container">
-  <h2 class="recruiter-header">Panel de Administración - Gestión de Usuarios</h2>
+  <h2 class="recruiter-header">🛡️ Panel de Administración - Gestión de Usuarios</h2>
 
   <div class="recruiter-actions">
-    <%= link_to "Crear nuevo aspirante", new_admin_user_path, style: "padding:10px 16px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;", "aria-label": "Crear un nuevo usuario aspirante" %>
+    <%= link_to "➕ Crear nuevo usuario", new_admin_user_path, class: "btn btn-success btn-large", "aria-label": "Crear un nuevo usuario aspirante" %>
   </div>
 
   <% if @users.any? %>

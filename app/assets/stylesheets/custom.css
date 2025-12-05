@@ -163,6 +163,30 @@ a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.card-highlight {
+  border: 2px solid #28a745;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%);
+  position: relative;
+}
+
+.card-highlight::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #28a745, #20c997);
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-highlight:hover::before {
+  opacity: 0.1;
+}
+
 .card-center {
   max-width: 600px;
   margin: 0 auto 48px;
@@ -277,6 +301,16 @@ a:hover {
   background-color: #5a6268;
 }
 
+/* Amarillo - Acciones de edición */
+.btn-warning {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
 .btn-sm {
   padding: 6px 16px;
   font-size: 14px;
@@ -284,6 +318,12 @@ a:hover {
 
 .btn-full {
   width: 100%;
+}
+
+.btn-large {
+  padding: 16px 40px;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .btn-link {

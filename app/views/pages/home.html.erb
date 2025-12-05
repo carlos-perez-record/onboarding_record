@@ -4,8 +4,15 @@
 
   <% if user_signed_in? %>
     <div class="welcome-box">
-      <h2>¡Bienvenido, <%= current_user.email %>!</h2>
+      <h2>✅ ¡Bienvenido, <%= current_user.email %>!</h2>
       <p>Tu sesión está activa y puedes comenzar a usar el sistema.</p>
+      <% if current_user.aspirante? %>
+        <%= link_to "Ver mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path), class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Ver o crear mi currículum" %>
+      <% elsif current_user.reclutador? %>
+        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Acceder al panel de reclutamiento" %>
+      <% elsif current_user.admin? %>
+        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Acceder al panel de administración" %>
+      <% end %>
     </div>
     
     <div class="options-section">
@@ -29,10 +36,10 @@
     </div>
   <% else %>
     <div class="card-grid">
-      <div class="card">
-        <h3>¿Eres nuevo?</h3>
-        <p>Crea una cuenta para acceder a todas las funcionalidades.</p>
-        <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-success", "aria-label": "Crear una nueva cuenta de usuario" %>
+      <div class="card card-highlight">
+        <h3>🚀 ¿Eres nuevo?</h3>
+        <p>Únete ahora y accede a todas las funcionalidades del sistema.</p>
+        <%= link_to "Comienza ahora", new_user_registration_path, class: "btn btn-success btn-large", "aria-label": "Crear una nueva cuenta de usuario" %>
       </div>
 
       <div class="card">
