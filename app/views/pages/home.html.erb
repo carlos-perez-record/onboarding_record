@@ -8,8 +8,9 @@
       <p>Tu sesión está activa y puedes comenzar a usar el sistema.</p>
       
       <% if current_user.aspirante? %>
-        <% if current_user.curriculum %>
-          <%= link_to "Ver mi currículum", curriculum_path(current_user.curriculum), class: "btn btn-success btn-action", "aria-label": "Ver mi currículum registrado" %>
+        <% curriculum = current_user.curriculum %>
+        <% if curriculum&.persisted? %>
+          <%= link_to "Ver mi currículum", curriculum_path(curriculum), class: "btn btn-success btn-action", "aria-label": "Ver mi currículum registrado" %>
         <% else %>
           <div class="no-curriculum-message">
             <h4>📋 Aún no has registrado tu currículum</h4>

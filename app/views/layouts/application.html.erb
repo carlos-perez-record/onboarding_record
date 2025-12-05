@@ -53,8 +53,9 @@
                 </li>
                 <% if current_user.aspirante? %>
                   <li>
-                    <% if current_user.curriculum %>
-                      <%= link_to "Mi currículum", curriculum_path(current_user.curriculum), class: "sidebar-link", "aria-label": "Ver mi currículum" %>
+                    <% curriculum = current_user.curriculum %>
+                    <% if curriculum&.persisted? %>
+                      <%= link_to "Mi currículum", curriculum_path(curriculum), class: "sidebar-link", "aria-label": "Ver mi currículum" %>
                     <% else %>
                       <%= link_to "Crear mi currículum", new_curriculum_path, class: "sidebar-link", "aria-label": "Crear mi currículum profesional" %>
                     <% end %>
