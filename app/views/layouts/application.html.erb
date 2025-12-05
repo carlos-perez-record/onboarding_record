@@ -24,37 +24,36 @@
   </head>
 
   <body>
-    <nav style="padding: 12px 20px; background-color: #f5f5f5; margin-bottom: 20px; border-bottom: 1px solid #ddd;">
-      <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-        <h1 style="margin:0; font-size:20px;"><%= link_to "Registro de Incorporación", root_path, style: "text-decoration: none; color: #333;" %></h1>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <h1 class="navbar-brand"><%= link_to "Registro de Incorporación", root_path %></h1>
 
-        <div style="display:flex; align-items:center; gap:12px;">
+        <div class="navbar-menu">
           <% if user_signed_in? %>
-            <span style="color:#333; font-weight:600; margin-right:8px;">Hola, <%= current_user.email %></span>
-            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, style: "padding:8px 12px; background:#e55353; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; border:none; cursor:pointer;" %>
+            <span class="navbar-user">Hola, <%= current_user.email %></span>
+            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger" %>
           <% else %>
-            <%= link_to "Crear cuenta", new_user_registration_path, style: "padding:8px 12px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;" %>
-            <%= link_to "Iniciar sesión", new_user_session_path, style: "padding:8px 12px; background:#28a745; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;" %>
+            <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary" %>
+            <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success" %>
           <% end %>
         </div>
       </div>
     </nav>
 
-    <div style="display: flex; max-width: 1200px; margin: 0 auto;">
+    <div class="main-layout">
       <!-- Sidebar Menu (visible only when signed in) -->
       <% if user_signed_in? %>
-        <aside style="width: 200px; background-color: #f9f9f9; border-right: 1px solid #ddd; padding: 20px 0; margin-right: 20px; min-height: 100vh;">
-          <nav style="padding: 0 15px;">
-            <div style="margin-bottom: 20px;">
-              <p style="font-weight: 700; color: #333; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Menú</p>
-              <ul style="list-style: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 8px;">
-                  <%= link_to "Inicio", root_path, style: "display: block; padding: 8px 10px; background-color: #e9ecef; color: #333; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
+        <aside class="sidebar">
+          <nav>
+            <div class="sidebar-section">
+              <p class="sidebar-title">Menú</p>
+              <ul class="sidebar-menu">
+                <li>
+                  <%= link_to "Inicio", root_path, class: "sidebar-link" %>
                 </li>
                 <% if current_user.aspirante? %>
-                  <li style="margin-bottom: 8px;">
-                    <%= link_to "Mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path),
-                      style: "display: block; padding: 8px 10px; background-color: #e9ecef; color: #333; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
+                  <li>
+                    <%= link_to "Mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path), class: "sidebar-link" %>
                   </li>
                 <% end %>
               </ul>
@@ -62,11 +61,11 @@
 
             <!-- Admin Menu -->
             <% if current_user.admin? %>
-              <div style="margin-bottom: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
-                <p style="font-weight: 700; color: #333; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Administración</p>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                  <li style="margin-bottom: 8px;">
-                    <%= link_to "Gestión de Usuarios", admin_users_path, style: "display: block; padding: 8px 10px; background-color: #d1ecf1; color: #0c5460; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
+              <div class="sidebar-section bordered">
+                <p class="sidebar-title">Administración</p>
+                <ul class="sidebar-menu">
+                  <li>
+                    <%= link_to "Gestión de Usuarios", admin_users_path, class: "sidebar-link admin" %>
                   </li>
                 </ul>
               </div>
@@ -74,11 +73,11 @@
 
             <!-- Recruiter Menu -->
             <% if current_user.reclutador? %>
-              <div style="margin-bottom: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
-                <p style="font-weight: 700; color: #333; margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase;">Reclutamiento</p>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                  <li style="margin-bottom: 8px;">
-                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, style: "display: block; padding: 8px 10px; background-color: #e2d5f0; color: #522b5d; text-decoration: none; border-radius: 4px; font-weight: 500;" %>
+              <div class="sidebar-section bordered">
+                <p class="sidebar-title">Reclutamiento</p>
+                <ul class="sidebar-menu">
+                  <li>
+                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "sidebar-link recruiter" %>
                   </li>
                 </ul>
               </div>
@@ -87,15 +86,15 @@
         </aside>
       <% end %>
 
-      <div style="flex: 1; padding: 0 20px;">
+      <div class="main-content">
         <% if notice %>
-          <div style="padding: 15px; margin-bottom: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px;">
+          <div class="alert-success">
             <strong><%= notice %></strong>
           </div>
         <% end %>
 
         <% if alert %>
-          <div style="padding: 15px; margin-bottom: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;">
+          <div class="alert-danger">
             <strong><%= alert %></strong>
           </div>
         <% end %>

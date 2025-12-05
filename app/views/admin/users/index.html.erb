@@ -1,45 +1,40 @@
-<div style="max-width: 1000px; margin: 20px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Panel de Administración - Gestión de Usuarios</h2>
+<div class="recruiter-container">
+  <h2 class="recruiter-header">Panel de Administración - Gestión de Usuarios</h2>
 
-  <div style="margin-bottom: 30px;">
+  <div class="recruiter-actions">
     <%= link_to "Crear nuevo aspirante", new_admin_user_path, style: "padding:10px 16px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;" %>
   </div>
 
   <% if @users.any? %>
-    <table style="width: 100%; border-collapse: collapse; background: white;">
+    <div class="table-container"><div class="table-container"><table class="data-table">
       <thead>
-        <tr style="background-color: #f0f0f0;">
-          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Email</th>
-          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">ID</th>
-          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Rol</th>
-          <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Creado</th>
-          <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">Acciones</th>
+        <tr >
+          <th >Email</th>
+          <th >ID</th>
+          <th >Rol</th>
+          <th >Creado</th>
+          <th class="center">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <% @users.each do |user| %>
-          <tr style="border-bottom: 1px solid #ddd;">
-            <td style="padding: 12px;"><%= user.email %></td>
-            <td style="padding: 12px;"><%= user.id %></td>
-            <td style="padding: 12px;">
-              <span style="padding: 4px 8px; border-radius: 4px; 
-                <%= case user.role
-                    when 'admin' then 'background-color: #e7e7ff; color: #0052cc;'
-                    when 'reclutador' then 'background-color: #ffeb3b; color: #000;'
-                    else 'background-color: #e8f5e9; color: #2e7d32;'
-                    end %>">
+          <tr >
+            <td ><%= user.email %></td>
+            <td ><%= user.id %></td>
+            <td >
+              <span class="badge <%= case user.role when 'admin' then 'badge-admin' when 'reclutador' then 'badge-recruiter' else 'badge-aspirant' end %>">
                 <%= user.role.capitalize %>
               </span>
             </td>
-            <td style="padding: 12px;"><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
-            <td style="padding: 12px; text-align: center;">
+            <td ><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+            <td class="center">
               <%= link_to edit_admin_user_path(user), title: "Editar usuario", style: "display: inline-block; margin-right: 10px; text-decoration: none;" do %>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
                 </svg>
               <% end %>
               <%= link_to admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro de eliminar este usuario?" }, title: "Eliminar usuario", style: "display: inline-block; text-decoration: none;" do %>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
                   <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="#dc3545"/>
                 </svg>
               <% end %>
@@ -47,8 +42,7 @@
           </tr>
         <% end %>
       </tbody>
-    </table>
-  <% else %>
-    <p style="text-align: center; color: #666; padding: 20px;">No hay usuarios en el sistema.</p>
+    </table></div><% else %>
+    <p class="empty-state">No hay usuarios en el sistema.</p>
   <% end %>
 </div>

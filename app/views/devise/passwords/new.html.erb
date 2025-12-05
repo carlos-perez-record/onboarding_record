@@ -1,20 +1,20 @@
-<div style="max-width:420px; margin:50px auto; padding:26px; border:1px solid #e6e6e6; border-radius:8px; background:#fff;">
-  <h2 style="text-align:center; margin-bottom:18px; color:#222;">Recuperar contraseña</h2>
+<div class="auth-container-small">
+  <h2 class="auth-header-small">Recuperar contraseña</h2>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, local: true) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div style="margin-bottom:14px;">
-      <%= f.label :email, "Correo electrónico", style: "display:block; font-weight:600; margin-bottom:6px;" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:4px;" %>
+    <div class="form-group">
+      <%= f.label :email, "Correo electrónico", class: "form-label-bold" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
     </div>
 
     <div>
-      <%= f.submit "Enviar instrucciones", style: "width:100%; padding:12px; background:#007bff; color:#fff; border:none; border-radius:4px; font-weight:600;" %>
+      <%= f.submit "Enviar instrucciones", class: "btn btn-primary btn-full" %>
     </div>
   <% end %>
 
-  <div style="text-align:center; margin-top:16px;">
+  <div class="auth-footer-simple">
     <%= render "devise/shared/links" %>
   </div>
 </div>

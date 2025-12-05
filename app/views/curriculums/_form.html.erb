@@ -7,8 +7,8 @@
 
   <% if curriculum.errors.any? %>
     <div class="alert alert-danger">
-      <h3 style="margin-top: 0;">Errores encontrados:</h3>
-      <ul style="margin: 10px 0; padding-left: 20px;">
+      <h3 class="alert-title">Errores encontrados:</h3>
+      <ul class="alert-list">
           <% curriculum.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
@@ -132,7 +132,7 @@
             </label>
           </div>
           <div class="other-languages-section">
-            <p style="margin: 0 0 8px 0; font-weight: 500; font-size: 14px;">Otros idiomas:</p>
+            <p class="other-languages-label">Otros idiomas:</p>
             <div id="other-languages-container">
               <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
                 <div class="language-item">
@@ -185,9 +185,9 @@
                 </div>
               </div>
 
-              <div class="form-group" style="margin-bottom: 0;">
-                <%= study_form.label :title, "Título", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
-                <%= study_form.text_field :title, style: "width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
+              <div class="form-group form-group-no-margin">
+                <%= study_form.label :title, "Título", class: "form-label" %>
+                <%= study_form.text_field :title, class: "form-control" %>
               </div>
             </div>
           <% end %>
@@ -308,7 +308,7 @@ newStudy.innerHTML = `
     </div>
   </div>
 
-  <div class="form-group" style="margin-bottom: 0;">
+  <div class="form-group form-group-no-margin">
     <label for="curriculum_studies_attributes_${studyIndex}_title">Título</label>
     <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" id="curriculum_studies_attributes_${studyIndex}_title" class="form-control">
   </div>

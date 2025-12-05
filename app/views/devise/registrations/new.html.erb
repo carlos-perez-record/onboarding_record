@@ -1,33 +1,33 @@
-<div style="max-width: 480px; margin: 40px auto; padding: 28px; border:1px solid #e6e6e6; border-radius:8px; background:#fff;">
-  <h2 style="text-align:center; margin-bottom:22px; color:#222;">Crear cuenta</h2>
+<div class="auth-container-medium">
+  <h2 class="auth-header-medium">Crear cuenta</h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), local: true) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div style="margin-bottom:14px;">
-      <%= f.label :email, "Correo electrónico", style: "display:block; font-weight:600; margin-bottom:6px;" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:4px;" %>
+    <div class="form-group">
+      <%= f.label :email, "Correo electrónico", class: "form-label-bold" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
     </div>
 
-    <div style="margin-bottom:12px;">
-      <%= f.label :password, "Contraseña", style: "display:block; font-weight:600; margin-bottom:6px;" %>
+    <div class="form-group">
+      <%= f.label :password, "Contraseña", class: "form-label-bold" %>
       <% if @minimum_password_length %>
         <small>(mínimo <%= @minimum_password_length %> caracteres)</small>
       <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; margin-top:6px;" %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
     </div>
 
-    <div style="margin-bottom:16px;">
-      <%= f.label :password_confirmation, "Confirmar contraseña", style: "display:block; font-weight:600; margin-bottom:6px;" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", style: "width:100%; padding:10px; border:1px solid #ccc; border-radius:4px;" %>
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Confirmar contraseña", class: "form-label-bold" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
     </div>
 
     <div>
-      <%= f.submit "Crear cuenta", style: "width:100%; padding:12px; background:#28a745; color:#fff; border:none; border-radius:4px; font-weight:600;" %>
+      <%= f.submit "Crear cuenta", class: "btn btn-success btn-full" %>
     </div>
   <% end %>
 
-  <div style="text-align:center; margin-top:16px;">
+  <div class="auth-footer-simple">
     <%= render "devise/shared/links" %>
   </div>
 </div>
