@@ -691,6 +691,13 @@ legend {
   gap: 8px;
 }
 
+.empty-message {
+  color: #999;
+  font-style: italic;
+  margin: 0;
+  font-size: 15px;
+}
+
 .badge {
   background-color: #0056b3;
   color: white;

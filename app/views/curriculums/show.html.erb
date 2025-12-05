@@ -82,11 +82,15 @@
   <div class="section-box">
     <h3 class="section-title">Idiomas</h3>
     <div class="badge-container">
-      <% @curriculum.languages.present? && @curriculum.languages.any? ? @curriculum.languages.each do |lang| %>
-        <span class="badge">
-          <%= lang %>
-        </span>
-      <% end : (render 'shared/empty_state', message: 'No hay idiomas registrados') %>
+      <% if @curriculum.languages.present? && @curriculum.languages.any? %>
+        <% @curriculum.languages.each do |lang| %>
+          <span class="badge">
+            <%= lang %>
+          </span>
+        <% end %>
+      <% else %>
+        <p class="empty-message">No hay idiomas registrados</p>
+      <% end %>
     </div>
   </div>
 
