@@ -2,7 +2,7 @@
   <h2 class="recruiter-header">Panel de Reclutador - Gestión de Aspirantes</h2>
 
   <div class="recruiter-actions">
-    <%= link_to "Crear nuevo aspirante", new_recruiter_aspirant_path, class: "btn btn-primary" %>
+    <%= link_to "Crear nuevo aspirante", new_recruiter_aspirant_path, class: "btn btn-primary", "aria-label": "Crear un nuevo aspirante en el sistema" %>
   </div>
 
   <% if @aspirants.any? %>
@@ -23,8 +23,8 @@
               <td><%= aspirant.id %></td>
               <td><%= aspirant.created_at.strftime("%d/%m/%Y %H:%M") %></td>
               <td class="center">
-                <%= link_to "Editar", edit_recruiter_aspirant_path(aspirant), class: "btn btn-warning btn-sm" %>
-                <%= link_to "Eliminar", recruiter_aspirant_path(aspirant), method: :delete, data: { confirm: "¿Está seguro?" }, class: "btn btn-danger btn-sm" %>
+                <%= link_to "Editar", edit_recruiter_aspirant_path(aspirant), class: "btn btn-warning btn-sm", "aria-label": "Editar aspirante #{aspirant.email}" %>
+                <%= link_to "Eliminar", recruiter_aspirant_path(aspirant), method: :delete, data: { confirm: "¿Está seguro?" }, class: "btn btn-danger btn-sm", "aria-label": "Eliminar aspirante #{aspirant.email}" %>
               </td>
             </tr>
           <% end %>

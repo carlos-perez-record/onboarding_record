@@ -17,13 +17,13 @@
         <div class="card card-center">
           <h4>Gestión de Aspirantes</h4>
           <p>Administra los aspirantes registrados en el sistema.</p>
-          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-primary" %>
+          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-primary", "aria-label": "Ir al panel de reclutamiento de aspirantes" %>
         </div>
       <% elsif current_user.admin? %>
         <div class="card card-center">
           <h4>Gestión de Usuarios</h4>
           <p>Administra todas las cuentas de usuarios del sistema.</p>
-          <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-danger" %>
+          <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-danger", "aria-label": "Ir al panel de administración de usuarios" %>
         </div>
       <% end %>
     </div>
@@ -32,20 +32,20 @@
       <div class="card">
         <h3>¿Eres nuevo?</h3>
         <p>Crea una cuenta para acceder a todas las funcionalidades.</p>
-        <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-success" %>
+        <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-success", "aria-label": "Crear una nueva cuenta de usuario" %>
       </div>
 
       <div class="card">
         <h3>¿Ya tienes cuenta?</h3>
         <p>Inicia sesión con tu correo electrónico y contraseña.</p>
-        <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary" %>
+        <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary", "aria-label": "Iniciar sesión con tu cuenta existente" %>
       </div>
     </div>
 
     <div class="password-recovery">
       <h3>¿Olvidaste tu contraseña?</h3>
       <p>No te preocupes, puedes recuperarla fácilmente.</p>
-      <%= link_to "Recuperar contraseña", new_user_password_path, class: "btn-link" %>
+      <%= link_to "Recuperar contraseña", new_user_password_path, class: "btn-link", "aria-label": "Recuperar contraseña olvidada" %>
     </div>
   <% end %>
 </div>

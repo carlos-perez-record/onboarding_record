@@ -2,7 +2,7 @@
   <h2 class="recruiter-header">Panel de Administración - Gestión de Usuarios</h2>
 
   <div class="recruiter-actions">
-    <%= link_to "Crear nuevo aspirante", new_admin_user_path, style: "padding:10px 16px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;" %>
+    <%= link_to "Crear nuevo aspirante", new_admin_user_path, style: "padding:10px 16px; background:#007bff; color:#fff; border-radius:6px; text-decoration:none; font-weight:700; display:inline-block;", "aria-label": "Crear un nuevo usuario aspirante" %>
   </div>
 
   <% if @users.any? %>
@@ -28,13 +28,13 @@
             </td>
             <td ><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
             <td class="center">
-              <%= link_to edit_admin_user_path(user), title: "Editar usuario", style: "display: inline-block; margin-right: 10px; text-decoration: none;" do %>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
+              <%= link_to edit_admin_user_path(user), title: "Editar usuario", style: "display: inline-block; margin-right: 10px; text-decoration: none;", "aria-label": "Editar usuario #{user.email}" do %>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" aria-hidden="true">
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
                 </svg>
               <% end %>
-              <%= link_to admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro de eliminar este usuario?" }, title: "Eliminar usuario", style: "display: inline-block; text-decoration: none;" do %>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
+              <%= link_to admin_user_path(user), method: :delete, data: { confirm: "¿Está seguro de eliminar este usuario?" }, title: "Eliminar usuario", style: "display: inline-block; text-decoration: none;", "aria-label": "Eliminar usuario #{user.email}" do %>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" aria-hidden="true">
                   <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="#dc3545"/>
                 </svg>
               <% end %>

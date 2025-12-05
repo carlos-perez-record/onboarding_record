@@ -26,15 +26,15 @@
   <body>
     <nav class="navbar">
       <div class="navbar-container">
-        <h1 class="navbar-brand"><%= link_to "Registro de Incorporación", root_path %></h1>
+        <h1 class="navbar-brand"><%= link_to "Registro de Incorporación", root_path, "aria-label": "Ir a la página de inicio" %></h1>
 
         <div class="navbar-menu">
           <% if user_signed_in? %>
             <span class="navbar-user">Hola, <%= current_user.email %></span>
-            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger" %>
+            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger", "aria-label": "Cerrar sesión de usuario" %>
           <% else %>
-            <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary" %>
-            <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success" %>
+            <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary", "aria-label": "Crear una nueva cuenta" %>
+            <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success", "aria-label": "Iniciar sesión en el sistema" %>
           <% end %>
         </div>
       </div>
@@ -49,11 +49,11 @@
               <p class="sidebar-title">Menú</p>
               <ul class="sidebar-menu">
                 <li>
-                  <%= link_to "Inicio", root_path, class: "sidebar-link" %>
+                  <%= link_to "Inicio", root_path, class: "sidebar-link", "aria-label": "Ir a la página de inicio" %>
                 </li>
                 <% if current_user.aspirante? %>
                   <li>
-                    <%= link_to "Mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path), class: "sidebar-link" %>
+                    <%= link_to "Mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path), class: "sidebar-link", "aria-label": "Ver o crear mi currículum" %>
                   </li>
                 <% end %>
               </ul>
@@ -65,7 +65,7 @@
                 <p class="sidebar-title">Administración</p>
                 <ul class="sidebar-menu">
                   <li>
-                    <%= link_to "Gestión de Usuarios", admin_users_path, class: "sidebar-link admin" %>
+                    <%= link_to "Gestión de Usuarios", admin_users_path, class: "sidebar-link admin", "aria-label": "Administrar usuarios del sistema" %>
                   </li>
                 </ul>
               </div>
@@ -77,7 +77,7 @@
                 <p class="sidebar-title">Reclutamiento</p>
                 <ul class="sidebar-menu">
                   <li>
-                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "sidebar-link recruiter" %>
+                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "sidebar-link recruiter", "aria-label": "Administrar aspirantes registrados" %>
                   </li>
                 </ul>
               </div>
