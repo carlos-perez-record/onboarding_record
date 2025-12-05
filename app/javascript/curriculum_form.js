@@ -50,7 +50,7 @@ function updateCityField(department, currentValue) {
 
   if (citiesByDepartment[department]) {
     const cities = citiesByDepartment[department];
-    let selectHTML = '<select name="curriculum[city]" id="city-field" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">';
+    let selectHTML = '<select name="curriculum[city]" id="curriculum_city" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">';
     selectHTML += '<option value="">Seleccionar ciudad</option>';
     cities.forEach(city => {
       const selected = currentValue === city ? 'selected' : '';
@@ -60,7 +60,7 @@ function updateCityField(department, currentValue) {
     container.innerHTML = selectHTML;
   } else {
     const value = currentValue || '';
-    container.innerHTML = `<input type="text" name="curriculum[city]" id="city-field" value="${value}" placeholder="Ej: Bogotá" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
+    container.innerHTML = `<input type="text" name="curriculum[city]" id="curriculum_city" value="${value}" placeholder="Ej: Bogotá" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
   }
 }
 
@@ -72,7 +72,7 @@ function updateDepartmentField(country, currentValue, currentCity) {
   if (regionsByCountry[country]) {
     const regions = regionsByCountry[country];
     const defaultValue = (country === 'Colombia' && !currentValue) ? 'Córdoba' : currentValue;
-    let selectHTML = '<select name="curriculum[department]" id="department-field" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">';
+    let selectHTML = '<select name="curriculum[department]" id="curriculum_department" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">';
     selectHTML += '<option value="">Seleccionar departamento/región</option>';
     regions.forEach(region => {
       const selected = defaultValue === region ? 'selected' : '';
@@ -81,7 +81,7 @@ function updateDepartmentField(country, currentValue, currentCity) {
     selectHTML += '</select>';
     container.innerHTML = selectHTML;
     
-    const departmentField = document.getElementById('department-field');
+    const departmentField = document.getElementById('curriculum_department');
     if (departmentField) {
       departmentField.addEventListener('change', function() {
         updateCityField(this.value, '');
@@ -94,11 +94,11 @@ function updateDepartmentField(country, currentValue, currentCity) {
     }
   } else {
     const value = currentValue || '';
-    container.innerHTML = `<input type="text" name="curriculum[department]" id="department-field" value="${value}" placeholder="Ej: Región, Estado, Provincia" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
+    container.innerHTML = `<input type="text" name="curriculum[department]" id="curriculum_department" value="${value}" placeholder="Ej: Región, Estado, Provincia" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
     const cityContainer = document.getElementById('city-container');
     if (cityContainer) {
-      const cityValue = document.getElementById('city-field') ? document.getElementById('city-field').value : '';
-      cityContainer.innerHTML = `<input type="text" name="curriculum[city]" id="city-field" value="${cityValue}" placeholder="Ej: Ciudad" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
+      const cityValue = document.getElementById('curriculum_city') ? document.getElementById('curriculum_city').value : '';
+      cityContainer.innerHTML = `<input type="text" name="curriculum[city]" id="curriculum_city" value="${cityValue}" placeholder="Ej: Ciudad" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`;
     }
   }
 }
@@ -106,12 +106,12 @@ function updateDepartmentField(country, currentValue, currentCity) {
 // Inicializar funcionalidad de país/departamento/ciudad
 function initializeLocationFields() {
   // Obtener valores iniciales antes de que JavaScript modifique el DOM
-  const departmentField = document.getElementById('department-field');
-  const cityField = document.getElementById('city-field');
+  const departmentField = document.getElementById('curriculum_department');
+  const cityField = document.getElementById('curriculum_city');
   const initialDepartment = departmentField?.value || '';
   const initialCity = cityField?.value || '';
   
-  const countrySelect = document.getElementById('country-select');
+  const countrySelect = document.getElementById('curriculum_country');
   if (countrySelect) {
     const initialCountry = countrySelect.value || 'Colombia';
     

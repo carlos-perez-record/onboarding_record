@@ -99,7 +99,7 @@
             "Zambia", "Zimbabue"
           ],
           { prompt: "Seleccionar país", selected: curriculum.country.present? ? curriculum.country : "Colombia" },
-          { style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;", id: "country-select" }
+          { style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" }
         %>
       </div>
 
@@ -107,7 +107,7 @@
       <div class="form-group">
         <%= form.label :department, "Departamento/Región" %>
         <div id="department-container">
-          <%= form.text_field :department, placeholder: "Ej: Cundinamarca", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;", id: "department-field" %>
+          <%= form.text_field :department, placeholder: "Ej: Cundinamarca", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
         </div>
       </div>
 
@@ -115,7 +115,7 @@
       <div class="form-group">
         <%= form.label :city, "Ciudad" %>
         <div id="city-container">
-          <%= form.text_field :city, placeholder: "Ej: Bogotá", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;", id: "city-field" %>
+          <%= form.text_field :city, placeholder: "Ej: Bogotá", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
         </div>
       </div>
 
