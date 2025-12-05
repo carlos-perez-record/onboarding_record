@@ -67,14 +67,18 @@ a:hover {
 /* Container */
 .container {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px;
+  box-sizing: border-box;
 }
 
 .container-narrow {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px;
+  box-sizing: border-box;
 }
 
 /* Home Page Styles */
@@ -82,7 +86,9 @@ a:hover {
   text-align: center;
   padding: 80px 20px 60px;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .home-hero h1 {
@@ -108,8 +114,10 @@ a:hover {
   color: #155724;
   margin-bottom: 48px;
   max-width: 800px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
 }
 
 .welcome-box h2 {
@@ -140,11 +148,12 @@ a:hover {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 32px;
   max-width: 900px;
   margin: 0 auto 48px;
   padding: 0 20px;
+  width: 100%;
 }
 
 .card {
@@ -157,6 +166,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card:hover {
@@ -189,6 +200,7 @@ a:hover {
 
 .card-center {
   max-width: 600px;
+  width: 100%;
   margin: 0 auto 48px;
 }
 
@@ -219,9 +231,11 @@ a:hover {
   background-color: #f9f9f9;
   border-radius: 8px;
   max-width: 600px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .password-recovery h3 {
@@ -383,11 +397,13 @@ a:hover {
 /* Form Styles */
 .form-container {
   max-width: 800px;
+  width: 100%;
   margin: 40px auto;
   padding: 32px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .form-header {
@@ -526,8 +542,10 @@ legend {
 /* Show Page Styles */
 .curriculum-container {
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px;
+  box-sizing: border-box;
 }
 
 .curriculum-header {
@@ -860,6 +878,10 @@ legend {
     font-size: 16px;
   }
 
+  .home-hero {
+    padding: 40px 16px 30px;
+  }
+
   .home-hero h1 {
     font-size: 36px;
   }
@@ -869,14 +891,30 @@ legend {
   }
 
   .card-grid {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .welcome-box {
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .password-recovery {
+    padding: 24px;
+    margin-top: 32px;
   }
 
   .curriculum-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 24px;
   }
 
   .info-grid {
@@ -895,34 +933,50 @@ legend {
   .btn-full {
     width: 100%;
   }
+
+  .container,
+  .container-narrow {
+    padding: 16px;
+  }
+
+  .form-container {
+    padding: 24px;
+    margin: 24px auto;
+  }
 }
 
 /* Recruiter Styles */
 .recruiter-container {
   max-width: 1000px;
+  width: 100%;
   margin: 24px auto;
   padding: 32px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .recruiter-container-narrow {
   max-width: 600px;
+  width: 100%;
   margin: 32px auto;
   padding: 32px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .recruiter-container-small {
   max-width: 500px;
+  width: 100%;
   margin: 48px auto;
   padding: 32px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .recruiter-header {
@@ -995,29 +1049,35 @@ legend {
 /* Devise Auth Styles */
 .auth-container {
   max-width: 400px;
+  width: 100%;
   margin: 60px auto;
   padding: 32px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .auth-container-medium {
   max-width: 480px;
+  width: 100%;
   margin: 40px auto;
   padding: 28px;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .auth-container-small {
   max-width: 420px;
+  width: 100%;
   margin: 50px auto;
   padding: 26px;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .auth-header {
@@ -1200,8 +1260,11 @@ legend {
 
 /* Responsive for recruiter and auth */
 @media (max-width: 768px) {
-  .recruiter-container {
+  .recruiter-container,
+  .recruiter-container-narrow,
+  .recruiter-container-small {
     max-width: 100%;
+    width: 100%;
     margin: 12px;
     padding: 24px;
   }
@@ -1210,17 +1273,24 @@ legend {
   .auth-container-medium,
   .auth-container-small {
     max-width: 100%;
+    width: 100%;
     margin: 24px 12px;
     padding: 24px;
   }
 
   .data-table {
     font-size: 14px;
+    width: 100%;
   }
 
   .data-table th,
   .data-table td {
     padding: 8px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .navbar-container {
@@ -1231,5 +1301,23 @@ legend {
   .navbar-menu {
     width: 100%;
     justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    margin-right: 0;
+    margin-bottom: 24px;
+  }
+
+  .main-content {
+    padding: 0 16px;
   }
 }
