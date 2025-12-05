@@ -26,11 +26,35 @@ es:
   activerecord:
     models:
       user: "Usuario"
+      curriculum: "Currículum"
+      study: "Estudio"
     attributes:
       user:
         email: "Correo electrónico"
         password: "Contraseña"
         password_confirmation: "Confirmación de contraseña"
+      curriculum:
+        first_name: "Nombre(s)"
+        last_name: "Apellidos"
+        birth_date: "Fecha de nacimiento"
+        identification: "Número de identificación"
+        phone_number: "Teléfono"
+        address: "Dirección de residencia"
+        country: "País"
+        department: "Departamento/Región"
+        city: "Ciudad"
+        profile_description: "Perfil o descripción personal"
+        available_to_travel: "Disponibilidad para viajar"
+        available_to_relocate: "Disponibilidad para cambio de residencia"
+        languages: "Idiomas"
+        education_level: "Nivel de estudios"
+        photo: "Foto de perfil"
+      study:
+        institution: "Institución"
+        status: "Estado"
+        start_date: "Fecha de inicio"
+        end_date: "Fecha de finalización"
+        title: "Título"
     errors:
       models:
         user:
