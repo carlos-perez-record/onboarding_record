@@ -150,6 +150,51 @@
           <input type="hidden" name="curriculum[languages][]" value="">
         </div>
       </div>
+
+      <!-- Información Académica -->
+      <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 4px;">
+        <h3 style="margin: 0 0 20px 0; font-size: 18px;">Información Académica</h3>
+        
+        <div id="studies-container">
+          <%= form.fields_for :studies do |study_form| %>
+            <div class="study-fields" style="margin-bottom: 20px; padding: 15px; background-color: white; border-radius: 4px; border: 1px solid #dee2e6;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h4 style="margin: 0; font-size: 16px;">Estudio</h4>
+                <%= study_form.check_box :_destroy, style: "display: none;" %>
+                <button type="button" class="remove-study-btn" style="padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Eliminar</button>
+              </div>
+
+              <div style="margin-bottom: 10px;">
+                <%= study_form.label :institution, "Institución *" %>
+                <%= study_form.text_field :institution, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
+              </div>
+
+              <div style="margin-bottom: 10px;">
+                <%= study_form.label :status, "Estado" %>
+                <%= study_form.select :status, [['Cursando', 'cursando'], ['Pausado', 'pausado'], ['Finalizado', 'finalizado']], { include_blank: 'Seleccionar' }, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <div>
+                  <%= study_form.label :start_date, "Fecha de Inicio" %>
+                  <%= study_form.date_field :start_date, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
+                </div>
+                <div>
+                  <%= study_form.label :end_date, "Fecha de Fin" %>
+                  <%= study_form.date_field :end_date, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 10px;">
+                <%= study_form.label :title, "Título" %>
+                <%= study_form.text_field :title, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <button type="button" id="add-study-btn" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">+ Agregar Estudio</button>
+      </div>
     </fieldset>
 
     <!-- Botones de acción -->
@@ -219,4 +264,75 @@ function updateOtherLanguagesHidden() {
   const languages = Array.from(document.querySelectorAll('.remove-other-language')).map(btn => btn.dataset.language);
   document.getElementById('other-languages-hidden').value = languages.join(',');
 }
+
+// Funcionalidad para agregar/eliminar estudios dinámicamente
+let studyIndex = <%= curriculum.studies.size %>;
+
+document.getElementById('add-study-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const container = document.getElementById('studies-container');
+  const newStudy = document.createElement('div');
+  newStudy.className = 'study-fields';
+  newStudy.style.cssText = 'margin-bottom: 20px; padding: 15px; background-color: white; border-radius: 4px; border: 1px solid #dee2e6;';
+  
+  newStudy.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h4 style="margin: 0; font-size: 16px;">Estudio</h4>
+      <button type="button" class="remove-study-btn" style="padding: 5px 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Eliminar</button>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="curriculum_studies_attributes_${studyIndex}_institution">Institución *</label>
+      <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" id="curriculum_studies_attributes_${studyIndex}_institution" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="curriculum_studies_attributes_${studyIndex}_status">Estado</label>
+      <select name="curriculum[studies_attributes][${studyIndex}][status]" id="curriculum_studies_attributes_${studyIndex}_status" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        <option value="">Seleccionar</option>
+        <option value="cursando">Cursando</option>
+        <option value="pausado">Pausado</option>
+        <option value="finalizado">Finalizado</option>
+      </select>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+      <div>
+        <label for="curriculum_studies_attributes_${studyIndex}_start_date">Fecha de Inicio</label>
+        <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" id="curriculum_studies_attributes_${studyIndex}_start_date" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <div>
+        <label for="curriculum_studies_attributes_${studyIndex}_end_date">Fecha de Fin</label>
+        <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" id="curriculum_studies_attributes_${studyIndex}_end_date" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <label for="curriculum_studies_attributes_${studyIndex}_title">Título</label>
+      <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" id="curriculum_studies_attributes_${studyIndex}_title" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+  `;
+  
+  container.appendChild(newStudy);
+  studyIndex++;
+});
+
+// Event delegation para eliminar estudios
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('remove-study-btn')) {
+    e.preventDefault();
+    const studyField = e.target.closest('.study-fields');
+    
+    // Si tiene un checkbox _destroy, marcarlo
+    const destroyCheckbox = studyField.querySelector('input[type="checkbox"][name*="_destroy"]');
+    if (destroyCheckbox) {
+      destroyCheckbox.checked = true;
+      studyField.style.display = 'none';
+    } else {
+      // Si es nuevo (sin ID), simplemente eliminarlo del DOM
+      studyField.remove();
+    }
+  }
+});
 </script>

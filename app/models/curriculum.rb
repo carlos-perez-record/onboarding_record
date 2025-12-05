@@ -1,6 +1,9 @@
 class Curriculum < ApplicationRecord
   belongs_to :user
   has_one_attached :photo, dependent: :destroy
+  has_many :studies, dependent: :destroy
+  
+  accepts_nested_attributes_for :studies, allow_destroy: true, reject_if: :all_blank
 
   # Validaciones
   validates :first_name, :last_name, presence: true, length: { minimum: 2, maximum: 50 }

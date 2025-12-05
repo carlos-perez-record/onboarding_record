@@ -79,7 +79,7 @@
   </div>
 
   <!-- Sección: Idiomas -->
-  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: white;">
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
     <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Idiomas</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 8px;">
       <% @curriculum.languages.present? && @curriculum.languages.any? ? @curriculum.languages.each do |lang| %>
@@ -88,6 +88,47 @@
         </span>
       <% end : (render 'shared/empty_state', message: 'No hay idiomas registrados') %>
     </div>
+  </div>
+
+  <!-- Sección: Información Académica -->
+  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
+    <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Información Académica</h3>
+    <% if @curriculum.studies.any? %>
+      <% @curriculum.studies.order(created_at: :desc).each do |study| %>
+        <div style="margin-bottom: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 4px; border-left: 4px solid #007bff;">
+          <h4 style="margin: 0 0 10px 0; font-size: 16px; color: #333;">
+            <%= study.institution %>
+          </h4>
+          
+          <% if study.title.present? %>
+            <p style="margin: 0 0 8px 0; font-weight: 500; color: #555;">
+              <%= study.title %>
+            </p>
+          <% end %>
+          
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 14px; color: #666;">
+            <% if study.status.present? %>
+              <span style="padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; 
+                <%= case study.status
+                    when 'cursando' then 'background-color: #28a745; color: white;'
+                    when 'pausado' then 'background-color: #ffc107; color: black;'
+                    when 'finalizado' then 'background-color: #6c757d; color: white;'
+                    end %>">
+                <%= study.status.capitalize %>
+              </span>
+            <% end %>
+            
+            <% if study.start_date.present? || study.end_date.present? %>
+              <span>
+                <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p style="color: #999; text-align: center; padding: 20px;">No hay estudios registrados</p>
+    <% end %>
   </div>
 
   <!-- Información Meta -->
