@@ -57,7 +57,7 @@ class CurriculumsController < ApplicationController
       :first_name, :last_name, :birth_date, :identification,
       :phone_number, :address, :city, :department, :country,
       :profile_description, :available_to_travel, :available_to_relocate,
-      :photo, :other_languages, languages: [],
+      :photo, :other_languages, :education_level, languages: [],
       studies_attributes: [:id, :institution, :status, :start_date, :end_date, :title, :_destroy]
     )
     # Remover other_languages del hash permitido

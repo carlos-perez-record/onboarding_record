@@ -97,36 +97,43 @@
   <!-- Sección: Información Académica -->
   <div class="section-box">
     <h3 class="section-title">Información Académica</h3>
+    
+    <% if @curriculum.education_level.present? %>
+      <p style="margin-bottom: 15px;">
+        <strong>Nivel de Estudios:</strong> <%= @curriculum.education_level.capitalize %>
+      </p>
+    <% end %>
+    
     <% if @curriculum.studies.any? %>
       <% @curriculum.studies.order(created_at: :desc).each do |study| %>
         <div class="study-item">
-          <h4 class="study-title">
-            <%= study.institution %>
-          </h4>
-          
           <% if study.title.present? %>
-            <p class="study-subtitle">
+            <h4 class="study-title" style="font-weight: bold; margin-bottom: 8px;">
               <%= study.title %>
+            </h4>
+          <% end %>
+          
+          <p class="study-institution" style="margin-bottom: 6px; color: #555;">
+            <%= study.institution %>
+          </p>
+          
+          <% if study.start_date.present? || study.end_date.present? %>
+            <p class="study-dates" style="margin-bottom: 6px; color: #666; font-size: 0.95em;">
+              <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
             </p>
           <% end %>
           
-          <div class="study-dates">
-            <% if study.status.present? %>
-              <span class="badge <%= case study.status
+          <% if study.status.present? %>
+            <p class="study-status">
+              <span class="badge" style="<%= case study.status
                     when 'cursando' then 'background-color: #28a745; color: white;'
                     when 'pausado' then 'background-color: #ffc107; color: black;'
                     when 'finalizado' then 'background-color: #6c757d; color: white;'
                     end %>">
                 <%= study.status.capitalize %>
               </span>
-            <% end %>
-            
-            <% if study.start_date.present? || study.end_date.present? %>
-              <span>
-                <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
-              </span>
-            <% end %>
-          </div>
+            </p>
+          <% end %>
         </div>
       <% end %>
     <% else %>

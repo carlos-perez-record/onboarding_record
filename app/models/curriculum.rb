@@ -17,6 +17,7 @@ class Curriculum < ApplicationRecord
   validates :address, :city, :department, :country, presence: true, length: { minimum: 2, maximum: 100 }
   validates :profile_description, length: { maximum: 2000 }, allow_blank: true
   validates :available_to_travel, :available_to_relocate, inclusion: { in: [true, false] }
+  validates :education_level, inclusion: { in: %w[ninguno primaria secundaria tecnico tecnologico profesional posgrado], allow_blank: true }
 
   # Validación de edad (mayor a 18 años)
   validate :must_be_at_least_18_years_old
