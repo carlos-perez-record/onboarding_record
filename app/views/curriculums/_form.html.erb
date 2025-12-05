@@ -1,102 +1,102 @@
-<div style="max-width: 700px; margin: 30px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-  <h2 style="text-align: center; margin-bottom: 30px; color: #333;">
-    <%= curriculum.new_record? ? "Registrar Currículum" : "Editar Currículum" %>
-  </h2>
+<div class="form-container">
+  <div class="form-header">
+    <h2>
+      <%= curriculum.new_record? ? "Registrar Currículum" : "Editar Currículum" %>
+    </h2>
+  </div>
 
-  <div style="margin-bottom: 20px;">
-    <% if curriculum.errors.any? %>
-      <div style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">Errores encontrados:</h3>
-        <ul style="margin: 10px 0; padding-left: 20px;">
+  <% if curriculum.errors.any? %>
+    <div class="alert alert-danger">
+      <h3 style="margin-top: 0;">Errores encontrados:</h3>
+      <ul style="margin: 10px 0; padding-left: 20px;">
           <% curriculum.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
-        </ul>
-      </div>
-    <% end %>
-  </div>
+      </ul>
+    </div>
+  <% end %>
 
   <%= form_with(model: curriculum, local: true) do |form| %>
-    <fieldset style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px;">
-      <legend style="font-weight: 700; font-size: 16px; color: #333; padding: 0 10px;">Datos Personales</legend>
+    <fieldset>
+      <legend>Datos Personales</legend>
 
       <!-- Nombre -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :first_name, "Nombre(s)" %>
         <%= form.text_field :first_name, placeholder: "Ej: Juan", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Apellido -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :last_name, "Apellidos" %>
         <%= form.text_field :last_name, placeholder: "Ej: Pérez García", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Fecha de Nacimiento -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :birth_date, "Fecha de Nacimiento (debes ser mayor de 18 años)" %>
         <%= form.date_field :birth_date, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Identificación -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :identification, "Número de Identificación" %>
         <%= form.text_field :identification, placeholder: "Ej: 1234567890", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Teléfono -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :phone_number, "Teléfono" %>
         <%= form.text_field :phone_number, placeholder: "Ej: +57 300 1234567", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Dirección -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :address, "Dirección de Residencia" %>
         <%= form.text_field :address, placeholder: "Ej: Carrera 5", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Ciudad -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :city, "Ciudad" %>
         <%= form.text_field :city, placeholder: "Ej: Bogotá", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Departamento -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :department, "Departamento/Región" %>
         <%= form.text_field :department, placeholder: "Ej: Cundinamarca", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- País -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :country, "País" %>
         <%= form.text_field :country, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <!-- Foto de Perfil -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :photo, "Foto de Perfil (JPEG o PNG, máximo 2 MB)" %>
         <%= form.file_field :photo, accept: "image/jpeg,image/png", style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
         <% if curriculum.photo.attached? %>
-          <div style="margin-top: 10px;">
-            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" style="max-width: 200px; border-radius: 4px;">
-            <p style="color: #666; font-size: 12px; margin-top: 5px;">Foto actual</p>
+          <div class="current-photo">
+            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" class="photo-preview-img">
+            <p>Foto actual</p>
           </div>
         <% end %>
       </div>
 
       <!-- Perfil/Descripción Personal -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :profile_description, "Perfil o Descripción Personal" %>
         <%= form.text_area :profile_description, placeholder: "Describe tu perfil profesional...", rows: 5, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" %>
-        <small style="color: #666;">Máximo 2000 caracteres</small>
+        <small>Máximo 2000 caracteres</small>
       </div>
 
       <!-- Disponibilidad para Viajar -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :available_to_travel, "¿Disponibilidad para Viajar?" %>
-        <div style="display: flex; gap: 20px; margin-top: 5px;">
+        <div class="radio-group">
           <%= form.radio_button :available_to_travel, true %>
           <%= form.label :available_to_travel_true, "Sí" %>
           <%= form.radio_button :available_to_travel, false %>
@@ -105,9 +105,9 @@
       </div>
 
       <!-- Disponibilidad para Cambio de Residencia -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :available_to_relocate, "¿Disponibilidad para Cambio de Residencia?" %>
-        <div style="display: flex; gap: 20px; margin-top: 5px;">
+        <div class="radio-group">
           <%= form.radio_button :available_to_relocate, true %>
           <%= form.label :available_to_relocate_true, "Sí" %>
           <%= form.radio_button :available_to_relocate, false %>
@@ -116,34 +116,34 @@
       </div>
 
       <!-- Idiomas -->
-      <div style="margin-bottom: 15px;">
+      <div class="form-group">
         <%= form.label :languages, "Idiomas" %>
-        <div style="margin-top: 10px; padding: 10px; background-color: #f0f0f0; border-radius: 4px;">
-          <div style="margin-bottom: 10px;">
+        <div class="checkbox-container">
+          <div class="checkbox-item">
             <label>
               <input type="checkbox" name="curriculum[languages][]" value="Español" <% if (curriculum.languages || []).include?('Español') %>checked<% end %>>
               Español
             </label>
           </div>
-          <div style="margin-bottom: 10px;">
+          <div class="checkbox-item">
             <label>
               <input type="checkbox" name="curriculum[languages][]" value="Inglés" <% if (curriculum.languages || []).include?('Inglés') %>checked<% end %>>
               Inglés
             </label>
           </div>
-          <div style="margin-bottom: 10px; padding-top: 10px; border-top: 1px solid #ccc;">
+          <div class="other-languages-section">
             <p style="margin: 0 0 8px 0; font-weight: 500; font-size: 14px;">Otros idiomas:</p>
-            <div id="other-languages-container" style="margin-bottom: 10px;">
+            <div id="other-languages-container">
               <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
-                <div style="margin-bottom: 8px; padding: 6px; background-color: white; border-radius: 3px; display: flex; justify-content: space-between; align-items: center;">
+                <div class="language-item">
                   <span><%= lang %></span>
-                  <button type="button" class="remove-other-language" data-language="<%= lang %>" style="background: none; border: none; color: #dc3545; cursor: pointer; padding: 0; font-size: 16px;">×</button>
+                  <button type="button" class="remove-other-language" data-language="<%= lang %>" class="btn-remove">×</button>
                 </div>
               <% end %>
             </div>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="new-other-language" placeholder="Ej: Portugués, Francés, etc." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
-              <button type="button" id="add-other-language-btn" style="padding: 8px 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">Agregar</button>
+            <div class="language-input-group">
+              <input type="text" id="new-other-language" placeholder="Ej: Portugués, Francés, etc." class="language-input">
+              <button type="button" id="add-other-language-btn" class="btn btn-primary btn-sm">Agregar</button>
             </div>
             <input type="hidden" id="other-languages-hidden" name="curriculum[other_languages]" value="<% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.join(',') %>">
           </div>
@@ -152,29 +152,29 @@
       </div>
 
       <!-- Información Académica -->
-      <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 4px;">
-        <h3 style="margin: 0 0 20px 0; font-size: 18px;">Información Académica</h3>
+      <div class="academic-section">
+        <h3>Información Académica</h3>
         
         <div id="studies-container">
           <%= form.fields_for :studies do |study_form| %>
-            <div class="study-fields" style="margin-bottom: 15px; padding: 15px; background-color: white; border-radius: 4px; border: 1px solid #dee2e6;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h4 style="margin: 0; font-size: 15px; font-weight: 600;">Estudio</h4>
+            <div class="study-panel study-fields">
+              <div class="study-header">
+                <h4>Estudio</h4>
                 <%= study_form.check_box :_destroy, style: "display: none;" %>
-                <button type="button" class="remove-study-btn" style="padding: 4px 8px; background-color: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 13px;">Eliminar</button>
+                <button type="button" class="remove-study-btn" class="btn btn-danger btn-sm">Eliminar</button>
               </div>
 
-              <div style="margin-bottom: 12px;">
+              <div class="form-group">
                 <%= study_form.label :institution, "Institución *", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
                 <%= study_form.text_field :institution, style: "width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
               </div>
 
-              <div style="margin-bottom: 12px;">
+              <div class="form-group">
                 <%= study_form.label :status, "Estado", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
                 <%= study_form.select :status, [['Cursando', 'cursando'], ['Pausado', 'pausado'], ['Finalizado', 'finalizado']], { include_blank: 'Seleccionar' }, style: "width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px;">
+              <div class="form-grid-2">
                 <div>
                   <%= study_form.label :start_date, "Fecha Inicio", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
                   <%= study_form.date_field :start_date, style: "width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
@@ -185,7 +185,7 @@
                 </div>
               </div>
 
-              <div style="margin-bottom: 0;">
+              <div class="form-group" style="margin-bottom: 0;">
                 <%= study_form.label :title, "Título", style: "display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;" %>
                 <%= study_form.text_field :title, style: "width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
               </div>
@@ -193,14 +193,14 @@
           <% end %>
         </div>
 
-        <button type="button" id="add-study-btn" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; font-size: 14px;">+ Agregar Estudio</button>
+        <button type="button" id="add-study-btn" class="btn btn-primary btn-sm">+ Agregar Estudio</button>
       </div>
     </fieldset>
 
     <!-- Botones de acción -->
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
+    <div class="form-actions">
       <% submit_text = curriculum.new_record? ? "Registrar Currículum" : "Actualizar Currículum" %>
-      <button type="submit" style="flex: 1; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;"><%= submit_text %></button>
+      <button type="submit" class="btn btn-success btn-full"><%= submit_text %></button>
       <%= link_to "Cancelar", root_path, style: "flex: 1; padding: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; text-align: center;" %>
     </div>
   <% end %>
@@ -219,7 +219,7 @@ document.getElementById('add-other-language-btn').addEventListener('click', func
   
   const container = document.getElementById('other-languages-container');
   const div = document.createElement('div');
-  div.style.cssText = 'margin-bottom: 8px; padding: 6px; background-color: white; border-radius: 3px; display: flex; justify-content: space-between; align-items: center;';
+  div.className = 'language-item';
   
   const span = document.createElement('span');
   span.textContent = language;
@@ -229,7 +229,7 @@ document.getElementById('add-other-language-btn').addEventListener('click', func
   btn.className = 'remove-other-language';
   btn.dataset.language = language;
   btn.textContent = '×';
-  btn.style.cssText = 'background: none; border: none; color: #dc3545; cursor: pointer; padding: 0; font-size: 16px;';
+  btn.className = 'btn-remove';
   
   btn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -274,45 +274,45 @@ document.getElementById('add-study-btn').addEventListener('click', function(e) {
   const container = document.getElementById('studies-container');
   const newStudy = document.createElement('div');
   newStudy.className = 'study-fields';
-  newStudy.style.cssText = 'margin-bottom: 15px; padding: 15px; background-color: white; border-radius: 4px; border: 1px solid #dee2e6;';
+  newStudy.className = 'study-panel study-fields';
   
-  newStudy.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h4 style="margin: 0; font-size: 15px; font-weight: 600;">Estudio</h4>
-      <button type="button" class="remove-study-btn" style="padding: 4px 8px; background-color: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 13px;">Eliminar</button>
-    </div>
+newStudy.innerHTML = `
+  <div class="study-header">
+    <h4>Estudio</h4>
+    <button type="button" class="remove-study-btn btn btn-danger btn-sm">Eliminar</button>
+  </div>
 
-    <div style="margin-bottom: 12px;">
-      <label for="curriculum_studies_attributes_${studyIndex}_institution" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Institución *</label>
-      <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" id="curriculum_studies_attributes_${studyIndex}_institution" style="width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
-    </div>
+  <div class="form-group">
+    <label for="curriculum_studies_attributes_${studyIndex}_institution">Institución *</label>
+    <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" id="curriculum_studies_attributes_${studyIndex}_institution" class="form-control">
+  </div>
 
-    <div style="margin-bottom: 12px;">
-      <label for="curriculum_studies_attributes_${studyIndex}_status" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Estado</label>
-      <select name="curriculum[studies_attributes][${studyIndex}][status]" id="curriculum_studies_attributes_${studyIndex}_status" style="width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
-        <option value="">Seleccionar</option>
-        <option value="cursando">Cursando</option>
-        <option value="pausado">Pausado</option>
-        <option value="finalizado">Finalizado</option>
-      </select>
-    </div>
+  <div class="form-group">
+    <label for="curriculum_studies_attributes_${studyIndex}_status">Estado</label>
+    <select name="curriculum[studies_attributes][${studyIndex}][status]" id="curriculum_studies_attributes_${studyIndex}_status" class="form-control">
+      <option value="">Seleccionar</option>
+      <option value="cursando">Cursando</option>
+      <option value="pausado">Pausado</option>
+      <option value="finalizado">Finalizado</option>
+    </select>
+  </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px;">
-      <div>
-        <label for="curriculum_studies_attributes_${studyIndex}_start_date" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Fecha Inicio</label>
-        <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" id="curriculum_studies_attributes_${studyIndex}_start_date" style="width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
-      </div>
-      <div>
-        <label for="curriculum_studies_attributes_${studyIndex}_end_date" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Fecha Fin</label>
-        <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" id="curriculum_studies_attributes_${studyIndex}_end_date" style="width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
-      </div>
+  <div class="form-grid-2">
+    <div>
+      <label for="curriculum_studies_attributes_${studyIndex}_start_date">Fecha Inicio</label>
+      <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" id="curriculum_studies_attributes_${studyIndex}_start_date" class="form-control">
     </div>
+    <div>
+      <label for="curriculum_studies_attributes_${studyIndex}_end_date">Fecha Fin</label>
+      <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" id="curriculum_studies_attributes_${studyIndex}_end_date" class="form-control">
+    </div>
+  </div>
 
-    <div style="margin-bottom: 0;">
-      <label for="curriculum_studies_attributes_${studyIndex}_title" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Título</label>
-      <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" id="curriculum_studies_attributes_${studyIndex}_title" style="width: 100%; max-width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
-    </div>
-  `;
+  <div class="form-group" style="margin-bottom: 0;">
+    <label for="curriculum_studies_attributes_${studyIndex}_title">Título</label>
+    <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" id="curriculum_studies_attributes_${studyIndex}_title" class="form-control">
+  </div>
+`;
   
   container.appendChild(newStudy);
   studyIndex++;

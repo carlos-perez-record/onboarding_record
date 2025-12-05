@@ -8,7 +8,7 @@
   </div>
 
   <!-- Sección: Datos Personales -->
-  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
+  <div class="section-box">
     <h3 style="margin-top: 0; margin-bottom: 20px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Datos Personales</h3>
 
     <!-- Foto y Nombres -->
@@ -71,19 +71,19 @@
   </div>
 
   <!-- Sección: Perfil Profesional -->
-  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
-    <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Perfil Profesional</h3>
-    <p style="margin: 0; line-height: 1.6; white-space: pre-wrap;">
+  <div class="section-box">
+    <h3 class="section-title">Perfil Profesional</h3>
+    <p class="profile-text">
       <%= @curriculum.profile_description.presence || "No hay descripción" %>
     </p>
   </div>
 
   <!-- Sección: Idiomas -->
-  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
-    <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Idiomas</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+  <div class="section-box">
+    <h3 class="section-title">Idiomas</h3>
+    <div class="badge-container">
       <% @curriculum.languages.present? && @curriculum.languages.any? ? @curriculum.languages.each do |lang| %>
-        <span style="background-color: #007bff; color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">
+        <span class="badge">
           <%= lang %>
         </span>
       <% end : (render 'shared/empty_state', message: 'No hay idiomas registrados') %>
@@ -91,8 +91,8 @@
   </div>
 
   <!-- Sección: Información Académica -->
-  <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; background: white;">
-    <h3 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Información Académica</h3>
+  <div class="section-box">
+    <h3 class="section-title">Información Académica</h3>
     <% if @curriculum.studies.any? %>
       <% @curriculum.studies.order(created_at: :desc).each do |study| %>
         <div style="margin-bottom: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 4px; border-left: 4px solid #007bff;">
@@ -132,7 +132,7 @@
   </div>
 
   <!-- Información Meta -->
-  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+  <div class="meta-info">
     <p style="margin: 0;">
       <strong>Creado:</strong> <%= I18n.l(@curriculum.created_at, format: :long) %><br>
       <strong>Actualizado:</strong> <%= I18n.l(@curriculum.updated_at, format: :long) %>
