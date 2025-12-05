@@ -6,12 +6,21 @@
     <div class="welcome-box">
       <h2>✅ ¡Bienvenido, <%= current_user.email %>!</h2>
       <p>Tu sesión está activa y puedes comenzar a usar el sistema.</p>
+      
       <% if current_user.aspirante? %>
-        <%= link_to "Ver mi currículum", (current_user.curriculum ? curriculum_path(current_user.curriculum) : new_curriculum_path), class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Ver o crear mi currículum" %>
+        <% if current_user.curriculum %>
+          <%= link_to "Ver mi currículum", curriculum_path(current_user.curriculum), class: "btn btn-success btn-action", "aria-label": "Ver mi currículum registrado" %>
+        <% else %>
+          <div class="no-curriculum-message">
+            <h4>📋 Aún no has registrado tu currículum</h4>
+            <p>Para poder aplicar a ofertas laborales, necesitas completar tu información profesional.</p>
+            <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "btn btn-success btn-large", "aria-label": "Crear mi currículum profesional" %>
+          </div>
+        <% end %>
       <% elsif current_user.reclutador? %>
-        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Acceder al panel de reclutamiento" %>
+        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success btn-action", "aria-label": "Acceder al panel de reclutamiento" %>
       <% elsif current_user.admin? %>
-        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success", style: "margin-top: 16px;", "aria-label": "Acceder al panel de administración" %>
+        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success btn-action", "aria-label": "Acceder al panel de administración" %>
       <% end %>
     </div>
     

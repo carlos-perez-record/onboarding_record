@@ -340,6 +340,10 @@ a:hover {
   font-weight: 700;
 }
 
+.btn-action {
+  margin-top: 16px;
+}
+
 .btn-link {
   color: #0056b3;
   text-decoration: none;
@@ -1256,6 +1260,37 @@ legend {
   color: #856404;
   border: 1px solid #ffeeba;
   border-radius: 4px;
+}
+
+.alert-warning h4 {
+  margin: 0 0 8px 0;
+  color: #856404;
+  font-size: 18px;
+}
+
+.alert-warning p {
+  margin: 0 0 16px 0;
+  color: #856404;
+}
+
+.no-curriculum-message {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 6px;
+}
+
+.no-curriculum-message h4 {
+  margin: 0 0 8px 0;
+  color: #856404;
+  font-size: 18px;
+}
+
+.no-curriculum-message p {
+  margin: 0 0 16px 0;
+  color: #856404;
+  font-size: 16px;
 }
 
 /* Responsive for recruiter and auth */
