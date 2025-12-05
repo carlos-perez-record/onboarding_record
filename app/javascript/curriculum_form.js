@@ -140,6 +140,12 @@ function initializeLanguages() {
       const span = document.createElement('span');
       span.textContent = language;
       
+      // Crear input oculto para enviar el valor al servidor
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'curriculum[languages][]';
+      hiddenInput.value = language;
+      
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'remove-other-language btn-remove';
@@ -149,14 +155,13 @@ function initializeLanguages() {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         div.remove();
-        updateOtherLanguagesHidden();
       });
       
       div.appendChild(span);
       div.appendChild(btn);
+      div.appendChild(hiddenInput);
       container.appendChild(div);
       
-      updateOtherLanguagesHidden();
       input.value = '';
     });
   }
@@ -175,17 +180,8 @@ function initializeLanguages() {
     if (e.target.classList.contains('remove-other-language') && e.target.tagName === 'BUTTON') {
       e.preventDefault();
       e.target.parentElement.remove();
-      updateOtherLanguagesHidden();
     }
   });
-}
-
-function updateOtherLanguagesHidden() {
-  const languages = Array.from(document.querySelectorAll('.remove-other-language')).map(btn => btn.dataset.language);
-  const hiddenInput = document.getElementById('other-languages-hidden');
-  if (hiddenInput) {
-    hiddenInput.value = languages.join(',');
-  }
 }
 
 // Inicializar estudios

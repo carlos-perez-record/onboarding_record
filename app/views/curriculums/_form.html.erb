@@ -171,6 +171,7 @@
                 <div class="language-item">
                   <span><%= lang %></span>
                   <button type="button" class="remove-other-language" data-language="<%= lang %>" class="btn-remove">×</button>
+                  <input type="hidden" name="curriculum[languages][]" value="<%= lang %>">
                 </div>
               <% end %>
             </div>
@@ -178,7 +179,6 @@
               <input type="text" id="new-other-language" placeholder="Ej: Portugués, Francés, etc." class="language-input">
               <button type="button" id="add-other-language-btn" class="btn btn-primary btn-sm">Agregar</button>
             </div>
-            <input type="hidden" id="other-languages-hidden" name="curriculum[other_languages]" value="<% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.join(',') %>">
           </div>
           <input type="hidden" name="curriculum[languages][]" value="">
         </div>
