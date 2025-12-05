@@ -87,14 +87,12 @@ class Curriculum < ApplicationRecord
     
     # Solo reorganizar si el key es diferente
     if old_key != new_key
-      # Verificar si ya existe un blob con esa key
-      existing_blob = ActiveStorage::Blob.find_by(key: new_key)
-      
-      if existing_blob && existing_blob.id != blob.id
-        # Si existe otro blob con esa key, eliminar el archivo viejo y usar el nuevo key con timestamp
-        timestamp = Time.current.to_i
-        new_key = "#{identification}/Foto_personal_#{identification}_#{timestamp}#{extension}"
-        new_filename = "Foto_personal_#{identification}_#{timestamp}#{extension}"
+      # Buscar y eliminar archivos anteriores en la carpeta del aspirante
+      directory = File.join(ActiveStorage::Blob.service.root, identification.to_s)
+      if Dir.exist?(directory)
+        Dir.glob(File.join(directory, "Foto_personal_#{identification}*")).each do |old_file|
+          File.delete(old_file) if File.exist?(old_file)
+        end
       end
       
       # Obtener rutas usando el path_for personalizado
