@@ -33,25 +33,24 @@ export default class extends Controller {
     
     const studyIndex = Date.now()
     const studyHTML = `
-      <div class="study-item study-panel study-fields" style="border: 1px solid #ddd; padding: 15px; border-radius: 4px; margin-bottom: 15px;">
-        <div class="study-header">
-          <h4 style="margin-top: 0;">Estudio</h4>
+      <div class="study-item study-panel study-fields border border-gray-300 rounded-lg p-4 bg-gray-50 mb-4">
+        <div class="study-header flex justify-between items-center mb-4">
+          <h4 class="text-lg font-semibold text-gray-800 m-0">Estudio</h4>
           <button type="button" 
                   data-action="click->studies#removeStudy" 
-                  class="btn btn-danger btn-sm"
-                  style="background-color: #f44336; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px;">
+                  class="btn btn-danger btn-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
             Eliminar
           </button>
         </div>
         
-        <div class="form-group" style="margin-bottom: 10px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Institución *</label>
-          <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" placeholder="Ej: Universidad Nacional" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+        <div class="form-group mb-3">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Institución *</label>
+          <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" placeholder="Ej: Universidad Nacional" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         
-        <div class="form-group" style="margin-bottom: 10px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Estado</label>
-          <select name="curriculum[studies_attributes][${studyIndex}][status]" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+        <div class="form-group mb-3">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+          <select name="curriculum[studies_attributes][${studyIndex}][status]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="">Seleccionar</option>
             <option value="cursando">Cursando</option>
             <option value="pausado">Pausado</option>
@@ -59,20 +58,20 @@ export default class extends Controller {
           </select>
         </div>
         
-        <div class="form-grid-2" style="display: flex; gap: 10px; margin-bottom: 10px;">
-          <div style="flex: 1;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Fecha Inicio</label>
-            <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+        <div class="form-grid-2 grid grid-cols-2 gap-4 mb-3">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Inicio</label>
+            <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
           </div>
-          <div style="flex: 1;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Fecha Fin</label>
-            <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Fin</label>
+            <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
           </div>
         </div>
         
-        <div class="form-group form-group-no-margin" style="margin-bottom: 0;">
-          <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: 500;">Título</label>
-          <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" class="form-control" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+        <div class="form-group form-group-no-margin m-0">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+          <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
       </div>
     `

@@ -12,13 +12,13 @@ export default class extends Controller {
 
     // Crear el div del idioma con su botón de eliminar
     const languageDiv = document.createElement('div')
-    languageDiv.style.cssText = 'display: flex; align-items: center; margin-bottom: 5px;'
+    languageDiv.className = 'flex items-center'
     languageDiv.innerHTML = `
       <input type="hidden" name="curriculum[languages][]" value="${newLanguage}">
-      <span style="margin-right: 10px;">${newLanguage}</span>
+      <span class="mr-3 text-gray-700">${newLanguage}</span>
       <button type="button" 
               data-action="click->languages#removeLanguage" 
-              style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+              class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">
         Eliminar
       </button>
     `
