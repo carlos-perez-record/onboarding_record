@@ -1,70 +1,68 @@
-<div class="max-w-6xl mx-auto">
-  <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg shadow-xl p-12 mb-8 text-center">
-    <h1 class="text-4xl font-bold mb-4">Bienvenido a Onboarding Record</h1>
-    <p class="text-xl text-blue-100">Sistema de reclutamiento y onboarding de personal</p>
-  </div>
+<div class="text-center py-20 px-5">
+  <h1 class="heading-1 mb-6">Bienvenido a Onboarding Record</h1>
+  <p class="text-body-lg mb-12">Sistema de reclutamiento y onboarding de personal</p>
 
   <% if user_signed_in? %>
-    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-      <h2 class="text-2xl font-bold text-gray-800 mb-3">✅ ¡Bienvenido, <%= current_user.email %>!</h2>
-      <p class="text-gray-600 mb-6">Tu sesión está activa y puedes comenzar a usar el sistema.</p>
+    <div class="alert-welcome mb-12">
+      <h2 class="heading-3 mb-4">✅ ¡Bienvenido, <%= current_user.email %>!</h2>
+      <p class="text-body mb-0">Tu sesión está activa y puedes comenzar a usar el sistema.</p>
       
       <% if current_user.aspirante? %>
         <% curriculum = current_user.curriculum %>
         <% if curriculum&.persisted? %>
-          <%= link_to "Ver mi currículum", curriculum_path(curriculum), class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-md transition", "aria-label": "Ver mi currículum registrado" %>
+          <%= link_to "Ver mi currículum", curriculum_path(curriculum), class: "btn btn-success mt-4", "aria-label": "Ver mi currículum registrado" %>
         <% else %>
-          <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-            <h4 class="text-lg font-semibold text-gray-800 mb-2">📋 Aún no has registrado tu currículum</h4>
-            <p class="text-gray-600 mb-4">Para poder aplicar a ofertas laborales, necesitas completar tu información profesional.</p>
-            <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-md transition text-lg", "aria-label": "Crear mi currículum profesional" %>
+          <div class="mt-6 bg-white p-6 rounded-lg text-left">
+            <h4 class="heading-4 mb-4">📋 Aún no has registrado tu currículum</h4>
+            <p class="text-body mb-4">Para poder aplicar a ofertas laborales, necesitas completar tu información profesional.</p>
+            <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "btn btn-success btn-lg", "aria-label": "Crear mi currículum profesional" %>
           </div>
         <% end %>
       <% elsif current_user.reclutador? %>
-        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-md transition", "aria-label": "Acceder al panel de reclutamiento" %>
+        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success mt-4", "aria-label": "Acceder al panel de reclutamiento" %>
       <% elsif current_user.admin? %>
-        <%= link_to "Ir al panel de administración", admin_users_path, class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-md transition", "aria-label": "Acceder al panel de administración" %>
+        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success mt-4", "aria-label": "Acceder al panel de administración" %>
       <% end %>
     </div>
     
-    <div class="bg-white rounded-lg shadow-lg p-8">
-      <h3 class="text-xl font-semibold text-gray-800 mb-6">Opciones disponibles:</h3>
+    <div class="mt-12 max-w-4xl mx-auto">
+      <h3 class="heading-3 mb-8">Opciones disponibles:</h3>
       
       <% if current_user.aspirante? %>
         <!-- Enlaces a currículum movidos al menú lateral -->
       <% elsif current_user.reclutador? %>
-        <div class="text-center bg-green-50 border border-green-200 rounded-lg p-6">
-          <h4 class="text-lg font-semibold text-gray-800 mb-2">Gestión de Aspirantes</h4>
-          <p class="text-gray-600 mb-4">Administra los aspirantes registrados en el sistema.</p>
-          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition", "aria-label": "Ir al panel de reclutamiento de aspirantes" %>
+        <div class="card max-w-2xl mx-auto text-center">
+          <h4 class="heading-4 mb-2">Gestión de Aspirantes</h4>
+          <p class="text-body mb-6">Administra los aspirantes registrados en el sistema.</p>
+          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-primary", "aria-label": "Ir al panel de reclutamiento de aspirantes" %>
         </div>
       <% elsif current_user.admin? %>
-        <div class="text-center bg-red-50 border border-red-200 rounded-lg p-6">
-          <h4 class="text-lg font-semibold text-gray-800 mb-2">Gestión de Usuarios</h4>
-          <p class="text-gray-600 mb-4">Administra todas las cuentas de usuarios del sistema.</p>
-          <%= link_to "Ir al panel de administración", admin_users_path, class: "inline-block bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md transition", "aria-label": "Ir al panel de administración de usuarios" %>
+        <div class="card max-w-2xl mx-auto text-center">
+          <h4 class="heading-4 mb-2">Gestión de Usuarios</h4>
+          <p class="text-body mb-6">Administra todas las cuentas de usuarios del sistema.</p>
+          <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-danger", "aria-label": "Ir al panel de administración de usuarios" %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-lg p-8 text-center shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-800 mb-3">🚀 ¿Eres nuevo?</h3>
-        <p class="text-gray-600 mb-6">Únete ahora y accede a todas las funcionalidades del sistema.</p>
-        <%= link_to "Comienza ahora", new_user_registration_path, class: "inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-md transition text-lg", "aria-label": "Crear una nueva cuenta de usuario" %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+      <div class="card border-2 border-green-600">
+        <h3 class="heading-4 mb-4">🚀 ¿Eres nuevo?</h3>
+        <p class="text-body mb-6">Únete ahora y accede a todas las funcionalidades del sistema.</p>
+        <%= link_to "Comienza ahora", new_user_registration_path, class: "btn btn-success btn-lg", "aria-label": "Crear una nueva cuenta de usuario" %>
       </div>
 
-      <div class="bg-white border border-gray-300 rounded-lg p-8 text-center shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-800 mb-3">¿Ya tienes cuenta?</h3>
-        <p class="text-gray-600 mb-6">Inicia sesión con tu correo electrónico y contraseña.</p>
-        <%= link_to "Iniciar sesión", new_user_session_path, class: "inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-md transition", "aria-label": "Iniciar sesión con tu cuenta existente" %>
+      <div class="card">
+        <h3 class="heading-4 mb-4">¿Ya tienes cuenta?</h3>
+        <p class="text-body mb-6">Inicia sesión con tu correo electrónico y contraseña.</p>
+        <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary", "aria-label": "Iniciar sesión con tu cuenta existente" %>
       </div>
     </div>
 
-    <div class="text-center bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-semibold text-gray-800 mb-2">¿Olvidaste tu contraseña?</h3>
-      <p class="text-gray-600 mb-4">No te preocupes, puedes recuperarla fácilmente.</p>
-      <%= link_to "Recuperar contraseña", new_user_password_path, class: "text-blue-600 hover:text-blue-800 font-medium hover:underline", "aria-label": "Recuperar contraseña olvidada" %>
+    <div class="mt-12 text-center max-w-2xl mx-auto">
+      <h3 class="heading-5 mb-4">¿Olvidaste tu contraseña?</h3>
+      <p class="text-body-light mb-6">No te preocupes, puedes recuperarla fácilmente.</p>
+      <%= link_to "Recuperar contraseña", new_user_password_path, class: "link", "aria-label": "Recuperar contraseña olvidada" %>
     </div>
   <% end %>
 </div>

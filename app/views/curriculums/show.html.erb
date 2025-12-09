@@ -1,10 +1,10 @@
 <div class="max-w-5xl mx-auto">
-  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+  <div class="card mb-6">
     <div class="flex justify-between items-center">
-      <h2 class="text-3xl font-bold text-gray-800">📄 Mi Currículum</h2>
+      <h2 class="heading-2">📄 Mi Currículum</h2>
       <div class="flex gap-3">
-        <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md font-medium", "aria-label": "Editar mi currículum" %>
-        <%= link_to "⬅️ Volver", root_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium", "aria-label": "Volver a la página de inicio" %>
+        <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning btn-md", "aria-label": "Editar mi currículum" %>
+        <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary btn-md", "aria-label": "Volver a la página de inicio" %>
       </div>
     </div>
   </div>

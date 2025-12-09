@@ -190,7 +190,7 @@
                   <span class="mr-3 text-gray-700"><%= lang %></span>
                   <button type="button" 
                           data-action="click->languages#removeLanguage" 
-                          class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">
+                          class="btn btn-danger btn-sm">
                     Eliminar
                   </button>
                 </div>
@@ -202,9 +202,9 @@
                      placeholder="Ej: Portugués, Francés, etc." 
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
               <button type="button" 
-                      data-action="click->languages#addLanguage" 
-                      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
-                Agregar
+                      data-action="click->languages#addLanguage"
+                      class="btn btn-primary btn-md">
+                Agregar Idioma
               </button>
             </div>
           </div>
@@ -240,7 +240,7 @@
           <button type="button" 
                   data-studies-target="button"
                   data-action="click->studies#addStudy" 
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md whitespace-nowrap opacity-50 cursor-not-allowed disabled:opacity-50" 
+                  class="btn btn-primary btn-md opacity-50 cursor-not-allowed disabled:opacity-50" 
                   title="Pulse para agregar un estudio realizado"
                   disabled>
             + Agregar Estudio
@@ -255,7 +255,7 @@
                 <%= study_form.check_box :_destroy, style: "display: none;" %>
                 <button type="button" 
                         data-action="click->studies#removeStudy" 
-                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                        class="btn btn-danger btn-sm">
                   Eliminar
                 </button>
               </div>
@@ -294,8 +294,8 @@
     <!-- Botones de acción -->
     <div class="flex gap-4 mt-8">
       <% submit_text = curriculum.new_record? ? "Registrar Currículum" : "Actualizar Currículum" %>
-      <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-md"><%= submit_text %></button>
-      <%= link_to "Cancelar", root_path, class: "flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold px-6 py-3 rounded-md text-center no-underline" %>
+      <button type="submit" class="btn btn-success flex-1"><%= submit_text %></button>
+      <%= link_to "Cancelar", root_path, class: "btn btn-secondary flex-1 text-center" %>
     </div>
   <% end %>
 </div>

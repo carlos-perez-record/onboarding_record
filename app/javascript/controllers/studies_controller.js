@@ -5,6 +5,9 @@ export default class extends Controller {
   static targets = ["container", "button", "educationLevel"]
 
   connect() {
+    console.log('Studies controller connected')
+    console.log('Education level:', this.educationLevelTarget.value)
+    console.log('Button target:', this.buttonTarget)
     this.updateAddButton()
   }
 
@@ -19,12 +22,12 @@ export default class extends Controller {
     // Deshabilitar solo si es 'ninguno' o no hay selección
     if (level && level !== 'ninguno') {
       this.buttonTarget.disabled = false
-      this.buttonTarget.style.opacity = '1'
-      this.buttonTarget.style.cursor = 'pointer'
+      this.buttonTarget.classList.remove('opacity-50', 'cursor-not-allowed')
+      this.buttonTarget.classList.add('opacity-100', 'cursor-pointer')
     } else {
       this.buttonTarget.disabled = true
-      this.buttonTarget.style.opacity = '0.5'
-      this.buttonTarget.style.cursor = 'not-allowed'
+      this.buttonTarget.classList.remove('opacity-100', 'cursor-pointer')
+      this.buttonTarget.classList.add('opacity-50', 'cursor-not-allowed')
     }
   }
 
@@ -76,11 +79,60 @@ export default class extends Controller {
       </div>
     `
     
-    this.containerTarget.insertAdjacentHTML('beforeend', studyHTML)
+    // Insertar al inicio del contenedor (afterbegin) en lugar de al final (beforeend)
+    this.containerTarget.insertAdjacentHTML('afterbegin', studyHTML)
+    
+    // Hacer scroll suave hacia el nuevo panel
+    this.containerTarget.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
 
   removeStudy(event) {
     event.preventDefault()
-    event.target.closest('.study-item').remove()
+    const studyItem = event.target.closest('.study-item, .border')
+    
+    console.log('=== INICIO removeStudy ===')
+    console.log('Study item encontrado:', studyItem)
+    
+    // Buscar TODOS los inputs relacionados con _destroy
+    const allInputs = studyItem.querySelectorAll('input[name*="[_destroy]"]')
+    console.log('Total inputs _destroy encontrados:', allInputs.length)
+    allInputs.forEach((input, index) => {
+      console.log(`Input ${index}:`, {
+        type: input.type,
+        name: input.name,
+        value: input.value,
+        checked: input.checked,
+        element: input
+      })
+    })
+    
+    // El checkbox real es el segundo (índice 1), el primero es el hidden con valor "0"
+    const destroyCheckbox = allInputs.length > 1 ? allInputs[1] : allInputs[0]
+    
+    console.log('Checkbox seleccionado para marcar:', destroyCheckbox)
+    
+    if (destroyCheckbox) {
+      // Si existe el checkbox, es un estudio existente en la BD
+      console.log('Antes - checked:', destroyCheckbox.checked, 'value:', destroyCheckbox.value, 'name:', destroyCheckbox.name)
+      
+      // Marcar para destruir
+      destroyCheckbox.checked = true
+      // No cambiar el valor, Rails maneja esto automáticamente
+      
+      console.log('Después - checked:', destroyCheckbox.checked, 'value:', destroyCheckbox.value)
+      
+      // Ocultar visualmente usando clases de Tailwind (mantener en el DOM)
+      studyItem.classList.add('hidden')
+      
+      // También podemos agregar un atributo para saber que está marcado para eliminar
+      studyItem.setAttribute('data-marked-for-deletion', 'true')
+      
+      console.log('=== FIN removeStudy - Estudio marcado para eliminar ===')
+    } else {
+      // Si no existe, es un estudio nuevo agregado dinámicamente
+      console.log('Eliminando estudio nuevo del DOM')
+      studyItem.remove()
+      console.log('=== FIN removeStudy - Estudio nuevo eliminado ===')
+    }
   }
 }

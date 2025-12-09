@@ -1,14 +1,30 @@
 @import "tailwindcss";
 
+/* Configuración de fuente Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 /* Configuración personalizada para el proyecto */
 @theme {
-  /* Colores del proyecto */
-  --color-primary: #007bff;
+  /* Colores del proyecto - Ajustados al diseño original */
+  --color-primary: #0056b3;
   --color-secondary: #6c757d;
   --color-success: #28a745;
   --color-danger: #dc3545;
   --color-warning: #ffc107;
   --color-info: #17a2b8;
+  --color-welcome: #d4edda;
+  --color-welcome-text: #155724;
+  --color-admin-bg: #d1ecf1;
+  --color-admin-text: #0c5460;
+  --color-admin-hover: #bee5eb;
+  --color-recruiter-bg: #e2d5f0;
+  --color-recruiter-text: #522b5d;
+  --color-recruiter-hover: #d4c2e5;
+  
+  /* Colores de texto */
+  --color-text-primary: #333;
+  --color-text-secondary: #555;
+  --color-text-light: #666;
   
   /* Colores de fondo */
   --color-gray-50: #f8f9fa;
@@ -21,17 +37,320 @@
   --color-gray-700: #343a40;
   --color-gray-800: #212529;
   
-  /* Espaciados personalizados si necesitas */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* Colores para sidebar y navbar */
+  --color-sidebar-bg: #f9f9f9;
+  --color-sidebar-link: #e9ecef;
+  --color-sidebar-hover: #dee2e6;
+  --color-navbar-bg: #f5f5f5;
+  --color-border-light: #ddd;
+  
+  /* Font family */
+  --font-family-base: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* Estilos base opcionales */
+/* Estilos base */
 @layer base {
   body {
-    @apply text-gray-800;
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+  }
+  
+  /* Resetear estilos de enlaces por defecto */
+  a {
+    text-decoration: none !important;
+    color: inherit;
+  }
+  
+  a:hover {
+    text-decoration: none !important;
+  }
+  
+  a:visited {
+    color: inherit;
+  }
+  
+  a:focus {
+    outline: none;
+  }
+}
+
+/* Componentes reutilizables */
+@layer components {
+  /* Títulos */
+  .heading-1 {
+    @apply text-5xl font-bold leading-tight;
+    color: var(--color-text-primary);
+  }
+  
+  .heading-2 {
+    @apply text-3xl font-bold leading-snug;
+    color: var(--color-text-primary);
+  }
+  
+  .heading-3 {
+    @apply text-2xl font-bold leading-normal;
+    color: var(--color-text-primary);
+  }
+  
+  .heading-4 {
+    @apply text-xl font-bold leading-normal;
+    color: var(--color-text-primary);
+  }
+  
+  .heading-5 {
+    @apply text-lg font-bold leading-normal;
+    color: var(--color-text-primary);
+  }
+  
+  /* Textos */
+  .text-body {
+    @apply text-base leading-relaxed;
+    color: var(--color-text-secondary);
+  }
+  
+  .text-body-lg {
+    @apply text-lg leading-relaxed;
+    color: var(--color-text-secondary);
+  }
+  
+  .text-body-light {
+    @apply text-base leading-relaxed;
+    color: var(--color-text-light);
+  }
+  
+  /* Botones */
+  .btn {
+    @apply inline-block font-semibold py-3 px-8 rounded shadow cursor-pointer;
+    font-family: var(--font-family-base);
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .btn:hover {
+    text-decoration: none !important;
+  }
+  
+  .btn:visited {
+    text-decoration: none !important;
+  }
+  
+  .btn:focus {
+    text-decoration: none !important;
+    outline: none;
+  }
+  
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white !important;
+  }
+  
+  .btn-primary:hover {
+    background-color: #004494;
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  .btn-primary:visited {
+    color: white !important;
+  }
+  
+  .btn-success {
+    background-color: var(--color-success);
+    color: white !important;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  .btn-success:visited {
+    color: white !important;
+  }
+  
+  .btn-danger {
+    background-color: var(--color-danger);
+    color: white !important;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  .btn-danger:visited {
+    color: white !important;
+  }
+  
+  .btn-warning {
+    background-color: var(--color-warning);
+    color: var(--color-text-primary) !important;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+    color: var(--color-text-primary) !important;
+    text-decoration: none !important;
+  }
+  
+  .btn-warning:visited {
+    color: var(--color-text-primary) !important;
+  }
+  
+  .btn-secondary {
+    background-color: var(--color-secondary);
+    color: white !important;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  .btn-secondary:visited {
+    color: white !important;
+  }
+  
+  .btn-sm {
+    @apply text-xs px-3 py-1;
+  }
+  
+  .btn-md {
+    @apply text-sm px-4 py-2;
+  }
+  
+  .btn-lg {
+    @apply text-lg py-4 px-10;
+  }
+  
+  /* Alertas y notificaciones */
+  .alert-welcome {
+    background-color: var(--color-welcome);
+    color: var(--color-welcome-text);
+    @apply rounded-lg p-8 max-w-3xl mx-auto;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: var(--color-navbar-bg);
+    border-bottom: 1px solid var(--color-border-light);
+    @apply shadow;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: var(--color-sidebar-bg);
+    border-right: 1px solid var(--color-border-light);
+    @apply min-h-screen;
+    width: 200px;
+    padding: 24px 0;
+  }
+  
+  .sidebar-title {
+    color: var(--color-text-primary);
+    @apply text-sm font-bold uppercase mb-2;
+  }
+  
+  .sidebar-link {
+    background-color: var(--color-sidebar-link);
+    color: var(--color-text-primary) !important;
+    @apply block py-2 px-3 rounded font-medium;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .sidebar-link:hover {
+    background-color: var(--color-sidebar-hover);
+    color: var(--color-text-primary) !important;
+    text-decoration: none !important;
+  }
+  
+  .sidebar-link:visited {
+    color: var(--color-text-primary) !important;
+  }
+  
+  .sidebar-link-admin {
+    background-color: var(--color-admin-bg);
+    color: var(--color-admin-text) !important;
+    @apply block py-2 px-3 rounded font-medium;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .sidebar-link-admin:hover {
+    background-color: var(--color-admin-hover);
+    color: var(--color-admin-text) !important;
+    text-decoration: none !important;
+  }
+  
+  .sidebar-link-admin:visited {
+    color: var(--color-admin-text) !important;
+  }
+  
+  .sidebar-link-recruiter {
+    background-color: var(--color-recruiter-bg);
+    color: var(--color-recruiter-text) !important;
+    @apply block py-2 px-3 rounded font-medium;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .sidebar-link-recruiter:hover {
+    background-color: var(--color-recruiter-hover);
+    color: var(--color-recruiter-text) !important;
+    text-decoration: none !important;
+  }
+  
+  .sidebar-link-recruiter:visited {
+    color: var(--color-recruiter-text) !important;
+  }
+  
+  /* Contenedores */
+  .card {
+    @apply bg-white rounded-lg shadow p-6;
+  }
+  
+  .card-header {
+    @apply mb-6 pb-3 border-b border-gray-200;
+  }
+  
+  /* Formularios */
+  .form-label {
+    color: var(--color-text-primary);
+    @apply block text-sm font-semibold mb-2;
+  }
+  
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  
+  /* Links */
+  .link {
+    color: var(--color-primary) !important;
+    @apply font-semibold;
+    text-decoration: none !important;
+  }
+  
+  .link:hover {
+    text-decoration: underline !important;
+    color: var(--color-primary) !important;
+  }
+  
+  .link:visited {
+    color: var(--color-primary) !important;
   }
 }
