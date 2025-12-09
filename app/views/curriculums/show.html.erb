@@ -1,68 +1,78 @@
-<div class="curriculum-container">
-  <div class="curriculum-header">
-    <h2 class="curriculum-title">📄 Mi Currículum</h2>
-    <div class="btn-group">
-      <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning", "aria-label": "Editar mi currículum" %>
-      <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary", "aria-label": "Volver a la página de inicio" %>
+<div class="max-w-5xl mx-auto">
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <div class="flex justify-between items-center">
+      <h2 class="text-3xl font-bold text-gray-800">📄 Mi Currículum</h2>
+      <div class="flex gap-3">
+        <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md font-medium", "aria-label": "Editar mi currículum" %>
+        <%= link_to "⬅️ Volver", root_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md font-medium", "aria-label": "Volver a la página de inicio" %>
+      </div>
     </div>
   </div>
 
   <!-- Sección: Datos Personales -->
-  <div class="section-box">
-    <h3 class="section-title">Datos Personales</h3>
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Datos Personales</h3>
 
     <!-- Foto y Nombres -->
-    <div class="photo-info-container">
+    <div class="flex gap-6 mb-6">
       <% if @curriculum.photo.attached? %>
-        <div>
-          <img src="<%= url_for(@curriculum.photo) %>" alt="Foto de perfil" class="photo-img">
+        <div class="flex-shrink-0">
+          <img src="<%= url_for(@curriculum.photo) %>" alt="Foto de perfil" class="w-32 h-32 rounded-lg object-cover border-2 border-gray-300">
         </div>
       <% end %>
-      <div>
-        <p class="info-text">
-          <strong>Nombre Completo:</strong><br>
-          <%= "#{@curriculum.first_name} #{@curriculum.last_name}" %>
+      <div class="flex-1">
+        <p class="mb-4">
+          <strong class="text-gray-700">Nombre Completo:</strong><br>
+          <span class="text-gray-900 text-lg"><%= "#{@curriculum.first_name} #{@curriculum.last_name}" %></span>
         </p>
-        <p class="info-text">
-          <strong>Identificación:</strong><br>
-          <%= @curriculum.identification %>
+        <p class="mb-4">
+          <strong class="text-gray-700">Identificación:</strong><br>
+          <span class="text-gray-900"><%= @curriculum.identification %></span>
         </p>
-        <p class="info-text-last">
-          <strong>Teléfono:</strong><br>
-          <%= @curriculum.phone_number %>
+        <p class="mb-0">
+          <strong class="text-gray-700">Teléfono:</strong><br>
+          <span class="text-gray-900"><%= @curriculum.phone_number %></span>
         </p>
       </div>
     </div>
 
-    <hr class="divider">
+    <hr class="my-6 border-gray-300">
 
     <!-- Información Personal -->
-    <div class="info-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <p class="info-label">Fecha de Nacimiento</p>
-        <p class="info-value"><%= I18n.l(@curriculum.birth_date, format: :long) %> (<%= @curriculum.age %> años)</p>
+        <p class="mb-4">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Fecha de Nacimiento</span>
+          <span class="text-gray-900"><%= I18n.l(@curriculum.birth_date, format: :long) %> (<%= @curriculum.age %> años)</span>
+        </p>
 
-        <p class="info-label">Ciudad</p>
-        <p class="info-value"><%= @curriculum.city %></p>
+        <p class="mb-4">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Ciudad</span>
+          <span class="text-gray-900"><%= @curriculum.city %></span>
+        </p>
 
-        <p class="info-label">Disponibilidad para Viajar</p>
-        <p class="info-value">
-          <span class="badge <%= @curriculum.available_to_travel? ? 'badge-success' : 'badge-danger' %>">
+        <p class="mb-0">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Disponibilidad para Viajar</span>
+          <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= @curriculum.available_to_travel? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
             <%= @curriculum.available_to_travel? ? 'Sí' : 'No' %>
           </span>
         </p>
       </div>
 
       <div>
-        <p class="info-label">Dirección</p>
-        <p class="info-value"><%= @curriculum.address %></p>
+        <p class="mb-4">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Dirección</span>
+          <span class="text-gray-900"><%= @curriculum.address %></span>
+        </p>
 
-        <p class="info-label">Departamento</p>
-        <p class="info-value"><%= @curriculum.department %>, <%= @curriculum.country %></p>
+        <p class="mb-4">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Departamento</span>
+          <span class="text-gray-900"><%= @curriculum.department %>, <%= @curriculum.country %></span>
+        </p>
 
-        <p class="info-label">Disponibilidad para Cambio de Residencia</p>
-        <p class="info-text-last">
-          <span class="badge <%= @curriculum.available_to_relocate? ? 'badge-success' : 'badge-danger' %>">
+        <p class="mb-0">
+          <span class="block text-sm font-medium text-gray-500 mb-1">Disponibilidad para Cambio de Residencia</span>
+          <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= @curriculum.available_to_relocate? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
             <%= @curriculum.available_to_relocate? ? 'Sí' : 'No' %>
           </span>
         </p>
@@ -71,81 +81,82 @@
   </div>
 
   <!-- Sección: Perfil Profesional -->
-  <div class="section-box">
-    <h3 class="section-title">Perfil Profesional</h3>
-    <p class="profile-text">
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">Perfil Profesional</h3>
+    <p class="text-gray-700 leading-relaxed">
       <%= @curriculum.profile_description.presence || "No hay descripción" %>
     </p>
   </div>
 
   <!-- Sección: Idiomas -->
-  <div class="section-box">
-    <h3 class="section-title">Idiomas</h3>
-    <div class="badge-container">
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">Idiomas</h3>
+    <div class="flex flex-wrap gap-2">
       <% if @curriculum.languages.present? && @curriculum.languages.any? %>
         <% @curriculum.languages.each do |lang| %>
-          <span class="badge">
+          <span class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
             <%= lang %>
           </span>
         <% end %>
       <% else %>
-        <p class="empty-message">No hay idiomas registrados</p>
+        <p class="text-gray-500 italic">No hay idiomas registrados</p>
       <% end %>
     </div>
   </div>
 
   <!-- Sección: Información Académica -->
-  <div class="section-box">
-    <h3 class="section-title">Información Académica</h3>
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Información Académica</h3>
     
     <% if @curriculum.education_level.present? %>
-      <p style="margin-bottom: 15px;">
-        <strong>Nivel de Estudios:</strong> <%= @curriculum.education_level.capitalize %>
+      <p class="mb-6 bg-gray-50 p-4 rounded-lg">
+        <strong class="text-gray-700">Nivel de Estudios:</strong> 
+        <span class="text-gray-900 capitalize"><%= @curriculum.education_level.capitalize %></span>
       </p>
     <% end %>
     
     <% if @curriculum.studies.any? %>
-      <% @curriculum.studies.order(created_at: :desc).each do |study| %>
-        <div class="study-item">
-          <% if study.title.present? %>
-            <h4 class="study-title" style="font-weight: bold; margin-bottom: 8px;">
-              <%= study.title %>
-            </h4>
-          <% end %>
-          
-          <p class="study-institution" style="margin-bottom: 6px; color: #555;">
-            <%= study.institution %>
-          </p>
-          
-          <% if study.start_date.present? || study.end_date.present? %>
-            <p class="study-dates" style="margin-bottom: 6px; color: #666; font-size: 0.95em;">
-              <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
+      <div class="space-y-4">
+        <% @curriculum.studies.order(created_at: :desc).each do |study| %>
+          <div class="border border-gray-300 rounded-lg p-5 bg-gray-50">
+            <% if study.title.present? %>
+              <h4 class="text-lg font-bold text-gray-900 mb-2">
+                <%= study.title %>
+              </h4>
+            <% end %>
+            
+            <p class="text-gray-600 mb-2">
+              <%= study.institution %>
             </p>
-          <% end %>
-          
-          <% if study.status.present? %>
-            <p class="study-status">
-              <span class="badge" style="<%= case study.status
-                    when 'cursando' then 'background-color: #28a745; color: white;'
-                    when 'pausado' then 'background-color: #ffc107; color: black;'
-                    when 'finalizado' then 'background-color: #6c757d; color: white;'
+            
+            <% if study.start_date.present? || study.end_date.present? %>
+              <p class="text-gray-500 text-sm mb-3">
+                <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
+              </p>
+            <% end %>
+            
+            <% if study.status.present? %>
+              <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= case study.status
+                    when 'cursando' then 'bg-green-100 text-green-800'
+                    when 'pausado' then 'bg-yellow-100 text-yellow-800'
+                    when 'finalizado' then 'bg-gray-100 text-gray-800'
                     end %>">
                 <%= study.status.capitalize %>
               </span>
-            </p>
-          <% end %>
-        </div>
-      <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p class="empty-state">No hay estudios registrados</p>
+      <p class="text-gray-500 italic text-center py-4">No hay estudios registrados</p>
     <% end %>
   </div>
 
   <!-- Información Meta -->
-  <div class="meta-info">
-    <p class="info-text-last">
-      <strong>Creado:</strong> <%= I18n.l(@curriculum.created_at, format: :long) %><br>
-      <strong>Actualizado:</strong> <%= I18n.l(@curriculum.updated_at, format: :long) %>
+  <div class="bg-gray-50 rounded-lg shadow p-4 text-sm text-gray-600">
+    <p class="mb-0">
+      <strong class="text-gray-700">Creado:</strong> <%= I18n.l(@curriculum.created_at, format: :long) %><br>
+      <strong class="text-gray-700">Actualizado:</strong> <%= I18n.l(@curriculum.updated_at, format: :long) %>
     </p>
   </div>
 </div>

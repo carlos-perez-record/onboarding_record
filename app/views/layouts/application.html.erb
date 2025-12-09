@@ -24,41 +24,45 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <nav class="navbar">
-      <div class="navbar-container">
-        <h1 class="navbar-brand"><%= link_to "Registro de Incorporación", root_path, "aria-label": "Ir a la página de inicio" %></h1>
+  <body class="bg-gray-50">
+    <nav class="bg-blue-600 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <h1 class="text-xl font-bold text-white">
+            <%= link_to "Registro de Incorporación", root_path, class: "hover:text-blue-100", "aria-label": "Ir a la página de inicio" %>
+          </h1>
 
-        <div class="navbar-menu">
-          <% if user_signed_in? %>
-            <span class="navbar-user">Hola, <%= current_user.email %></span>
-            <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger", "aria-label": "Cerrar sesión de usuario" %>
-          <% else %>
-            <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary", "aria-label": "Crear una nueva cuenta" %>
-            <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success", "aria-label": "Iniciar sesión en el sistema" %>
-          <% end %>
+          <div class="flex items-center gap-3">
+            <% if user_signed_in? %>
+              <span class="text-white text-sm">Hola, <%= current_user.email %></span>
+              <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium", "aria-label": "Cerrar sesión de usuario" %>
+            <% else %>
+              <%= link_to "Crear cuenta", new_user_registration_path, class: "bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium", "aria-label": "Crear una nueva cuenta" %>
+              <%= link_to "Iniciar sesión", new_user_session_path, class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium", "aria-label": "Iniciar sesión en el sistema" %>
+            <% end %>
+          </div>
         </div>
       </div>
     </nav>
 
-    <div class="main-layout">
+    <div class="flex">
       <!-- Sidebar Menu (visible only when signed in) -->
       <% if user_signed_in? %>
-        <aside class="sidebar">
-          <nav>
-            <div class="sidebar-section">
-              <p class="sidebar-title">Menú</p>
-              <ul class="sidebar-menu">
+        <aside class="w-64 bg-white shadow-lg min-h-screen">
+          <nav class="p-4">
+            <div class="mb-6">
+              <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Menú</p>
+              <ul class="space-y-2">
                 <li>
-                  <%= link_to "Inicio", root_path, class: "sidebar-link", "aria-label": "Ir a la página de inicio" %>
+                  <%= link_to "Inicio", root_path, class: "block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition", "aria-label": "Ir a la página de inicio" %>
                 </li>
                 <% if current_user.aspirante? %>
                   <li>
                     <% curriculum = current_user.curriculum %>
                     <% if curriculum&.persisted? %>
-                      <%= link_to "Mi currículum", curriculum_path(curriculum), class: "sidebar-link", "aria-label": "Ver mi currículum" %>
+                      <%= link_to "Mi currículum", curriculum_path(curriculum), class: "block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition", "aria-label": "Ver mi currículum" %>
                     <% else %>
-                      <%= link_to "Crear mi currículum", new_curriculum_path, class: "sidebar-link", "aria-label": "Crear mi currículum profesional" %>
+                      <%= link_to "Crear mi currículum", new_curriculum_path, class: "block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition", "aria-label": "Crear mi currículum profesional" %>
                     <% end %>
                   </li>
                 <% end %>
@@ -67,11 +71,11 @@
 
             <!-- Admin Menu -->
             <% if current_user.admin? %>
-              <div class="sidebar-section bordered">
-                <p class="sidebar-title">Administración</p>
-                <ul class="sidebar-menu">
+              <div class="mb-6 pt-6 border-t border-gray-200">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Administración</p>
+                <ul class="space-y-2">
                   <li>
-                    <%= link_to "Gestión de Usuarios", admin_users_path, class: "sidebar-link admin", "aria-label": "Administrar usuarios del sistema" %>
+                    <%= link_to "Gestión de Usuarios", admin_users_path, class: "block px-4 py-2 text-red-700 hover:bg-red-50 rounded-md transition font-medium", "aria-label": "Administrar usuarios del sistema" %>
                   </li>
                 </ul>
               </div>
@@ -79,11 +83,11 @@
 
             <!-- Recruiter Menu -->
             <% if current_user.reclutador? %>
-              <div class="sidebar-section bordered">
-                <p class="sidebar-title">Reclutamiento</p>
-                <ul class="sidebar-menu">
+              <div class="mb-6 pt-6 border-t border-gray-200">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Reclutamiento</p>
+                <ul class="space-y-2">
                   <li>
-                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "sidebar-link recruiter", "aria-label": "Administrar aspirantes registrados" %>
+                    <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "block px-4 py-2 text-green-700 hover:bg-green-50 rounded-md transition font-medium", "aria-label": "Administrar aspirantes registrados" %>
                   </li>
                 </ul>
               </div>
@@ -92,16 +96,16 @@
         </aside>
       <% end %>
 
-      <div class="main-content">
+      <div class="flex-1 p-6">
         <% if notice %>
-          <div class="alert-success">
-            <strong><%= notice %></strong>
+          <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded">
+            <p class="text-green-800 font-medium"><%= notice %></p>
           </div>
         <% end %>
 
         <% if alert %>
-          <div class="alert-danger">
-            <strong><%= alert %></strong>
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+            <p class="text-red-800 font-medium"><%= alert %></p>
           </div>
         <% end %>
 

@@ -1,42 +1,46 @@
-<div class="auth-container">
-  <h2 class="auth-header">🔐 Iniciar Sesión</h2>
-  <p style="text-align: center; color: #555; margin-bottom: 24px;">Accede a tu cuenta</p>
+<div class="max-w-md mx-auto">
+  <div class="bg-white rounded-lg shadow-xl p-8">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">🔐 Iniciar Sesión</h2>
+    <p class="text-center text-gray-600 mb-6">Accede a tu cuenta</p>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
-    <% if resource.errors.any? %>
-      <div id="error_explanation" class="alert-danger">
-        <h4 class="alert-title"><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
-        <ul class="alert-list">
-          <% resource.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), local: true) do |f| %>
+      <% if resource.errors.any? %>
+        <div id="error_explanation" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+          <h4 class="text-red-800 font-semibold mb-2"><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
+          <ul class="list-disc list-inside space-y-1 text-red-700">
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.label :email, "Correo Electrónico", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="mb-6">
+          <label class="inline-flex items-center">
+            <%= f.check_box :remember_me, class: "mr-2 rounded" %>
+            <span class="text-sm text-gray-700">Recuérdame</span>
+          </label>
+        </div>
+      <% end %>
+
+      <div class="mb-6">
+        <%= f.submit "Iniciar Sesión", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md transition", "aria-label": "Enviar formulario de inicio de sesión" %>
       </div>
     <% end %>
 
-    <div class="form-group">
-      <%= f.label :email, "Correo Electrónico", class: "form-label-bold" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+    <div class="text-center pt-4 border-t border-gray-200">
+      <%= render "devise/shared/links" %>
     </div>
-
-    <div class="form-group">
-      <%= f.label :password, "Contraseña", class: "form-label-bold" %>
-      <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-    </div>
-
-    <% if devise_mapping.rememberable? %>
-      <div class="form-group">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me, "Recuérdame" %>
-      </div>
-    <% end %>
-
-    <div class="form-group">
-      <%= f.submit "Iniciar Sesión", class: "btn btn-primary btn-full", "aria-label": "Enviar formulario de inicio de sesión" %>
-    </div>
-  <% end %>
-
-  <div class="auth-footer">
-    <%= render "devise/shared/links" %>
   </div>
 </div>
