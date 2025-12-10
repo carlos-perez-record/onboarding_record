@@ -2,3 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers/index"
 
+console.log("✅ Application.js loaded")
+console.log("✅ Turbo:", window.Turbo)
+console.log("✅ Stimulus:", window.Stimulus)
+
