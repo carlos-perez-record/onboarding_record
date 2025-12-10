@@ -24,7 +24,42 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gray-50">
+  <body class="bg-gray-50" data-controller="feedback">
+    <!-- Toast Notifications Container -->
+    <div data-controller="toast">
+      <div data-toast-target="container" class="toast-container"></div>
+    </div>
+
+    <!-- Modal Confirmation -->
+    <div data-controller="modal" data-action="keydown@window->modal#handleKeydown">
+      <div data-modal-target="backdrop" 
+           data-action="click->modal#closeOnBackdrop"
+           class="modal-backdrop hidden">
+        <div data-modal-target="dialog" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          <div class="modal-header">
+            <h2 id="modal-title" data-modal-target="title" class="modal-title"></h2>
+          </div>
+          <div class="modal-body">
+            <p data-modal-target="message" class="modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" 
+                    data-modal-target="cancelButton"
+                    data-action="click->modal#cancel"
+                    class="btn btn-secondary px-6 py-2">
+              Cancelar
+            </button>
+            <button type="button" 
+                    data-modal-target="confirmButton"
+                    data-action="click->modal#confirm"
+                    class="btn btn-danger px-6 py-2">
+              Confirmar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar" aria-label="Navegación principal">
       <div class="max-w-full px-4 md:px-6">
         <div class="flex flex-wrap justify-between items-center py-3 gap-2">

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import ToastController from "./toast_controller"
 
 // Conecta este controlador a un elemento usando data-controller="studies"
 export default class extends Controller {
@@ -38,7 +39,7 @@ export default class extends Controller {
     
     // Validar límite máximo
     if (this.studyCount >= this.maxStudiesValue) {
-      alert(`Has alcanzado el límite máximo de ${this.maxStudiesValue} estudios`)
+      ToastController.showWarning(`Has alcanzado el límite máximo de ${this.maxStudiesValue} estudios`)
       return
     }
     
@@ -69,6 +70,7 @@ export default class extends Controller {
     setTimeout(() => {
       const firstInput = studyItem.querySelector('input[type="text"]')
       firstInput?.focus()
+      ToastController.showSuccess(`Estudio ${this.studyCount} agregado correctamente`)
     }, 300)
   }
   
@@ -152,7 +154,10 @@ export default class extends Controller {
       studyItem.style.margin = '0'
       studyItem.style.padding = '0'
       
-      setTimeout(() => studyItem.classList.add('hidden'), 300)
+      setTimeout(() => {
+        studyItem.classList.add('hidden')
+        ToastController.showInfo('Estudio marcado para eliminar al guardar')
+      }, 300)
     } else {
       // Estudio nuevo: eliminar del DOM
       studyItem.style.opacity = '0'
@@ -162,6 +167,7 @@ export default class extends Controller {
         studyItem.remove()
         this.studyCount--
         this.updateAddButton()
+        ToastController.showSuccess('Estudio eliminado')
       }, 300)
     }
   }

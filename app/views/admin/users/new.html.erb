@@ -18,23 +18,27 @@
 				</div>
 			<% end %>
 
-			<div class="mb-4">
+			<div class="mb-4" data-controller="validation" data-validation-type-value="email" data-validation-required-value="true">
 				<%= form.label :email, "Correo electrónico", class: "form-label" %>
 				<%= form.email_field :email, 
 					autofocus: true,
 					autocomplete: "email",
 					required: true,
 					aria: { required: "true" },
-					class: "form-input" %>
+					class: "form-input",
+					data: { validation_target: "field" } %>
+				<div data-validation-target="error" class="hidden" role="alert"></div>
 			</div>
 
-			<div class="mb-4">
-				<%= form.label :password, "Contraseña", class: "form-label" %>
+			<div class="mb-4" data-controller="validation" data-validation-required-value="true" data-validation-min-length-value="6">
+				<%= form.label :password, "Contraseña (mínimo 6 caracteres)", class: "form-label" %>
 				<%= form.password_field :password, 
 					autocomplete: "new-password",
 					required: true,
 					aria: { required: "true" },
-					class: "form-input" %>
+					class: "form-input",
+					data: { validation_target: "field" } %>
+				<div data-validation-target="error" class="hidden" role="alert"></div>
 			</div>
 
 			<div class="mb-4">

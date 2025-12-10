@@ -17,14 +17,23 @@
         </div>
       <% end %>
 
-      <div class="mb-5">
+      <div class="mb-5" data-controller="validation" data-validation-type-value="email" data-validation-required-value="true">
         <%= f.label :email, "Correo Electrónico", class: "form-label" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+        <%= f.email_field :email, 
+          autofocus: true, 
+          autocomplete: "email", 
+          class: "form-input",
+          data: { validation_target: "field" } %>
+        <div data-validation-target="error" class="hidden" role="alert"></div>
       </div>
 
-      <div class="mb-5">
+      <div class="mb-5" data-controller="validation" data-validation-required-value="true" data-validation-min-length-value="6">
         <%= f.label :password, "Contraseña", class: "form-label" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-input" %>
+        <%= f.password_field :password, 
+          autocomplete: "current-password", 
+          class: "form-input",
+          data: { validation_target: "field" } %>
+        <div data-validation-target="error" class="hidden" role="alert"></div>
       </div>
 
       <% if devise_mapping.rememberable? %>

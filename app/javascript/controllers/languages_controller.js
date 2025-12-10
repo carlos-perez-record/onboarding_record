@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import ToastController from "./toast_controller"
 
 // Conecta este controlador a un elemento usando data-controller="languages"
 export default class extends Controller {
@@ -11,18 +12,22 @@ export default class extends Controller {
     
     // Validaciones mejoradas
     if (!newLanguage) {
-      this.showFeedback('Por favor ingresa un idioma', 'error')
+      ToastController.showError('Por favor ingresa un idioma')
+      this.inputTarget.focus()
       return
     }
     
     if (newLanguage.length < 2) {
-      this.showFeedback('El idioma debe tener al menos 2 caracteres', 'error')
+      ToastController.showError('El idioma debe tener al menos 2 caracteres')
+      this.inputTarget.focus()
       return
     }
     
     // Verificar duplicados
     if (this.isDuplicate(newLanguage)) {
-      this.showFeedback('Este idioma ya fue agregado', 'error')
+      ToastController.showWarning('Este idioma ya fue agregado')
+      this.inputTarget.value = ''
+      this.inputTarget.focus()
       return
     }
 
@@ -55,16 +60,20 @@ export default class extends Controller {
     this.inputTarget.value = ''
     this.inputTarget.focus()
     
-    this.showFeedback(`Idioma "${newLanguage}" agregado`, 'success')
+    ToastController.showSuccess(`Idioma "${newLanguage}" agregado correctamente`)
   }
 
   removeLanguage(event) {
     event.preventDefault()
     const languageDiv = event.target.closest('[role="listitem"]')
+    const languageName = languageDiv.querySelector('span').textContent
     
     // Animación suave antes de eliminar
     languageDiv.style.opacity = '0'
-    setTimeout(() => languageDiv.remove(), 300)
+    setTimeout(() => {
+      languageDiv.remove()
+      ToastController.showInfo(`Idioma "${languageName}" eliminado`)
+    }, 300)
   }
   
   isDuplicate(language) {
@@ -73,21 +82,5 @@ export default class extends Controller {
     ).map(input => input.value.toLowerCase())
     
     return existingLanguages.includes(language.toLowerCase())
-  }
-  
-  showFeedback(message, type) {
-    // Remover feedback anterior si existe
-    const existingFeedback = this.inputTarget.parentElement.querySelector('.feedback-message')
-    if (existingFeedback) existingFeedback.remove()
-    
-    const feedbackDiv = document.createElement('div')
-    feedbackDiv.className = `feedback-message text-sm mt-1 ${type === 'error' ? 'text-red-600' : 'text-green-600'}`
-    feedbackDiv.textContent = message
-    feedbackDiv.setAttribute('role', 'alert')
-    
-    this.inputTarget.parentElement.appendChild(feedbackDiv)
-    
-    // Auto-remover después de 3 segundos
-    setTimeout(() => feedbackDiv.remove(), 3000)
   }
 }
