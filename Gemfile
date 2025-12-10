@@ -67,6 +67,8 @@ group :development do
   gem "letter_opener"
   # Web UI for viewing delivered emails in development
   gem "letter_opener_web"
+  # Detect N+1 queries and unused eager loading
+  gem "bullet"
 end
 
 group :test do
