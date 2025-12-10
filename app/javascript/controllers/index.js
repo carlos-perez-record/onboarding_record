@@ -24,3 +24,5 @@ application.register("form-loading", FormLoadingController)
 application.register("modal", ModalController)
 application.register("toast", ToastController)
 application.register("validation", ValidationController)
+
+console.log("✅ Stimulus controllers registered:", application.router.modulesByIdentifier)
