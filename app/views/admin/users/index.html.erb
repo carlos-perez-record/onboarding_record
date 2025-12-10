@@ -38,8 +38,8 @@
                       </svg>
                     <% end %>
                     <%= link_to admin_user_path(user), 
-                      method: :delete,
                       data: { 
+                        turbo_method: :delete,
                         controller: "confirm",
                         action: "click->confirm#confirm",
                         confirm_title_value: "Confirmar eliminación",
