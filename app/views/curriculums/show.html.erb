@@ -17,7 +17,7 @@
     <div class="flex flex-wrap gap-4 md:gap-6 mb-6">
       <% if @curriculum.photo.attached? %>
         <div class="flex-shrink-0 mx-auto sm:mx-0">
-          <img src="<%= url_for(@curriculum.photo) %>" alt="Foto de perfil" class="w-32 h-32 rounded-lg object-cover border-2 border-gray-300">
+          <img src="<%= url_for(@curriculum.photo) %>" alt="Foto de perfil" class="w-32 h-32 rounded-lg object-cover border-2 border-gray-300" loading="lazy">
         </div>
       <% end %>
       <div class="flex-1">

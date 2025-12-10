@@ -75,40 +75,95 @@ export default class extends Controller {
       const regions = this.regionsByCountry[country]
       const defaultValue = (country === 'Colombia' && !currentValue) ? 'Córdoba' : currentValue
       
-      let selectHTML = '<select name="curriculum[department]" id="curriculum_department" data-location-target="department" data-action="change->location#departmentChanged" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">'
-      selectHTML += '<option value="">Seleccionar departamento/región</option>'
+      // Crear select de forma segura (prevención XSS)
+      const select = document.createElement('select')
+      select.name = 'curriculum[department]'
+      select.id = 'curriculum_department'
+      select.className = 'form-input'
+      select.setAttribute('data-location-target', 'department')
+      select.setAttribute('data-action', 'change->location#departmentChanged')
+      
+      const emptyOption = document.createElement('option')
+      emptyOption.value = ''
+      emptyOption.textContent = 'Seleccionar departamento/región'
+      select.appendChild(emptyOption)
+      
       regions.forEach(region => {
-        const selected = defaultValue === region ? 'selected' : ''
-        selectHTML += `<option value="${region}" ${selected}>${region}</option>`
+        const option = document.createElement('option')
+        option.value = region
+        option.textContent = region
+        if (defaultValue === region) option.selected = true
+        select.appendChild(option)
       })
-      selectHTML += '</select>'
-      this.departmentContainerTarget.innerHTML = selectHTML
+      
+      this.departmentContainerTarget.innerHTML = ''
+      this.departmentContainerTarget.appendChild(select)
       
       if (defaultValue) {
         this.updateCityField(defaultValue, currentCity)
       }
     } else {
-      const value = currentValue || ''
-      this.departmentContainerTarget.innerHTML = `<input type="text" name="curriculum[department]" id="curriculum_department" value="${value}" placeholder="Ej: Región, Estado, Provincia" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`
+      const input = document.createElement('input')
+      input.type = 'text'
+      input.name = 'curriculum[department]'
+      input.id = 'curriculum_department'
+      input.value = currentValue || ''
+      input.placeholder = 'Ej: Región, Estado, Provincia'
+      input.className = 'form-input'
+      
+      this.departmentContainerTarget.innerHTML = ''
+      this.departmentContainerTarget.appendChild(input)
+      
       const cityValue = this.cityContainerTarget.querySelector('input, select')?.value || ''
-      this.cityContainerTarget.innerHTML = `<input type="text" name="curriculum[city]" id="curriculum_city" value="${cityValue}" placeholder="Ej: Ciudad" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`
+      const cityInput = document.createElement('input')
+      cityInput.type = 'text'
+      cityInput.name = 'curriculum[city]'
+      cityInput.id = 'curriculum_city'
+      cityInput.value = cityValue
+      cityInput.placeholder = 'Ej: Ciudad'
+      cityInput.className = 'form-input'
+      
+      this.cityContainerTarget.innerHTML = ''
+      this.cityContainerTarget.appendChild(cityInput)
     }
   }
 
   updateCityField(department, currentValue) {
     if (this.citiesByDepartment[department]) {
       const cities = this.citiesByDepartment[department]
-      let selectHTML = '<select name="curriculum[city]" id="curriculum_city" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">'
-      selectHTML += '<option value="">Seleccionar ciudad</option>'
+      
+      // Crear select de forma segura (prevención XSS)
+      const select = document.createElement('select')
+      select.name = 'curriculum[city]'
+      select.id = 'curriculum_city'
+      select.className = 'form-input'
+      
+      const emptyOption = document.createElement('option')
+      emptyOption.value = ''
+      emptyOption.textContent = 'Seleccionar ciudad'
+      select.appendChild(emptyOption)
+      
       cities.forEach(city => {
-        const selected = currentValue === city ? 'selected' : ''
-        selectHTML += `<option value="${city}" ${selected}>${city}</option>`
+        const option = document.createElement('option')
+        option.value = city
+        option.textContent = city
+        if (currentValue === city) option.selected = true
+        select.appendChild(option)
       })
-      selectHTML += '</select>'
-      this.cityContainerTarget.innerHTML = selectHTML
+      
+      this.cityContainerTarget.innerHTML = ''
+      this.cityContainerTarget.appendChild(select)
     } else {
-      const value = currentValue || ''
-      this.cityContainerTarget.innerHTML = `<input type="text" name="curriculum[city]" id="curriculum_city" value="${value}" placeholder="Ej: Bogotá" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">`
+      const input = document.createElement('input')
+      input.type = 'text'
+      input.name = 'curriculum[city]'
+      input.id = 'curriculum_city'
+      input.value = currentValue || ''
+      input.placeholder = 'Ej: Bogotá'
+      input.className = 'form-input'
+      
+      this.cityContainerTarget.innerHTML = ''
+      this.cityContainerTarget.appendChild(input)
     }
   }
 }

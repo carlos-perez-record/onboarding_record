@@ -28,7 +28,7 @@
         <%= form.file_field :photo, accept: "image/jpeg,image/png", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         <% if curriculum.persisted? && curriculum.photo.attached? %>
           <div class="current-photo">
-            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" class="photo-preview-img">
+            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" class="photo-preview-img" loading="lazy">
             <p>Foto actual</p>
           </div>
         <% end %>

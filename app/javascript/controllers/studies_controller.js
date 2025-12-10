@@ -3,12 +3,13 @@ import { Controller } from "@hotwired/stimulus"
 // Conecta este controlador a un elemento usando data-controller="studies"
 export default class extends Controller {
   static targets = ["container", "button", "educationLevel"]
+  static values = {
+    maxStudies: { type: Number, default: 10 }
+  }
 
   connect() {
-    console.log('Studies controller connected')
-    console.log('Education level:', this.educationLevelTarget.value)
-    console.log('Button target:', this.buttonTarget)
     this.updateAddButton()
+    this.studyCount = this.containerTarget.querySelectorAll('.study-item').length
   }
 
   educationLevelChanged() {
@@ -19,120 +20,149 @@ export default class extends Controller {
     const level = this.educationLevelTarget.value
     if (!this.hasButtonTarget) return
     
-    // Deshabilitar solo si es 'ninguno' o no hay selección
-    if (level && level !== 'ninguno') {
-      this.buttonTarget.disabled = false
-      this.buttonTarget.classList.remove('opacity-50', 'cursor-not-allowed')
-      this.buttonTarget.classList.add('opacity-100', 'cursor-pointer')
-    } else {
-      this.buttonTarget.disabled = true
-      this.buttonTarget.classList.remove('opacity-100', 'cursor-pointer')
-      this.buttonTarget.classList.add('opacity-50', 'cursor-not-allowed')
+    const shouldEnable = level && level !== 'ninguno' && this.studyCount < this.maxStudiesValue
+    
+    this.buttonTarget.disabled = !shouldEnable
+    this.buttonTarget.classList.toggle('opacity-50', !shouldEnable)
+    this.buttonTarget.classList.toggle('cursor-not-allowed', !shouldEnable)
+    this.buttonTarget.classList.toggle('opacity-100', shouldEnable)
+    this.buttonTarget.classList.toggle('cursor-pointer', shouldEnable)
+    
+    if (this.studyCount >= this.maxStudiesValue) {
+      this.buttonTarget.title = `Máximo ${this.maxStudiesValue} estudios permitidos`
     }
   }
 
   addStudy(event) {
     event.preventDefault()
     
+    // Validar límite máximo
+    if (this.studyCount >= this.maxStudiesValue) {
+      alert(`Has alcanzado el límite máximo de ${this.maxStudiesValue} estudios`)
+      return
+    }
+    
     const studyIndex = Date.now()
-    const studyHTML = `
-      <div class="study-item study-panel study-fields border border-gray-300 rounded-lg p-4 bg-gray-50 mb-4">
-        <div class="study-header flex justify-between items-center mb-4">
-          <h4 class="text-lg font-semibold text-gray-800 m-0">Estudio</h4>
-          <button type="button" 
-                  data-action="click->studies#removeStudy" 
-                  class="btn btn-danger btn-sm bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-            Eliminar
-          </button>
+    const studyNumber = this.studyCount + 1
+    
+    // Crear elementos de forma segura (prevención XSS)
+    const studyItem = document.createElement('div')
+    studyItem.className = 'study-item study-panel study-fields border border-gray-300 rounded-lg p-4 bg-gray-50 mb-4 transition-all duration-300'
+    studyItem.setAttribute('role', 'region')
+    studyItem.setAttribute('aria-label', `Estudio académico ${studyNumber}`)
+    studyItem.style.opacity = '0'
+    
+    studyItem.innerHTML = this.getStudyHTML(studyIndex)
+    
+    this.containerTarget.insertAdjacentElement('afterbegin', studyItem)
+    
+    // Animación de entrada
+    requestAnimationFrame(() => {
+      studyItem.style.opacity = '1'
+    })
+    
+    this.studyCount++
+    this.updateAddButton()
+    
+    // Hacer scroll suave y enfocar primer campo
+    studyItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    setTimeout(() => {
+      const firstInput = studyItem.querySelector('input[type="text"]')
+      firstInput?.focus()
+    }, 300)
+  }
+  
+  getStudyHTML(studyIndex) {
+    return `
+      <div class="study-header flex justify-between items-center mb-4">
+        <h4 class="text-lg font-semibold text-gray-800 m-0">Estudio Académico</h4>
+        <button type="button" 
+                data-action="click->studies#removeStudy" 
+                class="btn btn-danger py-1 px-3 text-sm"
+                aria-label="Eliminar este estudio">
+          Eliminar
+        </button>
+      </div>
+      
+      <div class="form-group mb-3">
+        <label class="form-label">Institución *</label>
+        <input type="text" 
+               name="curriculum[studies_attributes][${studyIndex}][institution]" 
+               placeholder="Ej: Universidad Nacional" 
+               required
+               aria-required="true"
+               class="form-input">
+      </div>
+      
+      <div class="form-group mb-3">
+        <label class="form-label">Estado</label>
+        <select name="curriculum[studies_attributes][${studyIndex}][status]" class="form-input">
+          <option value="">Seleccionar</option>
+          <option value="cursando">Cursando</option>
+          <option value="pausado">Pausado</option>
+          <option value="finalizado">Finalizado</option>
+        </select>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+        <div>
+          <label class="form-label">Fecha Inicio</label>
+          <input type="date" 
+                 name="curriculum[studies_attributes][${studyIndex}][start_date]" 
+                 class="form-input">
         </div>
-        
-        <div class="form-group mb-3">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Institución *</label>
-          <input type="text" name="curriculum[studies_attributes][${studyIndex}][institution]" placeholder="Ej: Universidad Nacional" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        
-        <div class="form-group mb-3">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
-          <select name="curriculum[studies_attributes][${studyIndex}][status]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">Seleccionar</option>
-            <option value="cursando">Cursando</option>
-            <option value="pausado">Pausado</option>
-            <option value="finalizado">Finalizado</option>
-          </select>
-        </div>
-        
-        <div class="form-grid-2 grid grid-cols-2 gap-4 mb-3">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Inicio</label>
-            <input type="date" name="curriculum[studies_attributes][${studyIndex}][start_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Fin</label>
-            <input type="date" name="curriculum[studies_attributes][${studyIndex}][end_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-        </div>
-        
-        <div class="form-group form-group-no-margin m-0">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Título</label>
-          <input type="text" name="curriculum[studies_attributes][${studyIndex}][title]" class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div>
+          <label class="form-label">Fecha Fin</label>
+          <input type="date" 
+                 name="curriculum[studies_attributes][${studyIndex}][end_date]" 
+                 class="form-input">
         </div>
       </div>
+      
+      <div class="form-group m-0">
+        <label class="form-label">Título</label>
+        <input type="text" 
+               name="curriculum[studies_attributes][${studyIndex}][title]" 
+               placeholder="Ej: Ingeniería de Sistemas"
+               class="form-input">
+      </div>
     `
-    
-    // Insertar al inicio del contenedor (afterbegin) en lugar de al final (beforeend)
-    this.containerTarget.insertAdjacentHTML('afterbegin', studyHTML)
-    
-    // Hacer scroll suave hacia el nuevo panel
-    this.containerTarget.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }
 
   removeStudy(event) {
     event.preventDefault()
     const studyItem = event.target.closest('.study-item, .border')
     
-    console.log('=== INICIO removeStudy ===')
-    console.log('Study item encontrado:', studyItem)
+    if (!studyItem) return
     
-    // Buscar TODOS los inputs relacionados con _destroy
+    // Buscar inputs _destroy (para estudios existentes en BD)
     const allInputs = studyItem.querySelectorAll('input[name*="[_destroy]"]')
-    console.log('Total inputs _destroy encontrados:', allInputs.length)
-    allInputs.forEach((input, index) => {
-      console.log(`Input ${index}:`, {
-        type: input.type,
-        name: input.name,
-        value: input.value,
-        checked: input.checked,
-        element: input
-      })
-    })
-    
     // El checkbox real es el segundo (índice 1), el primero es el hidden con valor "0"
     const destroyCheckbox = allInputs.length > 1 ? allInputs[1] : allInputs[0]
     
-    console.log('Checkbox seleccionado para marcar:', destroyCheckbox)
-    
     if (destroyCheckbox) {
-      // Si existe el checkbox, es un estudio existente en la BD
-      console.log('Antes - checked:', destroyCheckbox.checked, 'value:', destroyCheckbox.value, 'name:', destroyCheckbox.name)
-      
-      // Marcar para destruir
+      // Estudio existente en BD: marcar para destruir
       destroyCheckbox.checked = true
-      // No cambiar el valor, Rails maneja esto automáticamente
-      
-      console.log('Después - checked:', destroyCheckbox.checked, 'value:', destroyCheckbox.value)
-      
-      // Ocultar visualmente usando clases de Tailwind (mantener en el DOM)
-      studyItem.classList.add('hidden')
-      
-      // También podemos agregar un atributo para saber que está marcado para eliminar
       studyItem.setAttribute('data-marked-for-deletion', 'true')
       
-      console.log('=== FIN removeStudy - Estudio marcado para eliminar ===')
+      // Animación de salida
+      studyItem.style.opacity = '0'
+      studyItem.style.maxHeight = '0'
+      studyItem.style.overflow = 'hidden'
+      studyItem.style.margin = '0'
+      studyItem.style.padding = '0'
+      
+      setTimeout(() => studyItem.classList.add('hidden'), 300)
     } else {
-      // Si no existe, es un estudio nuevo agregado dinámicamente
-      console.log('Eliminando estudio nuevo del DOM')
-      studyItem.remove()
-      console.log('=== FIN removeStudy - Estudio nuevo eliminado ===')
+      // Estudio nuevo: eliminar del DOM
+      studyItem.style.opacity = '0'
+      studyItem.style.transform = 'translateX(-20px)'
+      
+      setTimeout(() => {
+        studyItem.remove()
+        this.studyCount--
+        this.updateAddButton()
+      }, 300)
     }
   }
 }
