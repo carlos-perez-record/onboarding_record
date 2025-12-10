@@ -227,7 +227,7 @@
                   <span class="mr-3 text-gray-700"><%= lang %></span>
                   <button type="button" 
                           data-action="click->languages#removeLanguage" 
-                          class="btn btn-danger btn-sm">
+                          class="btn btn-danger py-1 px-3 text-sm">
                     Eliminar
                   </button>
                 </div>
@@ -242,7 +242,7 @@
               <button type="button" 
                       data-action="click->languages#addLanguage"
                       aria-label="Agregar idioma a la lista"
-                      class="btn btn-primary btn-md">
+                      class="btn btn-primary py-2 px-4">
                 Agregar Idioma
               </button>
             </div>
@@ -286,7 +286,7 @@
                   data-action="click->studies#addStudy" 
                   aria-label="Agregar nuevo estudio académico"
                   aria-describedby="studies_hint"
-                  class="btn btn-primary btn-md opacity-50 cursor-not-allowed disabled:opacity-50" 
+                  class="btn btn-primary py-2 px-4 opacity-50 cursor-not-allowed disabled:opacity-50" 
                   title="Pulse para agregar un estudio realizado"
                   disabled>
             + Agregar Estudio
@@ -306,7 +306,7 @@
                 <%= study_form.check_box :_destroy, style: "display: none;" %>
                 <button type="button" 
                         data-action="click->studies#removeStudy" 
-                        class="btn btn-danger btn-sm">
+                        class="btn btn-danger py-1 px-3 text-sm">
                   Eliminar
                 </button>
               </div>
@@ -345,8 +345,8 @@
     <!-- Botones de acción -->
     <div class="flex gap-4 mt-8">
       <% submit_text = curriculum.new_record? ? "Registrar Currículum" : "Actualizar Currículum" %>
-      <button type="submit" class="btn btn-success flex-1"><%= submit_text %></button>
-      <%= link_to "Cancelar", root_path, class: "btn btn-secondary flex-1 text-center" %>
+      <button type="submit" class="btn btn-success py-2 px-4 flex-1"><%= submit_text %></button>
+      <%= link_to "Cancelar", root_path, class: "btn btn-secondary py-2 px-4 flex-1 text-center" %>
     </div>
   <% end %>
 </div>

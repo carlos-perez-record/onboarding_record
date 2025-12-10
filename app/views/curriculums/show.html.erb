@@ -1,20 +1,20 @@
-<div class="max-w-5xl mx-auto px-3 sm:px-6">
-  <div class="card mb-4 sm:mb-6">
-    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+<div class="max-w-5xl mx-auto px-4 md:px-0">
+  <div class="card mb-6">
+    <div class="flex flex-wrap justify-between items-center gap-2">
       <h2 class="heading-2">📄 Mi Currículum</h2>
-      <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
-        <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning btn-sm sm:btn-md text-center", "aria-label": "Editar mi currículum" %>
-        <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary btn-sm sm:btn-md text-center", "aria-label": "Volver a la página de inicio" %>
+      <div class="flex flex-wrap gap-2 md:gap-3">
+        <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning", "aria-label": "Editar mi currículum" %>
+        <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary", "aria-label": "Volver a la página de inicio" %>
       </div>
     </div>
   </div>
 
   <!-- Sección: Datos Personales -->
-  <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
-    <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-3">Datos Personales</h3>
+  <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 mb-6">
+    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Datos Personales</h3>
 
     <!-- Foto y Nombres -->
-    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4 sm:mb-6">
+    <div class="flex flex-wrap gap-4 md:gap-6 mb-6">
       <% if @curriculum.photo.attached? %>
         <div class="flex-shrink-0 mx-auto sm:mx-0">
           <img src="<%= url_for(@curriculum.photo) %>" alt="Foto de perfil" class="w-32 h-32 rounded-lg object-cover border-2 border-gray-300">

@@ -10,18 +10,18 @@
       <% if current_user.aspirante? %>
         <% curriculum = current_user.curriculum %>
         <% if curriculum&.persisted? %>
-          <%= link_to "Ver mi currículum", curriculum_path(curriculum), class: "btn btn-success mt-4", "aria-label": "Ver mi currículum registrado" %>
+          <%= link_to "Ver mi currículum", curriculum_path(curriculum), class: "btn btn-success py-2 px-4 mt-4", "aria-label": "Ver mi currículum registrado" %>
         <% else %>
           <div class="mt-6 bg-white p-6 rounded-lg text-left">
             <h4 class="heading-4 mb-4">📋 Aún no has registrado tu currículum</h4>
             <p class="text-body mb-4">Para poder aplicar a ofertas laborales, necesitas completar tu información profesional.</p>
-            <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "btn btn-success btn-lg", "aria-label": "Crear mi currículum profesional" %>
+            <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "btn btn-success py-3 px-6", "aria-label": "Crear mi currículum profesional" %>
           </div>
         <% end %>
       <% elsif current_user.reclutador? %>
-        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success mt-4", "aria-label": "Acceder al panel de reclutamiento" %>
+        <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success py-2 px-4 mt-4", "aria-label": "Acceder al panel de reclutamiento" %>
       <% elsif current_user.admin? %>
-        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success mt-4", "aria-label": "Acceder al panel de administración" %>
+        <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success py-2 px-4 mt-4", "aria-label": "Acceder al panel de administración" %>
       <% end %>
     </div>
     
@@ -34,28 +34,28 @@
         <div class="card max-w-2xl mx-auto text-center">
           <h4 class="heading-4 mb-2">Gestión de Aspirantes</h4>
           <p class="text-body mb-6">Administra los aspirantes registrados en el sistema.</p>
-          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-primary", "aria-label": "Ir al panel de reclutamiento de aspirantes" %>
+          <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-primary py-2 px-4", "aria-label": "Ir al panel de reclutamiento de aspirantes" %>
         </div>
       <% elsif current_user.admin? %>
         <div class="card max-w-2xl mx-auto text-center">
           <h4 class="heading-4 mb-2">Gestión de Usuarios</h4>
           <p class="text-body mb-6">Administra todas las cuentas de usuarios del sistema.</p>
-          <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-danger", "aria-label": "Ir al panel de administración de usuarios" %>
+          <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-danger py-2 px-4", "aria-label": "Ir al panel de administración de usuarios" %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
-      <div class="card border-2 border-green-600">
-        <h3 class="heading-4 mb-4">🚀 ¿Eres nuevo?</h3>
-        <p class="text-body mb-6">Únete ahora y accede a todas las funcionalidades del sistema.</p>
-        <%= link_to "Comienza ahora", new_user_registration_path, class: "btn btn-success btn-lg", "aria-label": "Crear una nueva cuenta de usuario" %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto mb-12">
+      <div class="card border-2 border-green-600 p-6 sm:p-8">
+        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">🚀 ¿Eres nuevo?</h3>
+        <p class="text-sm sm:text-base mb-4 sm:mb-6">Únete ahora y accede a todas las funcionalidades del sistema.</p>
+        <%= link_to "Comienza ahora", new_user_registration_path, class: "btn btn-success w-full py-3 px-6 text-base sm:text-lg", "aria-label": "Crear una nueva cuenta de usuario" %>
       </div>
 
-      <div class="card">
-        <h3 class="heading-4 mb-4">¿Ya tienes cuenta?</h3>
-        <p class="text-body mb-6">Inicia sesión con tu correo electrónico y contraseña.</p>
-        <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary", "aria-label": "Iniciar sesión con tu cuenta existente" %>
+      <div class="card p-6 sm:p-8">
+        <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">¿Ya tienes cuenta?</h3>
+        <p class="text-sm sm:text-base mb-4 sm:mb-6">Inicia sesión con tu correo electrónico y contraseña.</p>
+        <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary w-full py-3 px-6 text-base sm:text-lg", "aria-label": "Iniciar sesión con tu cuenta existente" %>
       </div>
     </div>
 
