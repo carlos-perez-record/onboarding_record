@@ -26,31 +26,26 @@ export default class extends Controller {
       // Si se confirma, proceder con la acción
       const link = event.currentTarget
       
-      // Si es un link con data-method="delete", enviar el formulario de eliminación
-      if (link.dataset.method === 'delete') {
-        const form = document.createElement('form')
-        form.method = 'POST'
-        form.action = link.href
-        
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content
-        const csrfInput = document.createElement('input')
-        csrfInput.type = 'hidden'
-        csrfInput.name = 'authenticity_token'
-        csrfInput.value = csrfToken
-        
-        const methodInput = document.createElement('input')
-        methodInput.type = 'hidden'
-        methodInput.name = '_method'
-        methodInput.value = 'delete'
-        
-        form.appendChild(csrfInput)
-        form.appendChild(methodInput)
-        document.body.appendChild(form)
-        form.submit()
-      } else {
-        // Para otros casos, navegar normalmente
-        window.location.href = link.href
-      }
+      // Crear y enviar formulario de eliminación
+      const form = document.createElement('form')
+      form.method = 'POST'
+      form.action = link.href
+      
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+      const csrfInput = document.createElement('input')
+      csrfInput.type = 'hidden'
+      csrfInput.name = 'authenticity_token'
+      csrfInput.value = csrfToken
+      
+      const methodInput = document.createElement('input')
+      methodInput.type = 'hidden'
+      methodInput.name = '_method'
+      methodInput.value = 'delete'
+      
+      form.appendChild(csrfInput)
+      form.appendChild(methodInput)
+      document.body.appendChild(form)
+      form.submit()
     }
   }
 }
