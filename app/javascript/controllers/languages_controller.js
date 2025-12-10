@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import ToastController from "./toast_controller"
+import ToastController from "controllers/toast_controller"
 
 // Conecta este controlador a un elemento usando data-controller="languages"
 export default class extends Controller {

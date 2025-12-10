@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import ToastController from "./toast_controller"
+import ToastController from "controllers/toast_controller"
 
 // Controlador para mostrar feedback visual después de acciones exitosas
 // Se activa automáticamente con eventos de Turbo

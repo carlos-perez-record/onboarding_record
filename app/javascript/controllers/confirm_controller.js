@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import ModalController from "./modal_controller"
+import ModalController from "controllers/modal_controller"
 
 // Controlador para manejar confirmaciones de eliminación con modal personalizado
 export default class extends Controller {
