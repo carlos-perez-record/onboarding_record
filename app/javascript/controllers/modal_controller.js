@@ -6,16 +6,36 @@ export default class extends Controller {
   static targets = ["backdrop", "dialog", "title", "message", "confirmButton", "cancelButton"]
   
   connect() {
-    // Escuchar eventos de confirmación globales
-    window.addEventListener('modal:confirm', this.show.bind(this))
+    // Marcar esta instancia como la activa
+    if (window.activeModalController) {
+      // Si ya existe otra instancia, desconectarla
+      window.activeModalController.forceDisconnect()
+    }
+    window.activeModalController = this
+    
+    // Guardar referencia al handler para poder removerlo
+    this.boundShow = this.show.bind(this)
+    window.addEventListener('modal:confirm', this.boundShow)
   }
 
   disconnect() {
-    window.removeEventListener('modal:confirm', this.show.bind(this))
+    this.forceDisconnect()
+  }
+
+  forceDisconnect() {
+    if (this.boundShow) {
+      window.removeEventListener('modal:confirm', this.boundShow)
+    }
+    if (window.activeModalController === this) {
+      window.activeModalController = null
+    }
   }
 
   // Mostrar modal de confirmación
   show(event) {
+    // Ocultar cualquier modal visible previo
+    this.hideAllModals()
+    
     const { 
       title = '¿Estás seguro?',
       message = 'Esta acción no se puede deshacer',
@@ -59,6 +79,19 @@ export default class extends Controller {
       this.backdropTarget.classList.add('hidden')
       document.body.style.overflow = ''
     }, 300)
+  }
+
+  // Ocultar todos los modales visibles en la página
+  hideAllModals() {
+    // Buscar todos los backdrops y ocultarlos
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.classList.remove('modal-backdrop-show')
+      backdrop.classList.add('hidden')
+    })
+    document.querySelectorAll('.modal-dialog').forEach(dialog => {
+      dialog.classList.remove('modal-dialog-show')
+    })
+    document.body.style.overflow = ''
   }
 
   confirm() {

@@ -5,14 +5,35 @@ import ToastController from "controllers/toast_controller"
 // Se activa automáticamente con eventos de Turbo
 export default class extends Controller {
   connect() {
+    // Marcar esta instancia como la activa
+    if (window.activeFeedbackController) {
+      window.activeFeedbackController.forceDisconnect()
+    }
+    window.activeFeedbackController = this
+    
+    // Guardar referencias bound para poder removerlas correctamente
+    this.boundHandleSubmitEnd = this.handleSubmitEnd.bind(this)
+    this.boundHandleFrameLoad = this.handleFrameLoad.bind(this)
+    
     // Escuchar eventos de Turbo para mostrar feedback
-    document.addEventListener('turbo:submit-end', this.handleSubmitEnd.bind(this))
-    document.addEventListener('turbo:frame-load', this.handleFrameLoad.bind(this))
+    document.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
+    document.addEventListener('turbo:frame-load', this.boundHandleFrameLoad)
   }
 
   disconnect() {
-    document.removeEventListener('turbo:submit-end', this.handleSubmitEnd.bind(this))
-    document.removeEventListener('turbo:frame-load', this.handleFrameLoad.bind(this))
+    this.forceDisconnect()
+  }
+
+  forceDisconnect() {
+    if (this.boundHandleSubmitEnd) {
+      document.removeEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
+    }
+    if (this.boundHandleFrameLoad) {
+      document.removeEventListener('turbo:frame-load', this.boundHandleFrameLoad)
+    }
+    if (window.activeFeedbackController === this) {
+      window.activeFeedbackController = null
+    }
   }
 
   handleSubmitEnd(event) {

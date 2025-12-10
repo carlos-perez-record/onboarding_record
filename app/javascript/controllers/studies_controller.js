@@ -9,8 +9,11 @@ export default class extends Controller {
   }
 
   connect() {
-    this.updateAddButton()
+    // Contar estudios existentes después de que el DOM esté listo
     this.studyCount = this.containerTarget.querySelectorAll('.study-item').length
+    
+    // Actualizar estado del botón después de contar
+    this.updateAddButton()
   }
 
   educationLevelChanged() {
@@ -20,6 +23,9 @@ export default class extends Controller {
   updateAddButton() {
     const level = this.educationLevelTarget.value
     if (!this.hasButtonTarget) return
+    
+    // Recalcular el conteo de estudios actuales
+    this.studyCount = this.containerTarget.querySelectorAll('.study-item').length
     
     const shouldEnable = level && level !== 'ninguno' && this.studyCount < this.maxStudiesValue
     

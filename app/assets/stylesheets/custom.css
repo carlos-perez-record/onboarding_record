@@ -1526,15 +1526,17 @@ legend {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10000;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 24px;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .modal-backdrop-show {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* Dialog del modal */
@@ -1542,15 +1544,16 @@ legend {
   background: white;
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  max-width: 500px;
-  width: 100%;
-  transform: scale(0.95);
+  max-width: 400px;
+  width: auto;
+  min-width: 320px;
+  transform: scale(0.95) translateY(20px);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-dialog-show {
-  transform: scale(1);
+  transform: scale(1) translateY(0);
   opacity: 1;
 }
 

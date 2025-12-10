@@ -6,12 +6,28 @@ export default class extends Controller {
   static targets = ["container"]
   
   connect() {
-    // Escuchar eventos toast globales
-    window.addEventListener('toast:show', this.show.bind(this))
+    // Marcar esta instancia como la activa
+    if (window.activeToastController) {
+      window.activeToastController.forceDisconnect()
+    }
+    window.activeToastController = this
+    
+    // Guardar referencia bound del handler
+    this.boundShow = this.show.bind(this)
+    window.addEventListener('toast:show', this.boundShow)
   }
 
   disconnect() {
-    window.removeEventListener('toast:show', this.show.bind(this))
+    this.forceDisconnect()
+  }
+
+  forceDisconnect() {
+    if (this.boundShow) {
+      window.removeEventListener('toast:show', this.boundShow)
+    }
+    if (window.activeToastController === this) {
+      window.activeToastController = null
+    }
   }
 
   // Mostrar toast notification
