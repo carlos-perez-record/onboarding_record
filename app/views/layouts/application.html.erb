@@ -26,19 +26,19 @@
 
   <body class="bg-gray-50">
     <nav class="navbar" aria-label="Navegación principal">
-      <div class="max-w-full px-6">
-        <div class="flex justify-between items-center py-3">
-          <h1 class="text-xl font-bold m-0" style="color: #333;">
+      <div class="max-w-full px-3 sm:px-6">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 gap-3">
+          <h1 class="text-lg sm:text-xl font-bold m-0" style="color: #333;">
             <%= link_to "Registro de Incorporación", root_path, class: "no-underline", style: "color: #333;", "aria-label": "Ir a la página de inicio" %>
           </h1>
 
-          <div class="flex items-center gap-3">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
             <% if user_signed_in? %>
-              <span class="font-semibold mr-2" style="color: #333;">Hola, <%= current_user.email %></span>
-              <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger", "aria-label": "Cerrar sesión de usuario" %>
+              <span class="font-semibold text-sm sm:text-base text-center sm:text-left sm:mr-2" style="color: #333;">Hola, <%= current_user.email %></span>
+              <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block; width: 100%;" }, params: {}, class: "btn btn-danger btn-sm sm:btn-md w-full sm:w-auto", "aria-label": "Cerrar sesión de usuario" %>
             <% else %>
-              <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary", "aria-label": "Crear una nueva cuenta" %>
-              <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success", "aria-label": "Iniciar sesión en el sistema" %>
+              <%= link_to "Crear cuenta", new_user_registration_path, class: "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto text-center", "aria-label": "Crear una nueva cuenta" %>
+              <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-success btn-sm sm:btn-md w-full sm:w-auto text-center", "aria-label": "Iniciar sesión en el sistema" %>
             <% end %>
           </div>
         </div>
@@ -46,9 +46,9 @@
     </nav>
 
     <div class="flex">
-      <!-- Sidebar Menu (visible only when signed in) -->
+      <!-- Sidebar Menu (visible only when signed in and on md+ screens) -->
       <% if user_signed_in? %>
-        <aside class="sidebar" role="navigation" aria-label="Menú lateral de navegación">
+        <aside class="sidebar hidden md:block" role="navigation" aria-label="Menú lateral de navegación">
           <nav class="px-4" aria-label="Enlaces de navegación">
             <div class="mb-6">
               <p class="sidebar-title">Menú</p>
@@ -96,15 +96,15 @@
         </aside>
       <% end %>
 
-      <div class="flex-1 p-0">
+      <div class="flex-1 p-3 sm:p-6">
         <% if notice %>
-          <div role="status" aria-live="polite" class="bg-green-100 border border-green-300 p-4 mb-6 rounded">
+          <div role="status" aria-live="polite" class="bg-green-100 border border-green-300 p-3 sm:p-4 mb-4 sm:mb-6 rounded text-sm sm:text-base">
             <strong class="text-green-800"><%= notice %></strong>
           </div>
         <% end %>
 
         <% if alert %>
-          <div role="alert" aria-live="assertive" class="bg-red-100 border border-red-300 p-4 mb-6 rounded">
+          <div role="alert" aria-live="assertive" class="bg-red-100 border border-red-300 p-3 sm:p-4 mb-4 sm:mb-6 rounded text-sm sm:text-base">
             <strong class="text-red-800"><%= alert %></strong>
           </div>
         <% end %>
