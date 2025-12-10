@@ -1,17 +1,17 @@
 // Import and register all your controllers from the importmap via controllers/**/*_controller
 import { application } from "controllers/application"
 
-// Import controllers
-import HelloController from "./hello_controller"
-import LocationController from "./location_controller"
-import StudiesController from "./studies_controller"
-import LanguagesController from "./languages_controller"
-import ConfirmController from "./confirm_controller"
-import FeedbackController from "./feedback_controller"
-import FormLoadingController from "./form_loading_controller"
-import ModalController from "./modal_controller"
-import ToastController from "./toast_controller"
-import ValidationController from "./validation_controller"
+// Import controllers with full importmap paths
+import HelloController from "controllers/hello_controller"
+import LocationController from "controllers/location_controller"
+import StudiesController from "controllers/studies_controller"
+import LanguagesController from "controllers/languages_controller"
+import ConfirmController from "controllers/confirm_controller"
+import FeedbackController from "controllers/feedback_controller"
+import FormLoadingController from "controllers/form_loading_controller"
+import ModalController from "controllers/modal_controller"
+import ToastController from "controllers/toast_controller"
+import ValidationController from "controllers/validation_controller"
 
 // Register controllers
 application.register("hello", HelloController)
