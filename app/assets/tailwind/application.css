@@ -57,8 +57,10 @@
     color: inherit;
   }
   
-  a:focus {
-    outline: none;
+  a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
@@ -114,7 +116,12 @@
   
   .btn:focus {
     text-decoration: none !important;
-    outline: none;
+  }
+  
+  .btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
   }
   
   .btn:disabled {
@@ -174,17 +181,17 @@
   .btn-warning {
     background-color: var(--color-warning);
     @apply text-gray-800;
-    color: #333 !important;
+    color: #1a1a1a !important;
   }
   
   .btn-warning:hover {
     background-color: var(--color-warning-dark);
-    color: #333 !important;
+    color: #1a1a1a !important;
     text-decoration: none !important;
   }
   
   .btn-warning:visited {
-    color: #333 !important;
+    color: #1a1a1a !important;
   }
   
   .btn-secondary {
@@ -254,6 +261,11 @@
     color: #333 !important;
   }
   
+  .sidebar-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+  
   .sidebar-link-admin {
     background-color: var(--color-admin-bg);
     color: var(--color-admin-text);
@@ -272,6 +284,11 @@
     color: #0c5460 !important;
   }
   
+  .sidebar-link-admin:focus-visible {
+    outline: 2px solid var(--color-admin-text);
+    outline-offset: -2px;
+  }
+  
   .sidebar-link-recruiter {
     background-color: var(--color-recruiter-bg);
     color: var(--color-recruiter-text);
@@ -288,6 +305,11 @@
   
   .sidebar-link-recruiter:visited {
     color: #522b5d !important;
+  }
+  
+  .sidebar-link-recruiter:focus-visible {
+    outline: 2px solid var(--color-recruiter-text);
+    outline-offset: -2px;
   }
   
   /* Contenedores */
@@ -309,7 +331,13 @@
   }
   
   .form-input:focus {
-    box-shadow: 0 0 0 2px var(--color-primary-light);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+  }
+  
+  .form-input:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 0;
   }
   
   /* Links */

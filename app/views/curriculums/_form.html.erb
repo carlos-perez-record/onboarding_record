@@ -6,8 +6,10 @@
   </div>
 
   <% if curriculum.errors.any? %>
-    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
-      <h3 class="text-lg font-semibold text-red-800 mb-2">Errores encontrados:</h3>
+    <div role="alert" aria-live="assertive" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+      <h3 class="text-lg font-semibold text-red-800 mb-2">
+        <span aria-label="Errores de validación">⚠️</span> Errores encontrados:
+      </h3>
       <ul class="list-disc list-inside space-y-1 text-red-700">
           <% curriculum.errors.full_messages.each do |message| %>
             <li><%= message %></li>
@@ -34,26 +36,53 @@
 
       <!-- Nombre -->
       <div class="mb-4">
-        <%= form.label :first_name, "Nombre(s)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :first_name, placeholder: "Ej: Juan", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :first_name do %>
+          Nombre(s) <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.text_field :first_name, 
+            placeholder: "Ej: Juan",
+            required: true,
+            aria: { required: "true", describedby: "first_name_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="first_name_hint" class="text-sm text-gray-600">Mínimo 2 caracteres</small>
       </div>
 
       <!-- Apellido -->
       <div class="mb-4">
-        <%= form.label :last_name, "Apellidos", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :last_name, placeholder: "Ej: Pérez García", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :last_name do %>
+          Apellidos <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.text_field :last_name, 
+            placeholder: "Ej: Pérez García",
+            required: true,
+            aria: { required: "true", describedby: "last_name_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="last_name_hint" class="text-sm text-gray-600">Mínimo 2 caracteres</small>
       </div>
 
       <!-- Fecha de Nacimiento -->
       <div class="mb-4">
-        <%= form.label :birth_date, "Fecha de Nacimiento (debes ser mayor de 18 años)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.date_field :birth_date, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :birth_date do %>
+          Fecha de Nacimiento <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.date_field :birth_date,
+            required: true,
+            aria: { required: "true", describedby: "birth_date_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="birth_date_hint" class="text-sm text-gray-600">Debes ser mayor de 18 años</small>
       </div>
 
       <!-- Identificación -->
       <div class="mb-4">
-        <%= form.label :identification, "Número de Identificación", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :identification, placeholder: "Ej: 1234567890", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :identification do %>
+          Número de Identificación <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.text_field :identification, 
+            placeholder: "Ej: 1234567890",
+            required: true,
+            aria: { required: "true", describedby: "identification_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="identification_hint" class="text-sm text-gray-600">Único en el sistema</small>
       </div>
 
       <!-- Teléfono -->
@@ -131,8 +160,12 @@
       <!-- Perfil/Descripción Personal -->
       <div class="mb-4">
         <%= form.label :profile_description, "Perfil o Descripción Personal", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_area :profile_description, placeholder: "Describe tu perfil profesional...", rows: 5, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-        <small class="text-sm text-gray-500">Máximo 2000 caracteres</small>
+        <%= form.text_area :profile_description, 
+            placeholder: "Describe tu perfil profesional...", 
+            rows: 5,
+            aria: { describedby: "profile_description_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="profile_description_hint" class="text-sm text-gray-600">Máximo 2000 caracteres</small>
       </div>
 
       <!-- Disponibilidad para Viajar -->
@@ -182,8 +215,12 @@
             </label>
           </div>
           <div class="mt-4">
-            <p class="text-sm font-medium text-gray-700 mb-2">Otros idiomas:</p>
-            <div data-languages-target="container" class="space-y-2">
+            <p class="text-sm font-medium text-gray-700 mb-2">Otros idiomas <span class="text-gray-500">(opcional)</span>:</p>
+            <div data-languages-target="container" 
+                 role="list"
+                 aria-live="polite"
+                 aria-label="Idiomas adicionales agregados"
+                 class="space-y-2">
               <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
                 <div class="flex items-center">
                   <input type="hidden" name="curriculum[languages][]" value="<%= lang %>">
@@ -200,9 +237,11 @@
               <input type="text" 
                      data-languages-target="input" 
                      placeholder="Ej: Portugués, Francés, etc." 
+                     aria-label="Agregar idioma adicional"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
               <button type="button" 
                       data-action="click->languages#addLanguage"
+                      aria-label="Agregar idioma a la lista"
                       class="btn btn-primary btn-md">
                 Agregar Idioma
               </button>
@@ -219,7 +258,9 @@
         <!-- Nivel de Estudios (fuera del panel) -->
         <div class="flex items-end gap-3 mb-4">
           <div class="flex-1">
-            <%= form.label :education_level, "Nivel de Estudios", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.label :education_level do %>
+              Nivel de Estudios <span class="text-red-500" aria-label="requerido">*</span>
+            <% end %>
             <%= form.select :education_level, 
               [
                 ['Ninguno', 'ninguno'], 
@@ -232,22 +273,32 @@
               ], 
               { prompt: 'Escoja el nivel de estudios' }, 
               { 
+                required: true,
+                aria: { required: "true", describedby: "education_level_hint" },
                 class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
                 data: { studies_target: "educationLevel", action: "change->studies#educationLevelChanged" }
               } 
             %>
+            <small id="education_level_hint" class="text-sm text-gray-600">Selecciona tu nivel más alto alcanzado</small>
           </div>
           <button type="button" 
                   data-studies-target="button"
                   data-action="click->studies#addStudy" 
+                  aria-label="Agregar nuevo estudio académico"
+                  aria-describedby="studies_hint"
                   class="btn btn-primary btn-md opacity-50 cursor-not-allowed disabled:opacity-50" 
                   title="Pulse para agregar un estudio realizado"
                   disabled>
             + Agregar Estudio
           </button>
         </div>
+        <small id="studies_hint" class="text-sm text-gray-600 block mb-3">Agrega los estudios académicos que hayas completado o estés cursando</small>
         
-        <div data-studies-target="container" class="space-y-4">
+        <div data-studies-target="container" 
+             role="list"
+             aria-live="polite"
+             aria-label="Estudios académicos registrados"
+             class="space-y-4">
           <%= form.fields_for :studies do |study_form| %>
             <div class="border border-gray-300 rounded-lg p-4 bg-gray-50">
               <div class="flex justify-between items-center mb-4">

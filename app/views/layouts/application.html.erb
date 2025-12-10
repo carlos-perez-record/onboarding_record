@@ -25,7 +25,7 @@
   </head>
 
   <body class="bg-gray-50">
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Navegación principal">
       <div class="max-w-full px-6">
         <div class="flex justify-between items-center py-3">
           <h1 class="text-xl font-bold m-0" style="color: #333;">
@@ -48,8 +48,8 @@
     <div class="flex">
       <!-- Sidebar Menu (visible only when signed in) -->
       <% if user_signed_in? %>
-        <aside class="sidebar">
-          <nav class="px-4">
+        <aside class="sidebar" role="navigation" aria-label="Menú lateral de navegación">
+          <nav class="px-4" aria-label="Enlaces de navegación">
             <div class="mb-6">
               <p class="sidebar-title">Menú</p>
               <ul class="list-none p-0 m-0 space-y-2">
@@ -98,18 +98,20 @@
 
       <div class="flex-1 p-0">
         <% if notice %>
-          <div class="bg-green-100 border border-green-300 p-4 mb-6 rounded">
+          <div role="status" aria-live="polite" class="bg-green-100 border border-green-300 p-4 mb-6 rounded">
             <strong class="text-green-800"><%= notice %></strong>
           </div>
         <% end %>
 
         <% if alert %>
-          <div class="bg-red-100 border border-red-300 p-4 mb-6 rounded">
+          <div role="alert" aria-live="assertive" class="bg-red-100 border border-red-300 p-4 mb-6 rounded">
             <strong class="text-red-800"><%= alert %></strong>
           </div>
         <% end %>
 
-        <%= yield %>
+        <main id="main-content" role="main">
+          <%= yield %>
+        </main>
       </div>
     </div>
   </body>
