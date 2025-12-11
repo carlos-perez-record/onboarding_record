@@ -5,7 +5,7 @@ class User < ApplicationRecord
   enum :role, { admin: 0, aspirante: 1, reclutador: 2 }
 
   # Associations
-  has_one :curriculum, dependent: :destroy, touch: true
+  has_one :curriculum, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
