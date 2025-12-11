@@ -14,6 +14,10 @@ export default class extends Controller {
     event.preventDefault()
     event.stopPropagation()
 
+    // Guardar referencia al enlace ANTES de abrir el modal
+    const link = event.currentTarget
+    const url = link.href
+
     const confirmed = await ModalController.confirm({
       title: this.titleValue,
       message: this.messageValue,
@@ -23,29 +27,28 @@ export default class extends Controller {
     })
 
     if (confirmed) {
-      // Si se confirma, proceder con la acción
-      const link = event.currentTarget
-      
-      // Crear y enviar formulario de eliminación
-      const form = document.createElement('form')
-      form.method = 'POST'
-      form.action = link.href
-      
+      // Usar fetch con Turbo Stream para DELETE
       const csrfToken = document.querySelector('meta[name="csrf-token"]').content
-      const csrfInput = document.createElement('input')
-      csrfInput.type = 'hidden'
-      csrfInput.name = 'authenticity_token'
-      csrfInput.value = csrfToken
-      
-      const methodInput = document.createElement('input')
-      methodInput.type = 'hidden'
-      methodInput.name = '_method'
-      methodInput.value = 'delete'
-      
-      form.appendChild(csrfInput)
-      form.appendChild(methodInput)
-      document.body.appendChild(form)
-      form.submit()
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-Token': csrfToken,
+            'Accept': 'text/vnd.turbo-stream.html'
+          },
+          credentials: 'same-origin'
+        })
+
+        if (response.ok) {
+          const turboStream = await response.text()
+          Turbo.renderStreamMessage(turboStream)
+        } else {
+          console.error('Error al eliminar:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error en la petición de eliminación:', error)
+      }
     }
   }
 }

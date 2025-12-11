@@ -2,8 +2,8 @@ es:
   devise:
     sessions:
       signed_in: "Has iniciado sesión correctamente."
-      signed_out: "Has cerrado sesión correctamente."
-      already_signed_out: "Has cerrado sesión correctamente."
+      signed_out: "Cierre de sesión exitoso."
+      already_signed_out: "Cierre de sesión exitoso."
     registrations:
       signed_up: "¡Bienvenido! Te has registrado correctamente."
     passwords:

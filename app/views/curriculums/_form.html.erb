@@ -19,8 +19,8 @@
   <% end %>
 
   <%= form_with(model: curriculum, local: true) do |form| %>
-    <fieldset>
-      <legend>Datos Personales</legend>
+    <fieldset class="mb-6">
+      <legend class="text-xl font-semibold text-gray-800 mb-4">Datos Personales</legend>
 
       <!-- Foto de Perfil -->
       <div class="mb-4">
@@ -39,7 +39,7 @@
         <%= form.label :first_name do %>
           Nombre(s) <span class="text-red-500" aria-label="requerido">*</span>
         <% end %>
-        <%= form.text_field :first_name, 
+        <%= form.text_field :first_name,
             placeholder: "Ej: Juan",
             required: true,
             aria: { required: "true", describedby: "first_name_hint" },
@@ -52,7 +52,7 @@
         <%= form.label :last_name do %>
           Apellidos <span class="text-red-500" aria-label="requerido">*</span>
         <% end %>
-        <%= form.text_field :last_name, 
+        <%= form.text_field :last_name,
             placeholder: "Ej: Pérez García",
             required: true,
             aria: { required: "true", describedby: "last_name_hint" },
@@ -77,7 +77,7 @@
         <%= form.label :identification do %>
           Número de Identificación <span class="text-red-500" aria-label="requerido">*</span>
         <% end %>
-        <%= form.text_field :identification, 
+        <%= form.text_field :identification,
             placeholder: "Ej: 1234567890",
             required: true,
             aria: { required: "true", describedby: "identification_hint" },
@@ -87,25 +87,36 @@
 
       <!-- Teléfono -->
       <div class="mb-4">
-        <%= form.label :phone_number, "Teléfono", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :phone_number, placeholder: "Ej: +57 300 1234567", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :phone_number do %>
+          Teléfono <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.text_field :phone_number,
+            placeholder: "Ej: +57 300 1234567",
+            required: true,
+            aria: { required: "true", describedby: "phone_number_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="phone_number_hint" class="text-sm text-gray-600">Formato: +57 300 1234567</small>
       </div>
 
       <!-- Dirección -->
       <div class="mb-4">
         <%= form.label :address, "Dirección de Residencia", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :address, placeholder: "Ej: Carrera 5", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.text_field :address,
+            placeholder: "Ej: Carrera 5 #10-20",
+            aria: { describedby: "address_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="address_hint" class="text-sm text-gray-600">Dirección completa de residencia</small>
       </div>
 
       <!-- Ubicación con Stimulus -->
-      <div data-controller="location" 
+      <div data-controller="location"
            data-location-initial-department-value="<%= curriculum.department %>"
            data-location-initial-city-value="<%= curriculum.city %>">
-        
+
         <!-- País -->
         <div class="mb-4">
           <%= form.label :country, "País", class: "block text-sm font-medium text-gray-700 mb-2" %>
-          <%= form.select :country, 
+          <%= form.select :country,
             [
               "Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán",
               "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután",
@@ -133,9 +144,10 @@
               "Zambia", "Zimbabue"
             ],
             { prompt: "Seleccionar país", selected: curriculum.country.present? ? curriculum.country : "Colombia" },
-            { 
+            {
               class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
-              data: { location_target: "country", action: "change->location#countryChanged" }
+              data: { location_target: "country", action: "change->location#countryChanged" },
+              aria: { label: "Seleccionar país de residencia" }
             }
           %>
         </div>
@@ -144,24 +156,32 @@
         <div class="mb-4">
           <%= form.label :department, "Departamento/Región", class: "block text-sm font-medium text-gray-700 mb-2" %>
           <div data-location-target="departmentContainer">
-            <%= form.text_field :department, placeholder: "Ej: Cundinamarca", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            <%= form.text_field :department,
+                placeholder: "Ej: Cundinamarca",
+                aria: { describedby: "department_hint" },
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
           </div>
+          <small id="department_hint" class="text-sm text-gray-600">Departamento o región donde resides</small>
         </div>
 
         <!-- Ciudad -->
         <div class="mb-4">
           <%= form.label :city, "Ciudad", class: "block text-sm font-medium text-gray-700 mb-2" %>
           <div data-location-target="cityContainer">
-            <%= form.text_field :city, placeholder: "Ej: Bogotá", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            <%= form.text_field :city,
+                placeholder: "Ej: Bogotá",
+                aria: { describedby: "city_hint" },
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
           </div>
+          <small id="city_hint" class="text-sm text-gray-600">Ciudad donde resides actualmente</small>
         </div>
       </div>
 
       <!-- Perfil/Descripción Personal -->
       <div class="mb-4">
         <%= form.label :profile_description, "Perfil o Descripción Personal", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_area :profile_description, 
-            placeholder: "Describe tu perfil profesional...", 
+        <%= form.text_area :profile_description,
+            placeholder: "Describe tu perfil profesional...",
             rows: 5,
             aria: { describedby: "profile_description_hint" },
             class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
@@ -169,30 +189,38 @@
       </div>
 
       <!-- Disponibilidad para Viajar -->
-      <div class="mb-4">
-        <%= form.label :available_to_travel, "¿Disponibilidad para Viajar?", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <div class="mb-4" role="group" aria-labelledby="travel_label">
+        <p id="travel_label" class="block text-sm font-medium text-gray-700 mb-2">¿Disponibilidad para Viajar?</p>
         <div class="flex items-center space-x-4">
           <label class="inline-flex items-center">
-            <%= form.radio_button :available_to_travel, true, class: "mr-2" %>
+            <%= form.radio_button :available_to_travel, true,
+                aria: { label: "Sí, disponible para viajar" },
+                class: "mr-2" %>
             <span>Sí</span>
           </label>
           <label class="inline-flex items-center">
-            <%= form.radio_button :available_to_travel, false, class: "mr-2" %>
+            <%= form.radio_button :available_to_travel, false,
+                aria: { label: "No disponible para viajar" },
+                class: "mr-2" %>
             <span>No</span>
           </label>
         </div>
       </div>
 
       <!-- Disponibilidad para Cambio de Residencia -->
-      <div class="mb-4">
-        <%= form.label :available_to_relocate, "¿Disponibilidad para Cambio de Residencia?", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <div class="mb-4" role="group" aria-labelledby="relocate_label">
+        <p id="relocate_label" class="block text-sm font-medium text-gray-700 mb-2">¿Disponibilidad para Cambio de Residencia?</p>
         <div class="flex items-center space-x-4">
           <label class="inline-flex items-center">
-            <%= form.radio_button :available_to_relocate, true, class: "mr-2" %>
+            <%= form.radio_button :available_to_relocate, true,
+                aria: { label: "Sí, disponible para cambio de residencia" },
+                class: "mr-2" %>
             <span>Sí</span>
           </label>
           <label class="inline-flex items-center">
-            <%= form.radio_button :available_to_relocate, false, class: "mr-2" %>
+            <%= form.radio_button :available_to_relocate, false,
+                aria: { label: "No disponible para cambio de residencia" },
+                class: "mr-2" %>
             <span>No</span>
           </label>
         </div>
@@ -216,17 +244,18 @@
           </div>
           <div class="mt-4">
             <p class="text-sm font-medium text-gray-700 mb-2">Otros idiomas <span class="text-gray-500">(opcional)</span>:</p>
-            <div data-languages-target="container" 
+            <div data-languages-target="container"
                  role="list"
                  aria-live="polite"
                  aria-label="Idiomas adicionales agregados"
                  class="space-y-2">
               <% (curriculum.languages || []).reject { |lang| ['Español', 'Inglés'].include?(lang) }.each do |lang| %>
-                <div class="flex items-center">
+                <div class="flex items-center mb-2 transition-opacity duration-300" role="listitem">
                   <input type="hidden" name="curriculum[languages][]" value="<%= lang %>">
                   <span class="mr-3 text-gray-700"><%= lang %></span>
-                  <button type="button" 
-                          data-action="click->languages#removeLanguage" 
+                  <button type="button"
+                          data-action="click->languages#removeLanguage"
+                          aria-label="Eliminar idioma <%= lang %>"
                           class="btn btn-danger py-1 px-3 text-sm">
                     Eliminar
                   </button>
@@ -234,12 +263,12 @@
               <% end %>
             </div>
             <div class="flex gap-2 mt-3">
-              <input type="text" 
-                     data-languages-target="input" 
-                     placeholder="Ej: Portugués, Francés, etc." 
+              <input type="text"
+                     data-languages-target="input"
+                     placeholder="Ej: Portugués, Francés, etc."
                      aria-label="Agregar idioma adicional"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <button type="button" 
+              <button type="button"
                       data-action="click->languages#addLanguage"
                       aria-label="Agregar idioma a la lista"
                       class="btn btn-primary py-2 px-4">
@@ -254,47 +283,47 @@
       <!-- Información Académica con Stimulus -->
       <div class="mt-8" data-controller="studies">
         <h3 class="text-xl font-semibold text-gray-800 mb-4">Información Académica</h3>
-        
+
         <!-- Nivel de Estudios (fuera del panel) -->
         <div class="flex items-end gap-3 mb-4">
           <div class="flex-1">
             <%= form.label :education_level do %>
               Nivel de Estudios <span class="text-red-500" aria-label="requerido">*</span>
             <% end %>
-            <%= form.select :education_level, 
+            <%= form.select :education_level,
               [
-                ['Ninguno', 'ninguno'], 
-                ['Primaria', 'primaria'], 
-                ['Secundaria', 'secundaria'], 
-                ['Técnico', 'tecnico'], 
-                ['Tecnólogo', 'tecnologico'], 
-                ['Profesional', 'profesional'], 
+                ['Ninguno', 'ninguno'],
+                ['Primaria', 'primaria'],
+                ['Secundaria', 'secundaria'],
+                ['Técnico', 'tecnico'],
+                ['Tecnólogo', 'tecnologico'],
+                ['Profesional', 'profesional'],
                 ['Posgrado', 'posgrado']
-              ], 
-              { prompt: 'Escoja el nivel de estudios' }, 
-              { 
+              ],
+              { prompt: 'Escoja el nivel de estudios' },
+              {
                 required: true,
                 aria: { required: "true", describedby: "education_level_hint" },
                 class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
                 data: { studies_target: "educationLevel", action: "change->studies#educationLevelChanged" }
-              } 
+              }
             %>
             <small id="education_level_hint" class="text-sm text-gray-600">Selecciona tu nivel más alto alcanzado</small>
           </div>
-          <button type="button" 
+          <button type="button"
                   data-studies-target="button"
-                  data-action="click->studies#addStudy" 
+                  data-action="click->studies#addStudy"
                   aria-label="Agregar nuevo estudio académico"
                   aria-describedby="studies_hint"
-                  class="btn btn-primary py-2 px-4 opacity-50 cursor-not-allowed disabled:opacity-50" 
+                  class="btn btn-primary py-2 px-4 opacity-50 cursor-not-allowed disabled:opacity-50"
                   title="Pulse para agregar un estudio realizado"
                   disabled>
             + Agregar Estudio
           </button>
         </div>
         <small id="studies_hint" class="text-sm text-gray-600 block mb-3">Agrega los estudios académicos que hayas completado o estés cursando</small>
-        
-        <div data-studies-target="container" 
+
+        <div data-studies-target="container"
              role="list"
              aria-live="polite"
              aria-label="Estudios académicos registrados"
@@ -304,8 +333,8 @@
               <div class="flex justify-between items-center mb-4">
                 <h4 class="text-lg font-semibold text-gray-800">Estudio</h4>
                 <%= study_form.check_box :_destroy, style: "display: none;" %>
-                <button type="button" 
-                        data-action="click->studies#removeStudy" 
+                <button type="button"
+                        data-action="click->studies#removeStudy"
                         class="btn btn-danger py-1 px-3 text-sm">
                   Eliminar
                 </button>

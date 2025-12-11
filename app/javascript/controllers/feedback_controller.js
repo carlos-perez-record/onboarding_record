@@ -10,11 +10,11 @@ export default class extends Controller {
       window.activeFeedbackController.forceDisconnect()
     }
     window.activeFeedbackController = this
-    
+
     // Guardar referencias bound para poder removerlas correctamente
     this.boundHandleSubmitEnd = this.handleSubmitEnd.bind(this)
     this.boundHandleFrameLoad = this.handleFrameLoad.bind(this)
-    
+
     // Escuchar eventos de Turbo para mostrar feedback
     document.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
     document.addEventListener('turbo:frame-load', this.boundHandleFrameLoad)
@@ -40,14 +40,16 @@ export default class extends Controller {
     // Solo mostrar toast si fue exitoso (no hay errores)
     if (event.detail.success && event.detail.fetchResponse?.succeeded) {
       const formElement = event.target
-      
+
       // Determinar el tipo de acción por el método o la URL
       const action = formElement.getAttribute('action') || ''
       const method = formElement.querySelector('input[name="_method"]')?.value || formElement.method
-      
+
       let message = ''
-      
-      if (method === 'delete') {
+
+      if (action.includes('sign_out')) {
+        message = 'Cierre de sesión exitoso'
+      } else if (method === 'delete') {
         message = 'Elemento eliminado correctamente'
       } else if (method === 'patch' || method === 'put') {
         message = 'Cambios guardados correctamente'
@@ -58,7 +60,7 @@ export default class extends Controller {
       } else if (method === 'post') {
         message = 'Creado correctamente'
       }
-      
+
       if (message) {
         // Delay para que el usuario vea el resultado
         setTimeout(() => {
@@ -76,7 +78,7 @@ export default class extends Controller {
   handleFrameLoad(event) {
     // Mostrar feedback cuando un frame se carga exitosamente
     const frame = event.target
-    
+
     // Solo mostrar si es una navegación dentro del frame (no carga inicial)
     if (frame.src && !frame.hasAttribute('data-initial-load')) {
       // Pequeño delay para que sea perceptible
@@ -84,7 +86,7 @@ export default class extends Controller {
         ToastController.showInfo('Contenido actualizado', 2000)
       }, 100)
     }
-    
+
     frame.setAttribute('data-initial-load', 'false')
   }
 }

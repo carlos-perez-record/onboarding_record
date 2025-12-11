@@ -35,7 +35,13 @@ class Recruiter::AspirantsController < ApplicationController
   def destroy
     email = @aspirant.email
     @aspirant.destroy
-    redirect_to recruiter_aspirants_path, notice: "Aspirante #{email} eliminado correctamente."
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.remove("user_#{@aspirant.id}")
+      end
+      format.html { redirect_to recruiter_aspirants_path, notice: "Aspirante #{email} eliminado correctamente." }
+    end
   end
 
   private

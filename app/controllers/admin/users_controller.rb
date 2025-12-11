@@ -24,17 +24,33 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
-      redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
+    # Permitir actualización sin cambiar contraseña
+    if user_params[:password].blank?
+      user_params_without_password = user_params.except(:password, :password_confirmation)
+      if @user.update(user_params_without_password)
+        redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
+      else
+        render :edit, status: :unprocessable_entity
+      end
     else
-      render :edit
+      if @user.update(user_params)
+        redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
   end
 
   def destroy
     email = @user.email
     @user.destroy
-    redirect_to admin_users_path, notice: "Usuario #{email} eliminado correctamente."
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.remove("user_#{@user.id}")
+      end
+      format.html { redirect_to admin_users_path, notice: "Usuario #{email} eliminado correctamente." }
+    end
   end
 
   private

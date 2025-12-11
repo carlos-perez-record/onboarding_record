@@ -1,47 +1,61 @@
-<div class="recruiter-container-narrow">
-  <h2 class="recruiter-header">Editar cuenta</h2>
+<%= turbo_frame_tag "admin_users_content" do %>
+  <div class="max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Editar cuenta</h2>
 
-  <%= form_with(model: [@user], local: true, url: admin_user_path(@user), method: :patch) do |form| %>
-    <% if @user.errors.any? %>
-      <div id="error_explanation" class="alert-danger">
-        <h4 class="alert-title"><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
-        <ul class="alert-list">
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
+    <%= form_with(model: @user, url: admin_user_path(@user), method: :patch, local: true) do |form| %>
+      <% if @user.errors.any? %>
+        <div role="alert" aria-live="assertive" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+          <h3 class="text-lg font-semibold text-red-800 mb-2">
+            <%= pluralize(@user.errors.count, "error") %> impidió guardar este usuario:
+          </h3>
+          <ul class="list-disc list-inside space-y-1 text-red-700">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= form.label :email, "Correo Electrónico", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.email_field :email,
+            required: true,
+            aria: { required: "true" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :password, "Nueva contraseña (dejar vacío para no cambiar)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.password_field :password,
+            autocomplete: "new-password",
+            aria: { describedby: "password_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="password_hint" class="text-sm text-gray-600">Mínimo 6 caracteres</small>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :password_confirmation, "Confirmar contraseña", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.password_field :password_confirmation,
+            autocomplete: "new-password",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+
+      <div class="mb-6">
+        <%= form.label :role, "Rol", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.select :role,
+            { "Admin" => "admin", "Aspirante" => "aspirante", "Reclutador" => "reclutador" },
+            {},
+            {
+              required: true,
+              aria: { required: "true", label: "Seleccionar rol del usuario" },
+              class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            } %>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <%= form.submit "Actualizar cuenta", class: "btn btn-success flex-1" %>
+        <%= link_to "Cancelar", admin_users_path, class: "btn btn-secondary flex-1 text-center" %>
       </div>
     <% end %>
-
-    <div class="form-group">
-      <%= form.label :email, "Correo Electrónico", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
-      <%= form.email_field :email, 
-        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :password, "Nueva contraseña (dejar vacío para no cambiar)", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
-      <%= form.password_field :password, autocomplete: "new-password", 
-        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :password_confirmation, "Confirmar contraseña", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
-      <%= form.password_field :password_confirmation, autocomplete: "new-password", 
-        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :role, "Rol", style: "display: block; margin-bottom: 8px; font-weight: bold; color: #333;" %>
-      <%= form.select :role, { "Admin" => "admin", "Aspirante" => "aspirante", "Reclutador" => "reclutador" }, {}, 
-        style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;" %>
-    </div>
-
-    <div class="form-actions">
-      <%= form.submit "Actualizar cuenta", 
-        style: "flex: 1; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;" %>
-      <%= link_to "Cancelar", admin_users_path, 
-        style: "flex: 1; padding: 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-size: 16px; font-weight: bold; text-align: center;" %>
-    </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

@@ -15,7 +15,12 @@ body {
 }
 
 /* Typography Hierarchy */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   color: #333;
@@ -42,12 +47,15 @@ h4 {
   line-height: 1.4;
 }
 
-h5, h6 {
+h5,
+h6 {
   font-size: 18px;
   line-height: 1.5;
 }
 
-p, li, td {
+p,
+li,
+td {
   font-size: 16px;
   line-height: 1.6;
   color: #555;
@@ -62,6 +70,12 @@ a {
 a:hover {
   color: #004494;
   text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-primary, #0056b3);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Container */
@@ -204,7 +218,8 @@ a:hover {
   margin: 0 auto 48px;
 }
 
-.card h3, .card h4 {
+.card h3,
+.card h4 {
   color: #333;
   margin-top: 0;
   margin-bottom: 16px;
@@ -275,6 +290,12 @@ a:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Accesibilidad: Estados de focus visible */
+.btn:focus-visible {
+  outline: 3px solid var(--color-primary, #0056b3);
+  outline-offset: 2px;
+}
+
 /* Azul corporativo - Acción principal */
 .btn-primary {
   background-color: #0056b3;
@@ -318,11 +339,13 @@ a:hover {
 /* Amarillo - Acciones de edición */
 .btn-warning {
   background-color: #ffc107;
-  color: #333;
+  color: #1a1a1a !important;
+  /* WCAG AA contrast ratio 4.5:1 */
 }
 
 .btn-warning:hover {
   background-color: #e0a800;
+  color: #1a1a1a !important;
 }
 
 .btn-sm {
@@ -469,9 +492,14 @@ legend {
 }
 
 .form-control:focus {
-  outline: none;
   border-color: #0056b3;
-  box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+  /* Aumentar opacidad para mejor visibilidad */
+}
+
+.form-control:focus-visible {
+  outline: 3px solid var(--color-primary, #0056b3);
+  outline-offset: 2px;
 }
 
 .form-grid-2 {
@@ -868,6 +896,7 @@ legend {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   /* Responsive Typography */
   h1 {
     font-size: 36px;
@@ -885,7 +914,9 @@ legend {
     font-size: 18px;
   }
 
-  p, li, td {
+  p,
+  li,
+  td {
     font-size: 16px;
   }
 
@@ -1302,6 +1333,7 @@ legend {
 
 /* Responsive for recruiter and auth */
 @media (max-width: 768px) {
+
   .recruiter-container,
   .recruiter-container-narrow,
   .recruiter-container-small {
@@ -1368,10 +1400,10 @@ legend {
    TOAST NOTIFICATIONS SYSTEM
    ======================================== */
 
-/* Container para los toasts (posicionado en la esquina superior derecha) */
+/* Container para los toasts (posicionado en la esquina inferior derecha) */
 .toast-container {
   position: fixed;
-  top: 24px;
+  bottom: 24px;
   right: 24px;
   z-index: 9999;
   display: flex;
@@ -1526,8 +1558,8 @@ legend {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10000;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   padding: 24px;
   opacity: 0;
   pointer-events: none;
@@ -1596,6 +1628,7 @@ legend {
     opacity: 0;
     transform: scale(0.95) translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
