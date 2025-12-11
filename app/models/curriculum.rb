@@ -1,7 +1,7 @@
 class Curriculum < ApplicationRecord
   belongs_to :user
   has_one_attached :photo, dependent: :destroy
-  has_many :studies, dependent: :destroy
+  has_many :studies, dependent: :destroy, touch: true
 
   accepts_nested_attributes_for :studies, allow_destroy: true, reject_if: :all_blank
 

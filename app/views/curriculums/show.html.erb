@@ -1,4 +1,5 @@
 <div class="max-w-5xl mx-auto px-4 md:px-0">
+  <% cache([@curriculum, @curriculum.studies]) do %>
   <div class="card mb-6">
     <div class="flex flex-wrap justify-between items-center gap-2">
       <h2 class="heading-2">📄 Mi Currículum</h2>
@@ -107,14 +108,14 @@
   <!-- Sección: Información Académica -->
   <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
     <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Información Académica</h3>
-    
+
     <% if @curriculum.education_level.present? %>
       <p class="mb-6 bg-gray-50 p-4 rounded-lg">
-        <strong class="text-gray-700">Nivel de Estudios:</strong> 
+        <strong class="text-gray-700">Nivel de Estudios:</strong>
         <span class="text-gray-900 capitalize"><%= @curriculum.education_level.capitalize %></span>
       </p>
     <% end %>
-    
+
     <% if @curriculum.studies.any? %>
       <div class="space-y-4">
         <% @curriculum.studies.order(created_at: :desc).each do |study| %>
@@ -124,17 +125,17 @@
                 <%= study.title %>
               </h4>
             <% end %>
-            
+
             <p class="text-gray-600 mb-2">
               <%= study.institution %>
             </p>
-            
+
             <% if study.start_date.present? || study.end_date.present? %>
               <p class="text-gray-500 text-sm mb-3">
                 <%= study.start_date&.strftime('%m/%Y') || '?' %> - <%= study.end_date&.strftime('%m/%Y') || 'Actualidad' %>
               </p>
             <% end %>
-            
+
             <% if study.status.present? %>
               <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= case study.status
                     when 'cursando' then 'bg-green-100 text-green-800'
@@ -159,4 +160,5 @@
       <strong class="text-gray-700">Actualizado:</strong> <%= I18n.l(@curriculum.updated_at, format: :long) %>
     </p>
   </div>
+  <% end %>
 </div>

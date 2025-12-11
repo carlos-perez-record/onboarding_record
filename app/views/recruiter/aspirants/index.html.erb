@@ -20,6 +20,7 @@
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <% @aspirants.each do |aspirant| %>
+                  <% cache(aspirant) do %>
                   <tr class="hover:bg-gray-50" id="user_<%= aspirant.id %>">
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-900 break-all"><%= aspirant.email %></td>
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden md:table-cell"><%= aspirant.id %></td>
@@ -41,6 +42,7 @@
                       </div>
                     </td>
                   </tr>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>

@@ -21,23 +21,24 @@
           </thead>
           <tbody class="divide-y divide-gray-200">
             <% @users.each do |user| %>
-              <tr class="hover:bg-gray-50" id="user_<%= user.id %>">
-                <td class="px-3 md:px-6 py-4 text-sm text-gray-900 break-all"><%= user.email %></td>
-                <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden md:table-cell"><%= user.id %></td>
-                <td class="px-3 md:px-6 py-4">
-                  <span class="inline-block px-3 py-1 rounded-full text-xs font-medium <%= case user.role when 'admin' then 'bg-red-100 text-red-800' when 'reclutador' then 'bg-green-100 text-green-800' else 'bg-blue-100 text-blue-800' end %>">
-                    <%= user.role.capitalize %>
-                  </span>
-                </td>
-                <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden lg:table-cell"><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
-                <td class="px-3 md:px-6 py-4 text-center">
-                  <div class="flex justify-center gap-2">
-                    <%= link_to edit_admin_user_path(user), title: "Editar usuario", class: "inline-block p-2 hover:bg-yellow-50 rounded", "aria-label": "Editar usuario #{user.email}" do %>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
-                      </svg>
-                    <% end %>
-                    <%= link_to admin_user_path(user),
+              <% cache(user) do %>
+                <tr class="hover:bg-gray-50" id="user_<%= user.id %>">
+                  <td class="px-3 md:px-6 py-4 text-sm text-gray-900 break-all"><%= user.email %></td>
+                  <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden md:table-cell"><%= user.id %></td>
+                  <td class="px-3 md:px-6 py-4">
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-medium <%= case user.role when 'admin' then 'bg-red-100 text-red-800' when 'reclutador' then 'bg-green-100 text-green-800' else 'bg-blue-100 text-blue-800' end %>">
+                      <%= user.role.capitalize %>
+                    </span>
+                  </td>
+                  <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden lg:table-cell"><%= user.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                  <td class="px-3 md:px-6 py-4 text-center">
+                    <div class="flex justify-center gap-2">
+                      <%= link_to edit_admin_user_path(user), title: "Editar usuario", class: "inline-block p-2 hover:bg-yellow-50 rounded", "aria-label": "Editar usuario #{user.email}" do %>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
+                        </svg>
+                      <% end %>
+                      <%= link_to admin_user_path(user),
                       data: {
                         controller: "confirm",
                         action: "click->confirm#confirm",
@@ -55,6 +56,7 @@
                   </div>
                 </td>
               </tr>
+              <% end %>
             <% end %>
           </tbody>
         </table>
