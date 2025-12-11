@@ -2,8 +2,17 @@ class Curriculum < ApplicationRecord
   belongs_to :user
   has_one_attached :photo, dependent: :destroy
   has_many :studies, dependent: :destroy
-  
+
   accepts_nested_attributes_for :studies, allow_destroy: true, reject_if: :all_blank
+
+  # Scopes
+  scope :with_photo, -> { joins(:photo_attachment) }
+  scope :without_photo, -> { left_joins(:photo_attachment).where(active_storage_attachments: { id: nil }) }
+  scope :available_to_travel, -> { where(available_to_travel: true) }
+  scope :available_to_relocate, -> { where(available_to_relocate: true) }
+  scope :by_education_level, ->(level) { where(education_level: level) }
+  scope :recent, ->(days = 30) { where('curriculums.created_at >= ?', days.days.ago) }
+  scope :newest_first, -> { order(created_at: :desc) }
 
   # Callbacks para organizar archivos
   before_save :prepare_photo_key, if: :photo_attached_and_new?
@@ -35,7 +44,7 @@ class Curriculum < ApplicationRecord
 
   def must_be_at_least_18_years_old
     return unless birth_date.present?
-    
+
     age = calculate_age
     if age < 18
       errors.add(:birth_date, "debes ser mayor de 18 años para registrar tu currículum")
@@ -48,7 +57,7 @@ class Curriculum < ApplicationRecord
       unless photo.content_type.in?(%w[image/jpeg image/png])
         errors.add(:photo, "debe ser JPEG o PNG")
       end
-      
+
       # Validar tamaño
       if photo.byte_size > 2.megabytes
         errors.add(:photo, "debe ser menor a 2 MB")
@@ -77,15 +86,15 @@ class Curriculum < ApplicationRecord
 
   def organize_photo_storage
     return unless photo.attached?
-    
+
     blob = photo.blob
     old_key = blob.key
-    
+
     # Estructura: identificacion/Foto_personal_identificacion.extension
     extension = File.extname(blob.filename.to_s)
     new_filename = "Foto_personal_#{identification}#{extension}"
     new_key = "#{identification}/#{new_filename}"
-    
+
     # Solo reorganizar si el key es diferente
     if old_key != new_key
       # Buscar y eliminar blobs anteriores con la misma key
@@ -93,11 +102,11 @@ class Curriculum < ApplicationRecord
         # Eliminar el archivo físico
         old_path = ActiveStorage::Blob.service.path_for(old_blob.key)
         File.delete(old_path) if File.exist?(old_path)
-        
+
         # Eliminar el blob de la base de datos
         old_blob.purge
       end
-      
+
       # Buscar y eliminar archivos huérfanos en la carpeta del aspirante
       directory = File.join(ActiveStorage::Blob.service.root, identification.to_s)
       if Dir.exist?(directory)
@@ -105,18 +114,18 @@ class Curriculum < ApplicationRecord
           File.delete(old_file) if File.exist?(old_file) && old_file != ActiveStorage::Blob.service.path_for(new_key)
         end
       end
-      
+
       # Obtener rutas usando el path_for personalizado
       old_path = ActiveStorage::Blob.service.path_for(old_key)
       new_path = ActiveStorage::Blob.service.path_for(new_key)
-      
+
       # Crear directorio si no existe
       FileUtils.mkdir_p(File.dirname(new_path))
-      
+
       # Mover archivo si existe
       if File.exist?(old_path)
         FileUtils.mv(old_path, new_path)
-        
+
         # Limpiar carpeta antigua si está vacía
         old_dir = File.dirname(old_path)
         if Dir.exist?(old_dir) && Dir.empty?(old_dir)
@@ -126,11 +135,11 @@ class Curriculum < ApplicationRecord
           FileUtils.rmdir(parent_dir) if Dir.exist?(parent_dir) && Dir.empty?(parent_dir)
         end
       end
-      
+
       # Actualizar la clave y el filename en la base de datos
       blob.update_columns(key: new_key, filename: new_filename)
     end
-    
+
     @should_organize_photo = false
   end
 end

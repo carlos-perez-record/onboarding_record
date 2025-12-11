@@ -1,4 +1,6 @@
 class CurriculumsController < ApplicationController
+  include Authorization
+
   before_action :authenticate_user!
   before_action :authorize_aspirant!
   before_action :set_curriculum, only: [:show, :edit, :update, :destroy]
@@ -50,12 +52,8 @@ class CurriculumsController < ApplicationController
     @curriculum.studies.load
   end
 
-  def authorize_aspirant!
-    redirect_to root_path, alert: "Debes ser aspirante para acceder a esta sección." unless current_user.aspirante?
-  end
-
   def authorize_curriculum_ownership!
-    redirect_to root_path, alert: "No tienes permiso para acceder a este currículum." unless @curriculum.user == current_user
+    authorize_ownership!(@curriculum, 'currículum')
   end
 
   def curriculum_params

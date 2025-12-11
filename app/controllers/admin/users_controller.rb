@@ -1,10 +1,13 @@
 class Admin::UsersController < ApplicationController
+  include Authorization
+  include TurboStreamable
+
   before_action :authenticate_user!
   before_action :authorize_admin!
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
-    @users = User.all
+    @users = User.newest_first
   end
 
   def new
@@ -44,13 +47,7 @@ class Admin::UsersController < ApplicationController
   def destroy
     email = @user.email
     @user.destroy
-
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.remove("user_#{@user.id}")
-      end
-      format.html { redirect_to admin_users_path, notice: "Usuario #{email} eliminado correctamente." }
-    end
+    respond_with_deletion(@user, admin_users_path, "Usuario #{email}")
   end
 
   private
@@ -61,9 +58,5 @@ class Admin::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :role)
-  end
-
-  def authorize_admin!
-    redirect_to root_path, alert: "No tienes permiso para acceder a esta sección." unless current_user.admin?
   end
 end

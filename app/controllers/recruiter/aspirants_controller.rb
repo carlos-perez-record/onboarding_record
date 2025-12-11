@@ -1,10 +1,13 @@
 class Recruiter::AspirantsController < ApplicationController
+  include Authorization
+  include TurboStreamable
+
   before_action :authenticate_user!
   before_action :authorize_recruiter!
   before_action :set_aspirant, only: [:edit, :update, :destroy]
 
   def index
-    @aspirants = User.where(role: :aspirante)
+    @aspirants = User.aspirants.newest_first
   end
 
   def new
@@ -35,13 +38,7 @@ class Recruiter::AspirantsController < ApplicationController
   def destroy
     email = @aspirant.email
     @aspirant.destroy
-
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.remove("user_#{@aspirant.id}")
-      end
-      format.html { redirect_to recruiter_aspirants_path, notice: "Aspirante #{email} eliminado correctamente." }
-    end
+    respond_with_deletion(@aspirant, recruiter_aspirants_path, "Aspirante #{email}")
   end
 
   private
@@ -53,9 +50,5 @@ class Recruiter::AspirantsController < ApplicationController
 
   def aspirant_params
     params.require(:user).permit(:email, :password, :password_confirmation)
-  end
-
-  def authorize_recruiter!
-    redirect_to root_path, alert: "No tienes permiso para acceder a esta sección." unless current_user.reclutador?
   end
 end
