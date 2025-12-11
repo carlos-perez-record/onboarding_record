@@ -28,7 +28,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     service = Users::UpdateService.new(@user, user_params)
-    
+
     if service.call
       redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
     else

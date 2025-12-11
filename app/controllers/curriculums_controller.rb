@@ -12,14 +12,16 @@ class CurriculumsController < ApplicationController
 
   def create
     service = Curriculums::CreateService.new(current_user, curriculum_params)
-    
+
     if service.call
       redirect_to curriculum_path(service.curriculum), notice: "Currículum registrado correctamente."
     else
       @curriculum = service.curriculum
       render :new, status: :unprocessable_entity
     end
-  end  def show
+  end
+
+  def show
   end
 
   def edit
@@ -27,13 +29,15 @@ class CurriculumsController < ApplicationController
 
   def update
     service = Curriculums::UpdateService.new(@curriculum, curriculum_params)
-    
+
     if service.call
       redirect_to curriculum_path(@curriculum), notice: "Currículum actualizado correctamente."
     else
       render :edit, status: :unprocessable_entity
     end
-  end  def destroy
+  end
+
+  def destroy
     @curriculum.destroy
     redirect_to root_path, notice: "Currículum eliminado correctamente."
   end
