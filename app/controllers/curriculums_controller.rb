@@ -2,6 +2,7 @@ class CurriculumsController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_aspirant!
   before_action :set_curriculum, only: [:show, :edit, :update, :destroy]
+  before_action :load_studies, only: [:show, :edit]
 
   def new
     @curriculum = current_user.build_curriculum
@@ -40,8 +41,13 @@ class CurriculumsController < ApplicationController
   private
 
   def set_curriculum
-    @curriculum = Curriculum.includes(:studies).find(params[:id])
+    @curriculum = Curriculum.find(params[:id])
     authorize_curriculum_ownership!
+  end
+
+  def load_studies
+    # Preload studies only for actions that display them (show, edit)
+    @curriculum.studies.load
   end
 
   def authorize_aspirant!
