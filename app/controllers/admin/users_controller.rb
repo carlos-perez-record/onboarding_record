@@ -27,16 +27,14 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    result = Users::UpdateService.call(@user, user_params)
-
-    if result.success?
+    service = Users::UpdateService.new(@user, user_params)
+    
+    if service.call
       redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  def destroy
+  end  def destroy
     email = @user.email
     @user.destroy
     respond_with_deletion(@user, admin_users_path, "Usuario #{email}")
