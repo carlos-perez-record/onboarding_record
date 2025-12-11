@@ -7,16 +7,21 @@
 #### 1. N+1 Query Optimizations (Sprint 1 - Tarea 2)
 **Estado:** ✅ COMPLETADO
 
-**Consultas optimizadas con `includes`:**
-- `CurriculumsController#set_curriculum`: `Curriculum.includes(:studies).find()` - Vista usa @curriculum.studies
-- `ApplicationController`: Helper method `current_user_with_curriculum` - Cuando se necesita curriculum
+**Consultas optimizadas con eager loading selectivo:**
+- `CurriculumsController#show, #edit`: `@curriculum.studies.load` - Vistas usan @curriculum.studies
+- `CurriculumsController#update, #destroy`: Sin eager loading - Solo guardan/eliminan, no renderizan
 
 **Eager loading removido (optimización Bullet):**
 - `Admin::UsersController#index`: `User.all` - Vista solo usa email, id, role, created_at
 - `Recruiter::AspirantsController#index`: `User.where(role: :aspirante)` - Vista solo usa email, id, created_at
 
+**Nota sobre Bullet warnings:**
+Bullet puede detectar "unused eager loading" incluso cuando el layout `application.html.erb` accede a `current_user.curriculum`. Esto es correcto - solo el usuario actual necesita su curriculum precargado, no todos los usuarios en listas de admin.
+
 **Principio aplicado:**
-Solo usar `includes` cuando la vista realmente accede a la asociación. Bullet gem detecta both N+1 queries AND unused eager loading.
+- Solo usar `includes` cuando la vista accede a la asociación de TODOS los registros en la colección
+- Usar eager loading selectivo (`relation.load`) cuando solo algunas acciones lo necesitan
+- Bullet gem detecta both N+1 queries AND unused eager loading
 
 **Herramientas de monitoreo:**
 - Bullet gem configurado en `config/environments/development.rb`
