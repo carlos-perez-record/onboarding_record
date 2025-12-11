@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
-    @users = User.all
+    @users = User.includes(:curriculum).all
   end
 
   def new

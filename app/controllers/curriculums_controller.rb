@@ -40,7 +40,7 @@ class CurriculumsController < ApplicationController
   private
 
   def set_curriculum
-    @curriculum = Curriculum.find(params[:id])
+    @curriculum = Curriculum.includes(:studies).find(params[:id])
     authorize_curriculum_ownership!
   end
 

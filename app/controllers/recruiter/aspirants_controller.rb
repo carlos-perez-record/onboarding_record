@@ -4,7 +4,7 @@ class Recruiter::AspirantsController < ApplicationController
   before_action :set_aspirant, only: [:edit, :update, :destroy]
 
   def index
-    @aspirants = User.where(role: :aspirante)
+    @aspirants = User.includes(:curriculum).where(role: :aspirante)
   end
 
   def new
