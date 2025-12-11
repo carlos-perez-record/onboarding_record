@@ -23,10 +23,15 @@ module Curriculums
     private
 
     def process_languages
-      return unless other_languages_present?
-
-      merge_custom_languages
+      # Limpiar idiomas vacíos primero
       cleanup_languages
+
+      # Solo procesar idiomas personalizados si hay
+      if other_languages_present?
+        merge_custom_languages
+        cleanup_languages  # Limpiar nuevamente después de merge
+      end
+
       remove_other_languages_param
     end
 
@@ -49,7 +54,13 @@ module Curriculums
     end
 
     def cleanup_languages
-      params[:languages]&.reject!(&:blank?)
+      return unless params[:languages].is_a?(Array)
+
+      params[:languages] = params[:languages]
+        .compact
+        .map(&:strip)
+        .reject(&:blank?)
+        .uniq
     end
 
     def remove_other_languages_param
