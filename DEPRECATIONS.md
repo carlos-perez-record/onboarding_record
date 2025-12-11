@@ -7,15 +7,21 @@
 #### 1. N+1 Query Optimizations (Sprint 1 - Tarea 2)
 **Estado:** ✅ COMPLETADO
 
-Todas las consultas optimizadas con `includes`:
-- `Admin::UsersController#index`: `User.includes(:curriculum).all`
-- `Recruiter::AspirantsController#index`: `User.includes(:curriculum).where(role: :aspirante)`
-- `CurriculumsController#set_curriculum`: `Curriculum.includes(:studies).find()`
-- `ApplicationController`: Helper method `current_user_with_curriculum`
+**Consultas optimizadas con `includes`:**
+- `CurriculumsController#set_curriculum`: `Curriculum.includes(:studies).find()` - Vista usa @curriculum.studies
+- `ApplicationController`: Helper method `current_user_with_curriculum` - Cuando se necesita curriculum
+
+**Eager loading removido (optimización Bullet):**
+- `Admin::UsersController#index`: `User.all` - Vista solo usa email, id, role, created_at
+- `Recruiter::AspirantsController#index`: `User.where(role: :aspirante)` - Vista solo usa email, id, created_at
+
+**Principio aplicado:**
+Solo usar `includes` cuando la vista realmente accede a la asociación. Bullet gem detecta both N+1 queries AND unused eager loading.
 
 **Herramientas de monitoreo:**
 - Bullet gem configurado en `config/environments/development.rb`
 - Alertas: JavaScript, Console, Logger, Footer
+- Detecta: N+1 queries, unused eager loading, counter cache issues
 
 ---
 
