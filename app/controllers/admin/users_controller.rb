@@ -27,20 +27,12 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    # Permitir actualización sin cambiar contraseña
-    if user_params[:password].blank?
-      user_params_without_password = user_params.except(:password, :password_confirmation)
-      if @user.update(user_params_without_password)
-        redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    result = Users::UpdateService.call(@user, user_params)
+
+    if result.success?
+      redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
     else
-      if @user.update(user_params)
-        redirect_to admin_users_path, notice: "Usuario actualizado correctamente."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+      render :edit, status: :unprocessable_entity
     end
   end
 

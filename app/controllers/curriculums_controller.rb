@@ -11,11 +11,12 @@ class CurriculumsController < ApplicationController
   end
 
   def create
-    params_with_languages = process_languages(curriculum_params)
-    @curriculum = current_user.build_curriculum(params_with_languages)
-    if @curriculum.save
-      redirect_to curriculum_path(@curriculum), notice: "Currículum registrado correctamente."
+    result = Curriculums::CreateService.call(current_user, curriculum_params)
+
+    if result.success?
+      redirect_to curriculum_path(result.curriculum), notice: "Currículum registrado correctamente."
     else
+      @curriculum = result.curriculum
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,8 +28,9 @@ class CurriculumsController < ApplicationController
   end
 
   def update
-    params_with_languages = process_languages(curriculum_params)
-    if @curriculum.update(params_with_languages)
+    result = Curriculums::UpdateService.call(@curriculum, curriculum_params)
+
+    if result.success?
       redirect_to curriculum_path(@curriculum), notice: "Currículum actualizado correctamente."
     else
       render :edit, status: :unprocessable_entity
@@ -57,28 +59,12 @@ class CurriculumsController < ApplicationController
   end
 
   def curriculum_params
-    permitted = params.require(:curriculum).permit(
+    params.require(:curriculum).permit(
       :first_name, :last_name, :birth_date, :identification,
       :phone_number, :address, :city, :department, :country,
       :profile_description, :available_to_travel, :available_to_relocate,
       :photo, :other_languages, :education_level, languages: [],
       studies_attributes: [:id, :institution, :status, :start_date, :end_date, :title, :_destroy]
     )
-    # Remover other_languages del hash permitido
-    permitted.except(:other_languages)
-  end
-
-  def process_languages(params_hash)
-    # Extraer idiomas personalizados desde params (string), limpiar y combinar
-    other_langs = params.dig(:curriculum, :other_languages).to_s.split(',').map(&:strip).reject(&:blank?)
-    languages = Array(params_hash[:languages]).reject(&:blank?)
-
-    combined = (languages + other_langs).uniq
-
-    # Construir un Hash limpio que no incluya keys no permitidas (como other_languages)
-    safe_hash = params_hash.to_h.reject { |k, _| k.to_s == 'other_languages' }
-    safe_hash['languages'] = combined
-
-    safe_hash
   end
 end
