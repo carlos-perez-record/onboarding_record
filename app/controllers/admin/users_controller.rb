@@ -34,7 +34,9 @@ class Admin::UsersController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
-  end  def destroy
+  end
+
+  def destroy
     email = @user.email
     @user.destroy
     respond_with_deletion(@user, admin_users_path, "Usuario #{email}")
