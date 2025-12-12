@@ -413,7 +413,7 @@
       <!-- Contenedor de experiencias laborales (oculto por defecto) -->
       <div data-controller="work-experiences"
            data-work-experiences-target="section"
-           style="<%= 'display: none;' unless curriculum.has_work_experience? %>">
+           style="<%= 'display: none;' unless curriculum.persisted? && curriculum.has_work_experience? %>">
 
         <div class="flex items-end gap-3 mb-4">
           <button type="button"

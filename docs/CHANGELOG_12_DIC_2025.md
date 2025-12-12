@@ -2,9 +2,9 @@
 
 ## 📋 Resumen de Cambios
 
-**Commit:** `d9f0b85` - Feature: Mejoras al formulario y visualización de currículums  
-**Fecha:** 12 de diciembre de 2025  
-**Desarrollador:** Carlos Pérez con IA  
+**Commit:** `d9f0b85` - Feature: Mejoras al formulario y visualización de currículums
+**Fecha:** 12 de diciembre de 2025
+**Desarrollador:** Carlos Pérez con IA
 **Archivos modificados:** 14 archivos (410 inserciones, 11 eliminaciones)
 
 ---
@@ -20,7 +20,7 @@
 **Solución:**
 ```erb
 <!-- Botón Examinar resaltado -->
-<%= form.file_field :photo, 
+<%= form.file_field :photo,
     class: "... file:bg-blue-500 file:text-white hover:file:bg-blue-600 ..." %>
 ```
 
@@ -94,7 +94,7 @@ validates :job_title, length: { maximum: 100 }, allow_blank: true
 # app/models/work_experience.rb
 class WorkExperience < ApplicationRecord
   belongs_to :curriculum, touch: true
-  
+
   validates :position, :company, :status, presence: true
   validates :position, length: { minimum: 2, maximum: 100 }
   validates :company, length: { minimum: 2, maximum: 100 }
@@ -137,19 +137,19 @@ accepts_nested_attributes_for :work_experiences, allow_destroy: true, reject_if:
 // app/javascript/controllers/work_experiences_controller.js
 export default class extends Controller {
   static targets = ["container", "template", "section"]
-  
+
   toggleSection(event) {
     // Mostrar/ocultar sección según radio button
     const hasExperience = event.target.value === "true"
     this.sectionTarget.style.display = hasExperience ? "block" : "none"
   }
-  
+
   addExperience(event) {
     // Agregar nueva experiencia desde template
     const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())
     this.containerTarget.insertAdjacentHTML("beforeend", content)
   }
-  
+
   removeExperience(event) {
     // Eliminar experiencia (soft delete si existe, hard si es nueva)
   }
@@ -163,14 +163,14 @@ export default class extends Controller {
     data: { action: "change->work-experiences#toggleSection" } %>
 
 <!-- Sección oculta por defecto -->
-<div data-controller="work-experiences" 
+<div data-controller="work-experiences"
      data-work-experiences-target="section"
      style="<%= 'display: none;' unless curriculum.has_work_experience? %>">
-  
+
   <button data-action="click->work-experiences#addExperience">
     ➕ Agregar Experiencia Laboral
   </button>
-  
+
   <!-- Nested forms -->
   <%= form.fields_for :work_experiences do |exp_form| %>
     <%= exp_form.text_field :position %>
@@ -181,7 +181,7 @@ export default class extends Controller {
     <%= exp_form.date_field :start_date %>
     <%= exp_form.date_field :end_date %>
   <% end %>
-  
+
   <!-- Template para nuevas experiencias -->
   <template data-work-experiences-target="template">
     <!-- HTML con name="curriculum[work_experiences_attributes][NEW_RECORD][field]" -->
@@ -194,18 +194,18 @@ export default class extends Controller {
 <% if @curriculum.has_work_experience? %>
   <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
     <h3>Experiencia Laboral</h3>
-    
+
     <% @curriculum.work_experiences.order(start_date: :desc).each do |exp| %>
       <div class="border rounded-lg p-5">
         <h4><%= exp.position %></h4>
         <p><%= exp.company %></p>
         <p>📅 <%= exp.start_date&.strftime('%m/%Y') %> - <%= exp.end_date&.strftime('%m/%Y') || 'Actualidad' %></p>
-        
+
         <div>
           <h5>Funciones y Logros:</h5>
           <p><%= exp.responsibilities %></p>
         </div>
-        
+
         <% if exp.achievements.present? %>
           <div>
             <h5>Logros Destacados:</h5>
@@ -226,7 +226,7 @@ def curriculum_params
     # ... otros campos
     :has_work_experience,
     work_experiences_attributes: [
-      :id, :position, :company, :responsibilities, 
+      :id, :position, :company, :responsibilities,
       :achievements, :status, :start_date, :end_date, :_destroy
     ]
   )
@@ -262,7 +262,7 @@ end
 <!-- Nueva celda en tbody -->
 <td class="... hidden xl:table-cell">
   <% if aspirant.curriculum.present? %>
-    <%= link_to "👁️ Ver CV", curriculum_path(aspirant.curriculum), 
+    <%= link_to "👁️ Ver CV", curriculum_path(aspirant.curriculum),
         target: "_blank",
         class: "btn btn-primary text-sm",
         "aria-label": "Ver curriculum de #{aspirant.email}" %>
@@ -432,7 +432,7 @@ Total nuevo código:                             325 líneas
 
 ---
 
-**Autor:** Carlos Pérez  
-**Asistido por:** GitHub Copilot (Claude Sonnet 4.5)  
-**Fecha:** 12 de diciembre de 2025, 10:42 AM  
+**Autor:** Carlos Pérez
+**Asistido por:** GitHub Copilot (Claude Sonnet 4.5)
+**Fecha:** 12 de diciembre de 2025, 10:42 AM
 **Commit:** `d9f0b85`
