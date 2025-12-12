@@ -24,12 +24,16 @@
 
       <!-- Foto de Perfil -->
       <div class="mb-4">
-        <%= form.label :photo, "Foto de Perfil (JPEG o PNG, máximo 2 MB)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.file_field :photo, accept: "image/jpeg,image/png", class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <%= form.label :photo, "Foto de Perfil (Opcional - JPEG o PNG, máximo 2 MB)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <div class="relative">
+          <%= form.file_field :photo,
+              accept: "image/jpeg,image/png",
+              class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 file:cursor-pointer" %>
+        </div>
         <% if curriculum.persisted? && curriculum.photo.attached? %>
-          <div class="current-photo">
-            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil" class="photo-preview-img" loading="lazy">
-            <p>Foto actual</p>
+          <div class="mt-3">
+            <img src="<%= url_for(curriculum.photo) %>" alt="Foto de perfil actual" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-300" loading="lazy">
+            <p class="text-sm text-gray-600 mt-1">Foto actual</p>
           </div>
         <% end %>
       </div>
@@ -186,6 +190,16 @@
             aria: { describedby: "profile_description_hint" },
             class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         <small id="profile_description_hint" class="text-sm text-gray-600">Máximo 2000 caracteres</small>
+      </div>
+
+      <!-- Cargo o Título Breve -->
+      <div class="mb-4">
+        <%= form.label :job_title, "Cargo o Título Breve de su Hoja de Vida", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :job_title,
+            placeholder: "Ej: Ingeniero de Software Senior, Diseñador Gráfico, Contador Público",
+            aria: { describedby: "job_title_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="job_title_hint" class="text-sm text-gray-600">Título profesional o cargo que mejor te describe (máximo 100 caracteres)</small>
       </div>
 
       <!-- Disponibilidad para Viajar -->
@@ -368,6 +382,176 @@
             </div>
           <% end %>
         </div>
+      </div>
+    </fieldset>
+
+    <!-- Sección: Experiencia Laboral -->
+    <fieldset class="mb-6">
+      <legend class="text-xl font-semibold text-gray-800 mb-4">Experiencia Laboral</legend>
+
+      <!-- Pregunta: ¿Tiene experiencia laboral? -->
+      <div class="mb-4" role="group" aria-labelledby="work_experience_label">
+        <p id="work_experience_label" class="block text-sm font-medium text-gray-700 mb-2">¿Tiene experiencia laboral?</p>
+        <div class="flex items-center space-x-4">
+          <label class="inline-flex items-center">
+            <%= form.radio_button :has_work_experience, true,
+                data: { action: "change->work-experiences#toggleSection" },
+                aria: { label: "Sí, tengo experiencia laboral" },
+                class: "mr-2" %>
+            <span>Sí</span>
+          </label>
+          <label class="inline-flex items-center">
+            <%= form.radio_button :has_work_experience, false,
+                data: { action: "change->work-experiences#toggleSection" },
+                aria: { label: "No tengo experiencia laboral" },
+                class: "mr-2" %>
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Contenedor de experiencias laborales (oculto por defecto) -->
+      <div data-controller="work-experiences"
+           data-work-experiences-target="section"
+           style="<%= 'display: none;' unless curriculum.has_work_experience? %>">
+
+        <div class="flex items-end gap-3 mb-4">
+          <button type="button"
+                  data-action="click->work-experiences#addExperience"
+                  aria-label="Agregar experiencia laboral"
+                  class="btn btn-primary">
+            ➕ Agregar Experiencia Laboral
+          </button>
+        </div>
+
+        <!-- Contenedor de experiencias -->
+        <div data-work-experiences-target="container" class="space-y-4">
+          <%= form.fields_for :work_experiences do |experience_form| %>
+            <div class="work-experience-fields bg-gray-50 p-4 rounded-lg border border-gray-300" data-new-record="<%= experience_form.object.new_record? %>">
+              <%= experience_form.hidden_field :_destroy %>
+
+              <div class="flex justify-between items-center mb-3">
+                <h4 class="text-lg font-semibold text-gray-800">Experiencia Laboral</h4>
+                <button type="button"
+                        data-action="click->work-experiences#removeExperience"
+                        aria-label="Eliminar esta experiencia"
+                        class="text-red-600 hover:text-red-800 font-bold">
+                  ❌ Eliminar
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-3">
+                  <%= experience_form.label :position, "Cargo", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <%= experience_form.text_field :position,
+                      placeholder: "Ej: Desarrollador Full Stack",
+                      class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                </div>
+
+                <div class="mb-3">
+                  <%= experience_form.label :company, "Empresa", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <%= experience_form.text_field :company,
+                      placeholder: "Ej: Tech Solutions S.A.S",
+                      class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <%= experience_form.label :responsibilities, "Funciones y Logros", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <%= experience_form.text_area :responsibilities,
+                    placeholder: "Describe tus principales funciones y logros en este cargo...",
+                    rows: 4,
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+              </div>
+
+              <div class="mb-3">
+                <%= experience_form.label :achievements, "Logros Destacados (Opcional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <%= experience_form.text_area :achievements,
+                    placeholder: "Logros específicos, reconocimientos, proyectos importantes...",
+                    rows: 3,
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+              </div>
+
+              <div class="mb-3">
+                <%= experience_form.label :status, "Estado", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <%= experience_form.select :status,
+                    [['Cursando', 'cursando'], ['Finalizado', 'finalizado']],
+                    { include_blank: 'Seleccionar' },
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <%= experience_form.label :start_date, "Fecha Inicio", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <%= experience_form.date_field :start_date, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                </div>
+                <div>
+                  <%= experience_form.label :end_date, "Fecha Fin", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <%= experience_form.date_field :end_date, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Template para nuevas experiencias -->
+        <template data-work-experiences-target="template">
+          <div class="work-experience-fields bg-gray-50 p-4 rounded-lg border border-gray-300" data-new-record="true">
+            <input type="hidden" name="curriculum[work_experiences_attributes][NEW_RECORD][_destroy]" value="0">
+
+            <div class="flex justify-between items-center mb-3">
+              <h4 class="text-lg font-semibold text-gray-800">Experiencia Laboral</h4>
+              <button type="button"
+                      data-action="click->work-experiences#removeExperience"
+                      aria-label="Eliminar esta experiencia"
+                      class="text-red-600 hover:text-red-800 font-bold">
+                ❌ Eliminar
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cargo</label>
+                <input type="text" name="curriculum[work_experiences_attributes][NEW_RECORD][position]" placeholder="Ej: Desarrollador Full Stack" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+
+              <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Empresa</label>
+                <input type="text" name="curriculum[work_experiences_attributes][NEW_RECORD][company]" placeholder="Ej: Tech Solutions S.A.S" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Funciones y Logros</label>
+              <textarea name="curriculum[work_experiences_attributes][NEW_RECORD][responsibilities]" placeholder="Describe tus principales funciones y logros..." rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Logros Destacados (Opcional)</label>
+              <textarea name="curriculum[work_experiences_attributes][NEW_RECORD][achievements]" placeholder="Logros específicos..." rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+              <select name="curriculum[work_experiences_attributes][NEW_RECORD][status]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Seleccionar</option>
+                <option value="cursando">Cursando</option>
+                <option value="finalizado">Finalizado</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Inicio</label>
+                <input type="date" name="curriculum[work_experiences_attributes][NEW_RECORD][start_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Fin</label>
+                <input type="date" name="curriculum[work_experiences_attributes][NEW_RECORD][end_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </fieldset>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_05_204233) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,7 +54,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_204233) do
     t.string "department", null: false
     t.string "education_level"
     t.string "first_name", null: false
+    t.boolean "has_work_experience", default: false, null: false
     t.string "identification", null: false
+    t.string "job_title"
     t.text "languages", default: "[]"
     t.string "last_name", null: false
     t.string "phone_number", null: false
@@ -92,8 +94,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_05_204233) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  create_table "work_experiences", force: :cascade do |t|
+    t.text "achievements"
+    t.string "company"
+    t.datetime "created_at", null: false
+    t.bigint "curriculum_id", null: false
+    t.date "end_date"
+    t.string "position"
+    t.text "responsibilities"
+    t.date "start_date"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.index ["curriculum_id"], name: "index_work_experiences_on_curriculum_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "curriculums", "users"
   add_foreign_key "studies", "curriculums"
+  add_foreign_key "work_experiences", "curriculums"
 end

@@ -7,7 +7,7 @@ class Recruiter::AspirantsController < ApplicationController
   before_action :set_aspirant, only: [:edit, :update, :destroy]
 
   def index
-    @aspirants = User.aspirants.newest_first
+    @aspirants = User.aspirants.includes(:curriculum).newest_first
   end
 
   def new

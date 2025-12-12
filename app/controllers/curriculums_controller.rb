@@ -50,8 +50,9 @@ class CurriculumsController < ApplicationController
   end
 
   def load_studies
-    # Preload studies only for actions that display them (show, edit)
+    # Preload studies and work_experiences only for actions that display them (show, edit)
     @curriculum.studies.load
+    @curriculum.work_experiences.load
   end
 
   def authorize_curriculum_ownership!
@@ -62,9 +63,10 @@ class CurriculumsController < ApplicationController
     params.require(:curriculum).permit(
       :first_name, :last_name, :birth_date, :identification,
       :phone_number, :address, :city, :department, :country,
-      :profile_description, :available_to_travel, :available_to_relocate,
-      :photo, :other_languages, :education_level, languages: [],
-      studies_attributes: [:id, :institution, :status, :start_date, :end_date, :title, :_destroy]
+      :profile_description, :job_title, :available_to_travel, :available_to_relocate,
+      :photo, :other_languages, :education_level, :has_work_experience, languages: [],
+      studies_attributes: [:id, :institution, :status, :start_date, :end_date, :title, :_destroy],
+      work_experiences_attributes: [:id, :position, :company, :responsibilities, :achievements, :status, :start_date, :end_date, :_destroy]
     )
   end
 end

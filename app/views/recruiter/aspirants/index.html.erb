@@ -15,6 +15,7 @@
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Email</th>
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">ID</th>
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Creado</th>
+                  <th class="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Curriculum</th>
                   <th class="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
@@ -25,6 +26,16 @@
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-900 break-all"><%= aspirant.email %></td>
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden md:table-cell"><%= aspirant.id %></td>
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden lg:table-cell"><%= aspirant.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                    <td class="px-3 md:px-6 py-4 text-center hidden xl:table-cell">
+                      <% if aspirant.curriculum.present? %>
+                        <%= link_to "👁️ Ver CV", curriculum_path(aspirant.curriculum),
+                            target: "_blank",
+                            class: "btn btn-primary text-sm",
+                            "aria-label": "Ver curriculum de #{aspirant.email}" %>
+                      <% else %>
+                        <span class="text-gray-400 text-sm italic">Sin CV</span>
+                      <% end %>
+                    </td>
                     <td class="px-3 md:px-6 py-4 text-center">
                       <div class="flex flex-wrap justify-center gap-2">
                         <%= link_to "Editar", edit_recruiter_aspirant_path(aspirant), class: "btn btn-warning", "aria-label": "Editar aspirante #{aspirant.email}" %>

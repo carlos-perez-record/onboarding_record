@@ -2,8 +2,10 @@ class Curriculum < ApplicationRecord
   belongs_to :user
   has_one_attached :photo, dependent: :destroy
   has_many :studies, dependent: :destroy
+  has_many :work_experiences, dependent: :destroy
 
   accepts_nested_attributes_for :studies, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :work_experiences, allow_destroy: true, reject_if: :all_blank
 
   # Scopes
   scope :with_photo, -> { joins(:photo_attachment) }
@@ -25,6 +27,7 @@ class Curriculum < ApplicationRecord
   validates :phone_number, presence: true, format: { with: /\A[0-9\-\+\s\(\)]+\z/, message: "debe ser un formato válido" }
   validates :address, :city, :department, :country, presence: true, length: { minimum: 2, maximum: 100 }
   validates :profile_description, length: { maximum: 2000 }, allow_blank: true
+  validates :job_title, length: { maximum: 100 }, allow_blank: true
   validates :available_to_travel, :available_to_relocate, inclusion: { in: [true, false] }
   validates :education_level, inclusion: { in: %w[ninguno primaria secundaria tecnico tecnologico profesional posgrado], allow_blank: true }
 
