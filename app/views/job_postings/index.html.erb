@@ -1,0 +1,58 @@
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        📢 Convocatorias Laborales Activas
+      </h1>
+      <p class="text-lg text-gray-600">
+        Encuentra oportunidades laborales vigentes
+      </p>
+    </div>
+
+    <!-- Convocatorias -->
+    <% if @job_postings.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <% @job_postings.each do |job_posting| %>
+          <%= render "card", job_posting: job_posting %>
+        <% end %>
+      </div>
+
+      <!-- Contador -->
+      <div class="text-center text-gray-600">
+        <p>
+          Mostrando <strong><%= @job_postings.count %></strong>
+          <%= "convocatoria".pluralize(@job_postings.count) %> activa<%= "s" if @job_postings.count != 1 %>
+        </p>
+      </div>
+    <% else %>
+      <!-- Estado vacío -->
+      <div class="bg-white rounded-lg shadow-lg p-12 text-center">
+        <div class="text-6xl mb-4">📭</div>
+        <h3 class="text-2xl font-semibold text-gray-700 mb-2">
+          No hay convocatorias activas
+        </h3>
+        <p class="text-gray-600">
+          Por el momento no hay convocatorias laborales disponibles. Vuelve pronto.
+        </p>
+      </div>
+    <% end %>
+
+    <!-- Link para volver o registrarse -->
+    <div class="mt-12 text-center">
+      <% if user_signed_in? %>
+        <%= link_to "⬅️ Volver al inicio", root_path, class: "btn btn-secondary" %>
+      <% else %>
+        <div class="space-y-4">
+          <p class="text-gray-600">
+            ¿Quieres participar en las convocatorias?
+          </p>
+          <div class="flex justify-center gap-4">
+            <%= link_to "Iniciar Sesión", new_user_session_path, class: "btn btn-primary" %>
+            <%= link_to "Registrarse", new_user_registration_path, class: "btn btn-success" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

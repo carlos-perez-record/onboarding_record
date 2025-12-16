@@ -23,12 +23,23 @@
       <legend class="text-xl font-semibold text-gray-800 mb-4">Datos Personales</legend>
 
       <!-- Foto de Perfil -->
-      <div class="mb-4">
+      <div class="mb-4" data-controller="photo-upload">
         <%= form.label :photo, "Foto de Perfil (Opcional - JPEG o PNG, máximo 2 MB)", class: "block text-sm font-medium text-gray-700 mb-2" %>
         <div class="relative">
           <%= form.file_field :photo,
               accept: "image/jpeg,image/png",
-              class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600 file:cursor-pointer" %>
+              class: "hidden",
+              data: {
+                photo_upload_target: "input",
+                action: "change->photo-upload#updateFilename"
+              } %>
+          <label for="<%= form.field_id(:photo) %>" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg cursor-pointer hover:bg-blue-600 transition-colors duration-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Seleccionar foto
+          </label>
+          <span data-photo-upload-target="filename" class="ml-3 text-sm text-gray-600">Ningún archivo seleccionado</span>
         </div>
         <% if curriculum.persisted? && curriculum.photo.attached? %>
           <div class="mt-3">
@@ -36,9 +47,7 @@
             <p class="text-sm text-gray-600 mt-1">Foto actual</p>
           </div>
         <% end %>
-      </div>
-
-      <!-- Nombre -->
+      </div>      <!-- Nombre -->
       <div class="mb-4">
         <%= form.label :first_name do %>
           Nombre(s) <span class="text-red-500" aria-label="requerido">*</span>
@@ -76,6 +85,30 @@
         <small id="birth_date_hint" class="text-sm text-gray-600">Debes ser mayor de 18 años</small>
       </div>
 
+      <!-- Tipo de Documento -->
+      <div class="mb-4">
+        <%= form.label :document_type do %>
+          Tipo de Documento <span class="text-red-500" aria-label="requerido">*</span>
+        <% end %>
+        <%= form.select :document_type,
+          [
+            ['Cédula de Ciudadanía (CC)', 'CC'],
+            ['Cédula de Extranjería (CE)', 'CE'],
+            ['Pasaporte (PA)', 'PA'],
+            ['Permiso Especial de Permanencia (PEP)', 'PEP'],
+            ['Permiso por Protección Temporal (PPT)', 'PPT']
+          ],
+          { prompt: 'Seleccione tipo de documento' },
+          {
+            required: true,
+            aria: { required: "true", describedby: "document_type_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+            data: { action: "change->validation#validateDocumentType" }
+          }
+        %>
+        <small id="document_type_hint" class="text-sm text-gray-600">Selecciona el tipo de documento de identidad</small>
+      </div>
+
       <!-- Identificación -->
       <div class="mb-4">
         <%= form.label :identification do %>
@@ -85,21 +118,43 @@
             placeholder: "Ej: 1234567890",
             required: true,
             aria: { required: "true", describedby: "identification_hint" },
-            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+            data: { validation_target: "identificationField" } %>
         <small id="identification_hint" class="text-sm text-gray-600">Único en el sistema</small>
       </div>
 
       <!-- Teléfono -->
-      <div class="mb-4">
+      <div class="mb-4" data-controller="validation">
         <%= form.label :phone_number do %>
           Teléfono <span class="text-red-500" aria-label="requerido">*</span>
         <% end %>
-        <%= form.text_field :phone_number,
-            placeholder: "Ej: +57 300 1234567",
-            required: true,
-            aria: { required: "true", describedby: "phone_number_hint" },
-            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-        <small id="phone_number_hint" class="text-sm text-gray-600">Formato: +57 300 1234567</small>
+        <div class="flex gap-2">
+          <%= form.select :phone_country_code,
+            [
+              ['🇨🇴 +57 (Colombia)', '+57'],
+              ['🇺🇸 +1 (USA)', '+1'],
+              ['🇲🇽 +52 (México)', '+52'],
+              ['🇦🇷 +54 (Argentina)', '+54'],
+              ['🇧🇷 +55 (Brasil)', '+55'],
+              ['🇨🇱 +56 (Chile)', '+56'],
+              ['🇵🇪 +51 (Perú)', '+51'],
+              ['🇪🇨 +593 (Ecuador)', '+593'],
+              ['🇻🇪 +58 (Venezuela)', '+58'],
+              ['🇪🇸 +34 (España)', '+34']
+            ],
+            { selected: curriculum.phone_country_code || '+57' },
+            {
+              class: "w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            }
+          %>
+          <%= form.text_field :phone_number,
+              placeholder: "300 1234567",
+              required: true,
+              pattern: "[0-9\\s]{7,15}",
+              aria: { required: "true", describedby: "phone_number_hint" },
+              class: "flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        </div>
+        <small id="phone_number_hint" class="text-sm text-gray-600">Solo números (7-15 dígitos)</small>
       </div>
 
       <!-- Dirección -->
@@ -181,6 +236,16 @@
         </div>
       </div>
 
+      <!-- Cargo o Título Breve -->
+      <div class="mb-4">
+        <%= form.label :job_title, "Cargo o Título Breve de su Hoja de Vida", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :job_title,
+            placeholder: "Ej: Ingeniero de Software Senior, Diseñador Gráfico, Contador Público",
+            aria: { describedby: "job_title_hint" },
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+        <small id="job_title_hint" class="text-sm text-gray-600">Título profesional o cargo que mejor te describe (máximo 100 caracteres)</small>
+      </div>
+
       <!-- Perfil/Descripción Personal -->
       <div class="mb-4">
         <%= form.label :profile_description, "Perfil o Descripción Personal", class: "block text-sm font-medium text-gray-700 mb-2" %>
@@ -190,16 +255,6 @@
             aria: { describedby: "profile_description_hint" },
             class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
         <small id="profile_description_hint" class="text-sm text-gray-600">Máximo 2000 caracteres</small>
-      </div>
-
-      <!-- Cargo o Título Breve -->
-      <div class="mb-4">
-        <%= form.label :job_title, "Cargo o Título Breve de su Hoja de Vida", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :job_title,
-            placeholder: "Ej: Ingeniero de Software Senior, Diseñador Gráfico, Contador Público",
-            aria: { describedby: "job_title_hint" },
-            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
-        <small id="job_title_hint" class="text-sm text-gray-600">Título profesional o cargo que mejor te describe (máximo 100 caracteres)</small>
       </div>
 
       <!-- Disponibilidad para Viajar -->
@@ -386,48 +441,52 @@
     </fieldset>
 
     <!-- Sección: Experiencia Laboral -->
-    <fieldset class="mb-6">
+    <fieldset class="mb-6" data-controller="work-experiences">
       <legend class="text-xl font-semibold text-gray-800 mb-4">Experiencia Laboral</legend>
 
-      <!-- Pregunta: ¿Tiene experiencia laboral? -->
-      <div class="mb-4" role="group" aria-labelledby="work_experience_label">
-        <p id="work_experience_label" class="block text-sm font-medium text-gray-700 mb-2">¿Tiene experiencia laboral?</p>
-        <div class="flex items-center space-x-4">
-          <label class="inline-flex items-center">
-            <%= form.radio_button :has_work_experience, true,
-                data: { action: "change->work-experiences#toggleSection" },
-                aria: { label: "Sí, tengo experiencia laboral" },
-                class: "mr-2" %>
-            <span>Sí</span>
-          </label>
-          <label class="inline-flex items-center">
-            <%= form.radio_button :has_work_experience, false,
-                data: { action: "change->work-experiences#toggleSection" },
-                aria: { label: "No tengo experiencia laboral" },
-                class: "mr-2" %>
-            <span>No</span>
-          </label>
+      <!-- ¿Tiene experiencia laboral? (selector) -->
+      <div class="flex items-end gap-3 mb-4">
+        <div class="flex-1">
+          <%= form.label :has_work_experience do %>
+            ¿Tiene experiencia laboral? <span class="text-red-500" aria-label="requerido">*</span>
+          <% end %>
+          <%= form.select :has_work_experience,
+            [
+              ['Sí', 'true'],
+              ['No', 'false']
+            ],
+            { prompt: 'Escoja una opción' },
+            {
+              required: true,
+              aria: { required: "true", describedby: "work_experience_hint" },
+              class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+              data: { work_experiences_target: "selector", action: "change->work-experiences#selectorChanged" }
+            }
+          %>
+          <small id="work_experience_hint" class="text-sm text-gray-600">Indica si tienes experiencia laboral previa</small>
         </div>
+        <button type="button"
+                data-work-experiences-target="button"
+                data-action="click->work-experiences#addExperience"
+                aria-label="Agregar experiencia laboral"
+                aria-describedby="experiences_hint"
+                class="btn btn-primary py-2 px-4 opacity-50 cursor-not-allowed disabled:opacity-50"
+                title="Pulse para agregar una experiencia laboral"
+                disabled>
+          + Agregar Experiencia Laboral
+        </button>
       </div>
+      <small id="experiences_hint" class="text-sm text-gray-600 block mb-3">Agrega las experiencias laborales que hayas tenido</small>
 
-      <!-- Contenedor de experiencias laborales (oculto por defecto) -->
-      <div data-controller="work-experiences"
-           data-work-experiences-target="section"
-           style="<%= 'display: none;' unless curriculum.persisted? && curriculum.has_work_experience? %>">
+      <div data-work-experiences-target="container"
+           role="list"
+           aria-live="polite"
+           aria-label="Experiencias laborales registradas"
+           class="space-y-4">
 
-        <div class="flex items-end gap-3 mb-4">
-          <button type="button"
-                  data-action="click->work-experiences#addExperience"
-                  aria-label="Agregar experiencia laboral"
-                  class="btn btn-primary">
-            ➕ Agregar Experiencia Laboral
-          </button>
-        </div>
 
-        <!-- Contenedor de experiencias -->
-        <div data-work-experiences-target="container" class="space-y-4">
-          <%= form.fields_for :work_experiences do |experience_form| %>
-            <div class="work-experience-fields bg-gray-50 p-4 rounded-lg border border-gray-300" data-new-record="<%= experience_form.object.new_record? %>">
+        <%= form.fields_for :work_experiences do |experience_form| %>
+          <div class="work-experience-fields experience-item border border-gray-300 rounded-lg p-4 bg-gray-50" data-new-record="<%= experience_form.object.new_record? %>">
               <%= experience_form.hidden_field :_destroy %>
 
               <div class="flex justify-between items-center mb-3">
@@ -494,9 +553,9 @@
           <% end %>
         </div>
 
-        <!-- Template para nuevas experiencias -->
-        <template data-work-experiences-target="template">
-          <div class="work-experience-fields bg-gray-50 p-4 rounded-lg border border-gray-300" data-new-record="true">
+      <!-- Template para nuevas experiencias -->
+      <template data-work-experiences-target="template">
+        <div class="work-experience-fields experience-item border border-gray-300 rounded-lg p-4 bg-gray-50" data-new-record="true">
             <input type="hidden" name="curriculum[work_experiences_attributes][NEW_RECORD][_destroy]" value="0">
 
             <div class="flex justify-between items-center mb-3">
@@ -550,16 +609,16 @@
                 <input type="date" name="curriculum[work_experiences_attributes][NEW_RECORD][end_date]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
               </div>
             </div>
-          </div>
-        </template>
-      </div>
+        </div>
+      </template>
     </fieldset>
 
     <!-- Botones de acción -->
     <div class="flex gap-4 mt-8">
       <% submit_text = curriculum.new_record? ? "Registrar Currículum" : "Actualizar Currículum" %>
       <button type="submit" class="btn btn-success py-2 px-4 flex-1"><%= submit_text %></button>
-      <%= link_to "Cancelar", root_path, class: "btn btn-secondary py-2 px-4 flex-1 text-center" %>
+      <% cancel_path = current_user.reclutador? ? recruiter_aspirants_path : root_path %>
+      <%= link_to "Cancelar", cancel_path, class: "btn btn-secondary py-2 px-4 flex-1" %>
     </div>
   <% end %>
 </div>

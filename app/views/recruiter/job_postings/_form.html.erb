@@ -1,0 +1,147 @@
+<div class="max-w-4xl mx-auto px-4 md:px-0">
+  <div class="card mb-6">
+    <h2 class="heading-2"><%= job_posting.new_record? ? "📢 Nueva Convocatoria" : "✏️ Editar Convocatoria" %></h2>
+  </div>
+
+  <%= form_with(model: [:recruiter, job_posting],
+                local: true,
+                html: {
+                  class: "bg-white rounded-lg shadow-lg p-6",
+                  data: { controller: "validation photo-upload" }
+                }) do |form| %>
+
+    <% if job_posting.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+        <h3 class="font-bold mb-2">⚠️ <%= pluralize(job_posting.errors.count, "error") %> impidieron guardar:</h3>
+        <ul class="list-disc list-inside">
+          <% job_posting.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Imagen de la convocatoria -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-semibold mb-2">
+        🖼️ Imagen de la Convocatoria <span class="text-gray-500 font-normal">(Opcional)</span>
+      </label>
+
+      <%= form.file_field :image,
+          accept: "image/jpeg,image/jpg,image/png,image/webp",
+          class: "hidden",
+          data: {
+            photo_upload_target: "input",
+            action: "change->photo-upload#preview"
+          },
+          id: "job_posting_image" %>
+
+      <!-- Layout compacto: botón y preview en línea -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <!-- Botón de carga compacto -->
+        <label
+          for="job_posting_image"
+          class="group inline-flex items-center justify-center gap-2 px-4 py-2
+                 bg-blue-600 hover:bg-blue-700 active:bg-blue-800
+                 text-white text-sm font-medium rounded-lg
+                 cursor-pointer transition-all duration-200
+                 shadow-md hover:shadow-lg
+                 focus-within:ring-2 focus-within:ring-blue-300
+                 min-h-[44px] whitespace-nowrap"
+          role="button"
+          tabindex="0"
+          aria-label="Cargar imagen de la convocatoria">
+
+          <!-- Icono de cámara -->
+          <svg class="w-5 h-5 group-hover:scale-110 transition-transform"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               aria-hidden="true">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+
+          <!-- Texto del botón -->
+          <span class="font-semibold">
+            <%= job_posting.image.attached? ? "Cambiar imagen" : "Seleccionar imagen" %>
+          </span>
+        </label>
+
+        <!-- Preview compacto en línea -->
+        <div data-photo-upload-target="preview" class="flex-1">
+          <% if job_posting.image.attached? %>
+            <div class="flex items-center gap-3">
+              <%= image_tag job_posting.image, class: "h-12 w-auto rounded shadow-sm" %>
+              <span class="text-sm text-gray-600">Imagen cargada</span>
+            </div>
+          <% else %>
+            <span class="text-xs text-gray-500">JPG, PNG o WebP • Máx 2MB</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nombre del Cargo -->
+    <div class="mb-6">
+      <%= form.label :title, "💼 Nombre del Cargo", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= form.text_field :title,
+          class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+          placeholder: "Ej: Desarrollador Full Stack",
+          required: true %>
+    </div>
+
+    <!-- Fechas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <%= form.label :start_date, "📅 Fecha de Inicio", class: "block text-gray-700 font-semibold mb-2" %>
+        <%= form.date_field :start_date,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            required: true,
+            data: {
+              validation_target: "startDate",
+              action: "change->validation#validateDates"
+            } %>
+      </div>
+
+      <div>
+        <%= form.label :end_date, "📅 Fecha de Fin", class: "block text-gray-700 font-semibold mb-2" %>
+        <%= form.date_field :end_date,
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            required: true,
+            data: {
+              validation_target: "endDate",
+              action: "change->validation#validateDates"
+            } %>
+        <p class="text-sm text-red-600 mt-1 hidden" data-validation-target="dateError">
+          La fecha de fin debe ser posterior a la fecha de inicio
+        </p>
+      </div>
+    </div>
+
+    <!-- Estado (solo en edición) -->
+    <% unless job_posting.new_record? %>
+      <div class="mb-6">
+        <%= form.label :status, "📊 Estado", class: "block text-gray-700 font-semibold mb-2" %>
+        <%= form.select :status,
+            JobPosting.statuses.keys.map { |status| [status.titleize, status] },
+            {},
+            class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+    <% end %>
+
+    <!-- Botones -->
+    <div class="flex gap-4 mt-8">
+      <%= form.submit job_posting.new_record? ? "✏️ Crear Convocatoria" : "💾 Guardar Cambios",
+          class: "btn btn-success flex-1" %>
+      <% cancel_path = recruiter_job_postings_path %>
+      <%= link_to "Cancelar", cancel_path, class: "btn btn-secondary flex-1" %>
+    </div>
+  <% end %>
+</div>

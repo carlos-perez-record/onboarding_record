@@ -30,6 +30,13 @@ module Authorization
       redirect_to root_path, alert: "Debes ser aspirante para acceder a esta sección."
     end
 
+    # Check if current user is aspirant or recruiter, redirect if not
+    def authorize_aspirant_or_recruiter!
+      return if current_user&.aspirante? || current_user&.reclutador?
+
+      redirect_to root_path, alert: "No tienes permiso para acceder a esta sección."
+    end
+
     # Check if user owns the resource, redirect if not
     # Usage: authorize_ownership!(@curriculum, 'curriculum')
     def authorize_ownership!(resource, resource_name = 'recurso')

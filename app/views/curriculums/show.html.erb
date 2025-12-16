@@ -1,18 +1,18 @@
 <div class="max-w-5xl mx-auto px-4 md:px-0">
-  <% cache([@curriculum, @curriculum.studies]) do %>
   <div class="card mb-6">
     <div class="flex flex-wrap justify-between items-center gap-2">
       <h2 class="heading-2">📄 Mi Currículum</h2>
       <div class="flex flex-wrap gap-2 md:gap-3">
         <%= link_to "✏️ Editar", edit_curriculum_path(@curriculum), class: "btn btn-warning", "aria-label": "Editar mi currículum" %>
-        <%= link_to "⬅️ Volver", root_path, class: "btn btn-secondary", "aria-label": "Volver a la página de inicio" %>
+        <% back_path = current_user.reclutador? ? recruiter_aspirants_path : root_path %>
+        <%= link_to "⬅️ Volver", back_path, class: "btn btn-secondary", "aria-label": "Volver a la página anterior" %>
       </div>
     </div>
   </div>
 
   <!-- Sección: Datos Personales -->
   <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 mb-6">
-    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Datos Personales</h3>
+    <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">👤 Datos Personales</h3>
 
     <!-- Foto y Nombres -->
     <div class="flex flex-wrap gap-4 md:gap-6 mb-6">
@@ -23,15 +23,15 @@
       <% end %>
       <div class="flex-1">
         <p class="mb-4">
-          <strong class="text-gray-700">Nombre Completo:</strong><br>
+          <strong class="text-gray-700">🏆 Nombre Completo:</strong><br>
           <span class="text-gray-900 text-lg"><%= "#{@curriculum.first_name} #{@curriculum.last_name}" %></span>
         </p>
         <p class="mb-4">
-          <strong class="text-gray-700">Identificación:</strong><br>
+          <strong class="text-gray-700">🆔 Identificación:</strong><br>
           <span class="text-gray-900"><%= @curriculum.identification %></span>
         </p>
         <p class="mb-0">
-          <strong class="text-gray-700">Teléfono:</strong><br>
+          <strong class="text-gray-700">📞 Teléfono:</strong><br>
           <span class="text-gray-900"><%= @curriculum.phone_number %></span>
         </p>
       </div>
@@ -43,17 +43,17 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <p class="mb-4">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Fecha de Nacimiento</span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">🎂 Fecha de Nacimiento</span>
           <span class="text-gray-900"><%= I18n.l(@curriculum.birth_date, format: :long) %> (<%= @curriculum.age %> años)</span>
         </p>
 
         <p class="mb-4">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Ciudad</span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">🏙️ Ciudad</span>
           <span class="text-gray-900"><%= @curriculum.city %></span>
         </p>
 
         <p class="mb-0">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Disponibilidad para Viajar</span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">✈️ Disponibilidad para Viajar</span>
           <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= @curriculum.available_to_travel? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
             <%= @curriculum.available_to_travel? ? 'Sí' : 'No' %>
           </span>
@@ -62,17 +62,17 @@
 
       <div>
         <p class="mb-4">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Dirección</span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">🏠 Dirección</span>
           <span class="text-gray-900"><%= @curriculum.address %></span>
         </p>
 
         <p class="mb-4">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Departamento</span>
-          <span class="text-gray-900"><%= @curriculum.department %>, <%= @curriculum.country %></span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">📦 País</span>
+          <span class="text-gray-900"><%= @curriculum.country %></span>
         </p>
 
         <p class="mb-0">
-          <span class="block text-sm font-medium text-gray-500 mb-1">Disponibilidad para Cambio de Residencia</span>
+          <span class="block text-sm font-medium text-gray-500 mb-1">🚚 Disponibilidad para Relocalizarse</span>
           <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= @curriculum.available_to_relocate? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
             <%= @curriculum.available_to_relocate? ? 'Sí' : 'No' %>
           </span>
@@ -83,11 +83,11 @@
 
   <!-- Sección: Perfil Profesional -->
   <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">Perfil Profesional</h3>
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">💼 Perfil Profesional</h3>
 
     <% if @curriculum.job_title.present? %>
       <div class="mb-4">
-        <span class="block text-sm font-medium text-gray-500 mb-2">Cargo o Título</span>
+        <span class="block text-sm font-medium text-gray-500 mb-2">🎯 Cargo o Título</span>
         <p class="text-xl font-semibold text-blue-600">
           <%= @curriculum.job_title %>
         </p>
@@ -101,7 +101,7 @@
 
   <!-- Sección: Idiomas -->
   <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">Idiomas</h3>
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-3">🌍 Idiomas</h3>
     <div class="flex flex-wrap gap-2">
       <% if @curriculum.languages.present? && @curriculum.languages.any? %>
         <% @curriculum.languages.each do |lang| %>
@@ -117,11 +117,11 @@
 
   <!-- Sección: Información Académica -->
   <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-    <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Información Académica</h3>
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">🎓 Información Académica</h3>
 
     <% if @curriculum.education_level.present? %>
       <p class="mb-6 bg-gray-50 p-4 rounded-lg">
-        <strong class="text-gray-700">Nivel de Estudios:</strong>
+        <strong class="text-gray-700">📚 Nivel de Estudios:</strong>
         <span class="text-gray-900 capitalize"><%= @curriculum.education_level.capitalize %></span>
       </p>
     <% end %>
@@ -228,5 +228,4 @@
       <strong class="text-gray-700">Actualizado:</strong> <%= I18n.l(@curriculum.updated_at, format: :long) %>
     </p>
   </div>
-  <% end %>
 </div>

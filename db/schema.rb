@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_201647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
     t.string "country", default: "Colombia", null: false
     t.datetime "created_at", null: false
     t.string "department", null: false
+    t.string "document_type"
     t.string "education_level"
     t.string "first_name", null: false
     t.boolean "has_work_experience", default: false, null: false
@@ -59,6 +60,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
     t.string "job_title"
     t.text "languages", default: "[]"
     t.string "last_name", null: false
+    t.string "phone_country_code"
     t.string "phone_number", null: false
     t.text "profile_description"
     t.datetime "updated_at", null: false
@@ -66,6 +68,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
     t.index ["birth_date"], name: "index_curriculums_on_birth_date"
     t.index ["identification"], name: "index_curriculums_on_identification", unique: true
     t.index ["user_id"], name: "index_curriculums_on_user_id", unique: true
+  end
+
+  create_table "job_postings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "end_date", null: false
+    t.date "start_date", null: false
+    t.integer "status", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["status", "start_date", "end_date"], name: "index_job_postings_on_status_and_start_date_and_end_date"
+    t.index ["status"], name: "index_job_postings_on_status"
+    t.index ["user_id"], name: "index_job_postings_on_user_id"
   end
 
   create_table "studies", force: :cascade do |t|
@@ -111,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_154445) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "curriculums", "users"
+  add_foreign_key "job_postings", "users"
   add_foreign_key "studies", "curriculums"
   add_foreign_key "work_experiences", "curriculums"
 end

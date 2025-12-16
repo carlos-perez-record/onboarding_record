@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Controlador para validaciones en tiempo real
 // Proporciona feedback inmediato mientras el usuario escribe
 export default class extends Controller {
-  static targets = ["field", "error"]
+  static targets = ["field", "error", "identificationField", "startDate", "endDate", "dateError"]
   static values = {
     type: String,
     minLength: Number,
@@ -13,14 +13,19 @@ export default class extends Controller {
   }
 
   connect() {
-    // Agregar eventos de validación
-    this.fieldTarget.addEventListener('blur', this.validate.bind(this))
-    this.fieldTarget.addEventListener('input', this.clearErrorOnInput.bind(this))
+    // Agregar eventos de validación solo si existe el target field
+    if (this.hasFieldTarget) {
+      this.fieldTarget.addEventListener('blur', this.validate.bind(this))
+      this.fieldTarget.addEventListener('input', this.clearErrorOnInput.bind(this))
+    }
   }
 
   disconnect() {
-    this.fieldTarget.removeEventListener('blur', this.validate.bind(this))
-    this.fieldTarget.removeEventListener('input', this.clearErrorOnInput.bind(this))
+    // Remover eventos solo si existe el target field
+    if (this.hasFieldTarget) {
+      this.fieldTarget.removeEventListener('blur', this.validate.bind(this))
+      this.fieldTarget.removeEventListener('input', this.clearErrorOnInput.bind(this))
+    }
   }
 
   validate() {
@@ -73,7 +78,7 @@ export default class extends Controller {
     // Limpiar error mientras el usuario escribe
     if (this.hasErrorTarget) {
       const currentLength = this.fieldTarget.value.length
-      
+
       // Si había un error de longitud mínima y ahora cumple, limpiar
       if (this.hasMinLengthValue && currentLength >= this.minLengthValue) {
         this.clearError()
@@ -118,5 +123,51 @@ export default class extends Controller {
     if (!this.hasPatternValue) return true
     const regex = new RegExp(this.patternValue)
     return regex.test(value)
+  }
+
+  // Validación de tipo de documento (para curriculums)
+  validateDocumentType(event) {
+    const documentType = event.target.value
+    const identField = this.hasIdentificationFieldTarget ? this.identificationFieldTarget : null
+
+    if (identField) {
+      if (documentType === 'CC') {
+        identField.pattern = '[0-9]+'
+        identField.placeholder = 'Solo números (Ej: 1234567890)'
+      } else {
+        identField.pattern = '[A-Za-z0-9]+'
+        identField.placeholder = 'Alfanumérico (Ej: ABC123456)'
+      }
+    }
+  }
+
+  // Validación de fechas (para convocatorias)
+  validateDates() {
+    if (!this.hasStartDateTarget || !this.hasEndDateTarget) return
+
+    const startDate = new Date(this.startDateTarget.value)
+    const endDate = new Date(this.endDateTarget.value)
+
+    if (this.startDateTarget.value && this.endDateTarget.value) {
+      if (endDate <= startDate) {
+        this.showDateError()
+        this.endDateTarget.setCustomValidity('La fecha de fin debe ser posterior a la fecha de inicio')
+      } else {
+        this.hideDateError()
+        this.endDateTarget.setCustomValidity('')
+      }
+    }
+  }
+
+  showDateError() {
+    if (this.hasDateErrorTarget) {
+      this.dateErrorTarget.classList.remove('hidden')
+    }
+  }
+
+  hideDateError() {
+    if (this.hasDateErrorTarget) {
+      this.dateErrorTarget.classList.add('hidden')
+    }
   }
 }

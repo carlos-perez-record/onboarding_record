@@ -2,8 +2,9 @@ class CurriculumsController < ApplicationController
   include Authorization
 
   before_action :authenticate_user!
-  before_action :authorize_aspirant!
+  before_action :authorize_aspirant!, except: [:show, :edit, :update]
   before_action :set_curriculum, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_curriculum_access!, only: [:show, :edit, :update]
   before_action :load_studies, only: [:show, :edit]
 
   def new
@@ -46,7 +47,8 @@ class CurriculumsController < ApplicationController
 
   def set_curriculum
     @curriculum = Curriculum.find(params[:id])
-    authorize_curriculum_ownership!
+    # La autorización se maneja con authorize_curriculum_access! y authorize_curriculum_ownership!
+    authorize_curriculum_ownership! if action_name == 'destroy'
   end
 
   def load_studies
@@ -56,6 +58,12 @@ class CurriculumsController < ApplicationController
   end
 
   def authorize_curriculum_ownership!
+    authorize_ownership!(@curriculum, 'currículum')
+  end
+
+  def authorize_curriculum_access!
+    # Reclutadores pueden ver y editar cualquier curriculum, aspirantes solo el suyo
+    return if current_user.reclutador?
     authorize_ownership!(@curriculum, 'currículum')
   end
 

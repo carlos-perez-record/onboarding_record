@@ -1,0 +1,96 @@
+<div class="max-w-7xl mx-auto px-4 md:px-0">
+  <div class="card mb-6">
+    <div class="flex flex-wrap justify-between items-center gap-4">
+      <h2 class="heading-2">📢 Mis Convocatorias</h2>
+      <%= link_to "➕ Nueva Convocatoria", new_recruiter_job_posting_path,
+          class: "btn btn-success" %>
+    </div>
+  </div>
+
+    <% if @job_postings.any? %>
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cargo</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Inicio</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Fin</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% @job_postings.each do |job_posting| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900"><%= job_posting.title %></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <%= l(job_posting.start_date, format: :short) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <%= l(job_posting.end_date, format: :short) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% case job_posting.status %>
+                    <% when "creado" %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                        📝 Creado
+                      </span>
+                    <% when "vigente" %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        ✅ Vigente
+                      </span>
+                    <% when "cerrado" %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                        🔒 Cerrado
+                      </span>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                    <div class="flex justify-center gap-2">
+                      <%= link_to "👁️", recruiter_job_posting_path(job_posting),
+                          class: "text-blue-600 hover:text-blue-900",
+                          title: "Ver" %>
+
+                      <% if job_posting.creado? %>
+                        <%= button_to "🚀", publish_recruiter_job_posting_path(job_posting),
+                            method: :patch,
+                            class: "text-green-600 hover:text-green-900 border-0 bg-transparent cursor-pointer",
+                            title: "Publicar",
+                            form: { data: { turbo_confirm: "¿Publicar esta convocatoria?" } } %>
+                      <% end %>
+
+                      <% if job_posting.vigente? %>
+                        <%= button_to "🔒", close_recruiter_job_posting_path(job_posting),
+                            method: :patch,
+                            class: "text-orange-600 hover:text-orange-900 border-0 bg-transparent cursor-pointer",
+                            title: "Cerrar",
+                            form: { data: { turbo_confirm: "¿Cerrar esta convocatoria?" } } %>
+                      <% end %>
+
+                      <%= link_to "✏️", edit_recruiter_job_posting_path(job_posting),
+                          class: "text-blue-600 hover:text-blue-900",
+                          title: "Editar" %>
+
+                      <%= button_to "🗑️", recruiter_job_posting_path(job_posting),
+                          method: :delete,
+                          class: "text-red-600 hover:text-red-900 border-0 bg-transparent cursor-pointer",
+                          title: "Eliminar",
+                          form: { data: { turbo_confirm: "¿Eliminar esta convocatoria?" } } %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% else %>
+      <div class="card text-center py-12">
+        <p class="text-gray-600 mb-4">📋 No has creado ninguna convocatoria aún</p>
+        <%= link_to "Crear mi primera convocatoria", new_recruiter_job_posting_path, class: "btn btn-primary text-sm py-2 px-4" %>
+      </div>
+    <% end %>
+</div>

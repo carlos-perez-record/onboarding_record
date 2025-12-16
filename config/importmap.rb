@@ -18,3 +18,5 @@ pin "controllers/form_loading_controller", to: "controllers/form_loading_control
 pin "controllers/modal_controller", to: "controllers/modal_controller.js"
 pin "controllers/toast_controller", to: "controllers/toast_controller.js"
 pin "controllers/validation_controller", to: "controllers/validation_controller.js"
+pin "controllers/work_experiences_controller", to: "controllers/work_experiences_controller.js"
+pin "controllers/photo_upload_controller", to: "controllers/photo_upload_controller.js"

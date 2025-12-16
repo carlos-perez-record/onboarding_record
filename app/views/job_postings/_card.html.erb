@@ -1,0 +1,51 @@
+<div class="card shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
+  <!-- Imagen -->
+  <% if job_posting.image.attached? %>
+    <div class="aspect-video overflow-hidden rounded-t-lg">
+      <%= image_tag job_posting.image,
+          class: "w-full h-full object-cover",
+          alt: job_posting.title %>
+    </div>
+  <% end %>
+
+  <!-- Contenido -->
+  <div class="p-6 flex-1 flex flex-col">
+    <!-- Título -->
+    <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+      💼 <%= job_posting.title %>
+    </h3>
+
+    <!-- Fechas -->
+    <div class="space-y-2 mb-4 text-sm text-gray-600">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold">📅 Inicio:</span>
+        <%= l(job_posting.start_date, format: :long) %>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-semibold">📅 Fin:</span>
+        <%= l(job_posting.end_date, format: :long) %>
+      </div>
+    </div>
+
+    <!-- Badge de estado (solo vigente se muestra en público) -->
+    <div class="mb-4">
+      <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+        ✅ Convocatoria Vigente
+      </span>
+    </div>
+
+    <!-- Botón Participar (deshabilitado por ahora) -->
+    <div class="mt-auto">
+      <button
+        type="button"
+        disabled
+        class="w-full btn btn-primary opacity-50 cursor-not-allowed"
+        title="Próximamente podrás participar en esta convocatoria">
+        🎯 Participar
+      </button>
+      <p class="text-xs text-gray-500 text-center mt-2">
+        Funcionalidad próximamente
+      </p>
+    </div>
+  </div>
+</div>

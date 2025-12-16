@@ -38,7 +38,7 @@ class ApplicationService
     Rails.logger.error({
       service: self.class.name,
       error: error.message,
-      backtrace: error.backtrace.first(5),
+      backtrace: error.backtrace&.first(5) || [],
       context: context
     }.to_json)
   end

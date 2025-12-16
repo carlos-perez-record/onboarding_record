@@ -1,12 +1,12 @@
-<div class="text-center py-20 px-5">
-  <h1 class="heading-1 mb-6">Bienvenido a Onboarding Record</h1>
-  <p class="text-body-lg mb-12">Sistema de reclutamiento y onboarding de personal</p>
+<div class="text-center py-12 px-5">
+  <h1 class="text-lg md:text-xl font-bold mb-6">Convocatorias Laborales</h1>
+  <p class="text-body-lg mb-12">Valida en cuales de nuestras ofertas laborales se ajusta tu perfil y participa</p>
 
   <% if user_signed_in? %>
     <div class="alert-welcome mb-12">
       <h2 class="heading-3 mb-4">✅ ¡Bienvenido, <%= current_user.email %>!</h2>
       <p class="text-body mb-0">Tu sesión está activa y puedes comenzar a usar el sistema.</p>
-      
+
       <% if current_user.aspirante? %>
         <% curriculum = current_user.curriculum %>
         <% if curriculum&.persisted? %>
@@ -18,16 +18,30 @@
             <%= link_to "Crear mi currículum ahora", new_curriculum_path, class: "btn btn-success py-3 px-6", "aria-label": "Crear mi currículum profesional" %>
           </div>
         <% end %>
+
+        <!-- Convocatorias activas para aspirantes -->
+        <% if @job_postings&.any? %>
+          <div class="mt-12">
+            <div class="mb-6">
+              <h3 class="heading-3">📢 Convocatorias Activas</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <% @job_postings.each do |job_posting| %>
+                <%= render "job_postings/card", job_posting: job_posting %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       <% elsif current_user.reclutador? %>
         <%= link_to "Ir al panel de reclutamiento", recruiter_aspirants_path, class: "btn btn-success py-2 px-4 mt-4", "aria-label": "Acceder al panel de reclutamiento" %>
       <% elsif current_user.admin? %>
         <%= link_to "Ir al panel de administración", admin_users_path, class: "btn btn-success py-2 px-4 mt-4", "aria-label": "Acceder al panel de administración" %>
       <% end %>
     </div>
-    
+
     <div class="mt-12 max-w-4xl mx-auto">
       <h3 class="heading-3 mb-8">Opciones disponibles:</h3>
-      
+
       <% if current_user.aspirante? %>
         <!-- Enlaces a currículum movidos al menú lateral -->
       <% elsif current_user.reclutador? %>
@@ -45,6 +59,21 @@
       <% end %>
     </div>
   <% else %>
+    <!-- Convocatorias activas para público (SUBIDO) -->
+    <% if @job_postings&.any? %>
+      <div class="mb-16 max-w-7xl mx-auto">
+        <div class="mb-6">
+          <h3 class="heading-3">📢 Convocatorias Activas</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @job_postings.each do |job_posting| %>
+            <%= render "job_postings/card", job_posting: job_posting %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Paneles de registro (BAJADO) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto mb-12">
       <div class="card border-2 border-green-600 p-6 sm:p-8">
         <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">🚀 ¿Eres nuevo?</h3>

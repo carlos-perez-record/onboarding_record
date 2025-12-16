@@ -32,7 +32,7 @@
 
     <!-- Modal Confirmation -->
     <div data-controller="modal" data-action="keydown@window->modal#handleKeydown">
-      <div data-modal-target="backdrop" 
+      <div data-modal-target="backdrop"
            data-action="click->modal#closeOnBackdrop"
            class="modal-backdrop hidden">
         <div data-modal-target="dialog" class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -43,13 +43,13 @@
             <p data-modal-target="message" class="modal-message"></p>
           </div>
           <div class="modal-footer">
-            <button type="button" 
+            <button type="button"
                     data-modal-target="cancelButton"
                     data-action="click->modal#cancel"
                     class="btn btn-secondary px-6 py-2">
               Cancelar
             </button>
-            <button type="button" 
+            <button type="button"
                     data-modal-target="confirmButton"
                     data-action="click->modal#confirm"
                     class="btn btn-danger px-6 py-2">
@@ -63,11 +63,16 @@
     <nav class="navbar" aria-label="Navegación principal">
       <div class="max-w-full px-4 md:px-6">
         <div class="flex flex-wrap justify-between items-center py-3 gap-2">
-          <h1 class="text-xl font-bold m-0" style="color: #333;">
-            <%= link_to "Registro de Incorporación", root_path, class: "no-underline", style: "color: #333;", "aria-label": "Ir a la página de inicio" %>
+        <%= link_to root_path, class: "flex items-center gap-3 no-underline", "aria-label": "Ir a la página de inicio" do %>
+          <img src="/LOGO.png"
+               alt="Logo Record"
+               style="height: 39px; width: auto;"
+               class="object-contain"
+               loading="eager">
+          <h1 class="text-base sm:text-lg md:text-xl font-bold m-0" style="color: #333;">
+            Trabaja con Nosotros
           </h1>
-
-          <div class="flex flex-wrap items-center gap-2 md:gap-3">
+        <% end %>          <div class="flex flex-wrap items-center gap-2 md:gap-3">
             <% if user_signed_in? %>
               <span class="font-semibold mr-2 text-sm md:text-base" style="color: #333;">Hola, <%= current_user.email %></span>
               <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, form: { style: "display:inline-block;" }, params: {}, class: "btn btn-danger", "aria-label": "Cerrar sesión de usuario" %>
@@ -124,6 +129,9 @@
                   <li>
                     <%= link_to "Gestión de Aspirantes", recruiter_aspirants_path, class: "sidebar-link-recruiter", "aria-label": "Administrar aspirantes registrados" %>
                   </li>
+                  <li>
+                    <%= link_to "📢 Convocatorias", recruiter_job_postings_path, class: "sidebar-link-recruiter", "aria-label": "Gestionar convocatorias laborales" %>
+                  </li>
                 </ul>
               </div>
             <% end %>
@@ -132,18 +140,6 @@
       <% end %>
 
       <div class="flex-1 p-3 sm:p-6">
-        <% if notice %>
-          <div role="status" aria-live="polite" class="bg-green-100 border border-green-300 p-3 sm:p-4 mb-4 sm:mb-6 rounded text-sm sm:text-base">
-            <strong class="text-green-800"><%= notice %></strong>
-          </div>
-        <% end %>
-
-        <% if alert %>
-          <div role="alert" aria-live="assertive" class="bg-red-100 border border-red-300 p-3 sm:p-4 mb-4 sm:mb-6 rounded text-sm sm:text-base">
-            <strong class="text-red-800"><%= alert %></strong>
-          </div>
-        <% end %>
-
         <main id="main-content" role="main">
           <%= yield %>
         </main>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   get "pages/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,10 +13,19 @@ Rails.application.routes.draw do
   # Recruiter routes for aspirant management
   namespace :recruiter do
     resources :aspirants, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :job_postings do
+      member do
+        patch :publish
+        patch :close
+      end
+    end
   end
 
   # Curriculum routes for aspirants
   resources :curriculums, only: [:new, :create, :show, :edit, :update, :destroy]
+
+  # Public job postings (convocatorias)
+  resources :job_postings, only: [:index]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

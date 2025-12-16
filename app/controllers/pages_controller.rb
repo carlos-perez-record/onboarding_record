@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
   def home
+    # Cargar convocatorias activas para aspirantes y página pública
+    if !user_signed_in? || (user_signed_in? && current_user.aspirante?)
+      @job_postings = JobPosting.active.by_recent.includes(:image_attachment)
+    end
   end
 
   # Development-only: show current user and session info for debugging

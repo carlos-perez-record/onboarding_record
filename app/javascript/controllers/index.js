@@ -12,6 +12,8 @@ import FormLoadingController from "controllers/form_loading_controller"
 import ModalController from "controllers/modal_controller"
 import ToastController from "controllers/toast_controller"
 import ValidationController from "controllers/validation_controller"
+import WorkExperiencesController from "controllers/work_experiences_controller"
+import PhotoUploadController from "controllers/photo_upload_controller"
 
 // Register controllers
 application.register("hello", HelloController)
@@ -24,5 +26,7 @@ application.register("form-loading", FormLoadingController)
 application.register("modal", ModalController)
 application.register("toast", ToastController)
 application.register("validation", ValidationController)
+application.register("work-experiences", WorkExperiencesController)
+application.register("photo-upload", PhotoUploadController)
 
 console.log("✅ Stimulus controllers registered:", application.router.modulesByIdentifier)

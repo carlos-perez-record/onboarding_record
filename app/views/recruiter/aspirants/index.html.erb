@@ -15,7 +15,6 @@
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Email</th>
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">ID</th>
                   <th class="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden lg:table-cell">Creado</th>
-                  <th class="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider hidden xl:table-cell">Curriculum</th>
                   <th class="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
@@ -26,22 +25,31 @@
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-900 break-all"><%= aspirant.email %></td>
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden md:table-cell"><%= aspirant.id %></td>
                     <td class="px-3 md:px-6 py-4 text-sm text-gray-600 hidden lg:table-cell"><%= aspirant.created_at.strftime("%d/%m/%Y %H:%M") %></td>
-                    <td class="px-3 md:px-6 py-4 text-center hidden xl:table-cell">
-                      <% if aspirant.curriculum.present? %>
-                        <%= link_to "👁️ Ver CV", curriculum_path(aspirant.curriculum),
-                            target: "_blank",
-                            class: "btn btn-primary text-sm",
-                            "aria-label": "Ver curriculum de #{aspirant.email}" %>
-                      <% else %>
-                        <span class="text-gray-400 text-sm italic">Sin CV</span>
-                      <% end %>
-                    </td>
                     <td class="px-3 md:px-6 py-4 text-center">
-                      <div class="flex flex-wrap justify-center gap-2">
-                        <%= link_to "Editar", edit_recruiter_aspirant_path(aspirant), class: "btn btn-warning", "aria-label": "Editar aspirante #{aspirant.email}" %>
-                        <%= link_to "Eliminar",
-                          recruiter_aspirant_path(aspirant),
-                          method: :delete,
+                      <div class="flex justify-center gap-2">
+                        <% if aspirant.curriculum.present? %>
+                          <%= link_to curriculum_path(aspirant.curriculum),
+                              data: { turbo_frame: "_top" },
+                              title: "Ver curriculum de #{aspirant.email}",
+                              class: "inline-block p-2 hover:bg-blue-50 rounded",
+                              "aria-label": "Ver curriculum de #{aspirant.email}" do %>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#0d6efd"/>
+                            </svg>
+                          <% end %>
+                        <% else %>
+                          <span title="Sin curriculum" class="inline-block p-2 cursor-not-allowed opacity-40">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#6c757d"/>
+                            </svg>
+                          </span>
+                        <% end %>
+                        <%= link_to edit_recruiter_aspirant_path(aspirant), title: "Editar aspirante", class: "inline-block p-2 hover:bg-yellow-50 rounded", "aria-label": "Editar aspirante #{aspirant.email}" do %>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#ffc107"/>
+                          </svg>
+                        <% end %>
+                        <%= link_to recruiter_aspirant_path(aspirant),
                           data: {
                             controller: "confirm",
                             action: "click->confirm#confirm",
@@ -49,8 +57,13 @@
                             confirm_message_value: "¿Está seguro de eliminar al aspirante #{aspirant.email}? Esta acción no se puede deshacer.",
                             confirm_confirm_text_value: "Eliminar aspirante"
                           },
-                          class: "btn btn-danger",
-                          "aria-label": "Eliminar aspirante #{aspirant.email}" %>
+                          title: "Eliminar aspirante",
+                          class: "inline-block p-2 hover:bg-red-50 rounded",
+                          "aria-label": "Eliminar aspirante #{aspirant.email}" do %>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="#dc3545"/>
+                          </svg>
+                        <% end %>
                       </div>
                     </td>
                   </tr>
