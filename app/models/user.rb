@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # Associations
   has_one :curriculum, dependent: :destroy
   has_many :job_postings, dependent: :destroy
+  has_many :job_applications, dependent: :destroy
+  has_many :applied_job_postings, through: :job_applications, source: :job_posting
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

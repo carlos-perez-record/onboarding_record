@@ -5,6 +5,8 @@ class JobPosting < ApplicationRecord
   # Asociaciones
   belongs_to :user
   has_one_attached :image
+  has_many :job_applications, dependent: :destroy
+  has_many :applicants, through: :job_applications, source: :user
 
   # Validaciones
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }

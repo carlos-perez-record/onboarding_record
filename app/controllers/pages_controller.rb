@@ -6,6 +6,10 @@ class PagesController < ApplicationController
     end
   end
 
+  def register
+    # Página de registro para usuarios públicos
+  end
+
   # Development-only: show current user and session info for debugging
   def dev_session
     render plain: (

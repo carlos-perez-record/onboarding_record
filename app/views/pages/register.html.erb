@@ -1,0 +1,29 @@
+<div class="text-center py-12 px-5">
+  <h1 class="text-lg md:text-xl font-bold mb-6">Regístrate para Participar</h1>
+  <p class="text-body-lg mb-12">Crea una cuenta o inicia sesión para aplicar a nuestras convocatorias laborales</p>
+
+  <!-- Paneles de registro -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto mb-12">
+    <div class="card border-2 border-green-600 p-6 sm:p-8">
+      <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">🚀 ¿Eres nuevo?</h3>
+      <p class="text-sm sm:text-base mb-4 sm:mb-6">Únete ahora y accede a todas las funcionalidades del sistema.</p>
+      <%= link_to "Comienza ahora", new_user_registration_path, class: "btn btn-success w-full py-3 px-6 text-base sm:text-lg", "aria-label": "Crear una nueva cuenta de usuario" %>
+    </div>
+
+    <div class="card p-6 sm:p-8">
+      <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">¿Ya tienes cuenta?</h3>
+      <p class="text-sm sm:text-base mb-4 sm:mb-6">Inicia sesión con tu correo electrónico y contraseña.</p>
+      <%= link_to "Iniciar sesión", new_user_session_path, class: "btn btn-primary w-full py-3 px-6 text-base sm:text-lg", "aria-label": "Iniciar sesión con tu cuenta existente" %>
+    </div>
+  </div>
+
+  <div class="mt-12 text-center max-w-2xl mx-auto">
+    <h3 class="heading-5 mb-4">¿Olvidaste tu contraseña?</h3>
+    <p class="text-body-light mb-6">No te preocupes, puedes recuperarla fácilmente.</p>
+    <%= link_to "Recuperar contraseña", new_user_password_path, class: "link", "aria-label": "Recuperar contraseña olvidada" %>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to "← Volver a convocatorias", root_path, class: "text-blue-600 hover:text-blue-800" %>
+  </div>
+</div>

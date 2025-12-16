@@ -34,18 +34,24 @@
       </span>
     </div>
 
-    <!-- Botón Participar (deshabilitado por ahora) -->
+    <!-- Botón Participar -->
     <div class="mt-auto">
-      <button
-        type="button"
-        disabled
-        class="w-full btn btn-primary opacity-50 cursor-not-allowed"
-        title="Próximamente podrás participar en esta convocatoria">
-        🎯 Participar
-      </button>
-      <p class="text-xs text-gray-500 text-center mt-2">
-        Funcionalidad próximamente
-      </p>
+      <% if user_signed_in? && current_user.aspirante? %>
+        <% already_applied = job_posting.job_applications.exists?(user_id: current_user.id) %>
+        <% if already_applied %>
+          <button type="button" disabled class="w-full btn btn-success opacity-50 cursor-not-allowed">
+            ✅ Ya participas
+          </button>
+        <% else %>
+          <%= button_to job_applications_path(job_posting_id: job_posting.id), method: :post, class: "w-full btn btn-primary" do %>
+            🎯 Participar
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= link_to register_path, class: "w-full btn btn-primary" do %>
+          🎯 Participar
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

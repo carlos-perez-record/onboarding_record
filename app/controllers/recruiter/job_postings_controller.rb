@@ -3,13 +3,17 @@ class Recruiter::JobPostingsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :authorize_recruiter!
-  before_action :set_job_posting, only: [:show, :edit, :update, :destroy, :publish, :close]
+  before_action :set_job_posting, only: [:show, :edit, :update, :destroy, :publish, :close, :applicants]
 
   def index
     @job_postings = current_user.job_postings.by_recent
   end
 
   def show
+  end
+
+  def applicants
+    @applicants = @job_posting.job_applications.includes(:user).by_recent
   end
 
   def new

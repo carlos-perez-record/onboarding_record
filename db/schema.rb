@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_201647) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_223012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,6 +70,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_201647) do
     t.index ["user_id"], name: "index_curriculums_on_user_id", unique: true
   end
 
+  create_table "job_applications", force: :cascade do |t|
+    t.datetime "applied_at", null: false
+    t.datetime "created_at", null: false
+    t.bigint "job_posting_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["job_posting_id"], name: "index_job_applications_on_job_posting_id"
+    t.index ["user_id", "job_posting_id"], name: "index_job_applications_on_user_and_posting", unique: true
+    t.index ["user_id"], name: "index_job_applications_on_user_id"
+  end
+
   create_table "job_postings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "end_date", null: false
@@ -126,6 +138,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_201647) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "curriculums", "users"
+  add_foreign_key "job_applications", "job_postings"
+  add_foreign_key "job_applications", "users"
   add_foreign_key "job_postings", "users"
   add_foreign_key "studies", "curriculums"
   add_foreign_key "work_experiences", "curriculums"

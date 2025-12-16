@@ -54,6 +54,10 @@
                           class: "text-blue-600 hover:text-blue-900",
                           title: "Ver" %>
 
+                      <%= link_to "👥", applicants_recruiter_job_posting_path(job_posting),
+                          class: "text-purple-600 hover:text-purple-900",
+                          title: "Participantes" %>
+
                       <% if job_posting.creado? %>
                         <%= button_to "🚀", publish_recruiter_job_posting_path(job_posting),
                             method: :patch,

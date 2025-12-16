@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   get "pages/home"
+  get "register", to: "pages#register", as: :register
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Admin routes for user management
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
       member do
         patch :publish
         patch :close
+        get :applicants
       end
     end
   end
@@ -26,6 +28,9 @@ Rails.application.routes.draw do
 
   # Public job postings (convocatorias)
   resources :job_postings, only: [:index]
+
+  # Job applications (participación en convocatorias)
+  resources :job_applications, only: [:create]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

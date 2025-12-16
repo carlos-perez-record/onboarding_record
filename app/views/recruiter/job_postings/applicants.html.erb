@@ -1,0 +1,100 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="heading-1">👥 Participantes</h1>
+      <%= link_to "← Volver a convocatorias", recruiter_job_postings_path, class: "text-blue-600 hover:text-blue-800" %>
+    </div>
+
+    <div class="card p-6 mb-6">
+      <h2 class="heading-3 mb-2">💼 <%= @job_posting.title %></h2>
+      <div class="flex items-center gap-4 text-sm text-gray-600">
+        <span>📅 Inicio: <%= l(@job_posting.start_date, format: :long) %></span>
+        <span>📅 Fin: <%= l(@job_posting.end_date, format: :long) %></span>
+        <% if @job_posting.creado? %>
+          <span class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">📝 Creado</span>
+        <% elsif @job_posting.vigente? %>
+          <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">✅ Vigente</span>
+        <% elsif @job_posting.cerrado? %>
+          <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">🔒 Cerrado</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de participantes -->
+  <div class="card">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="heading-4">
+        Total de participantes: <span class="text-blue-600"><%= @applicants.count %></span>
+      </h3>
+    </div>
+
+    <% if @applicants.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Aspirante
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Fecha de inscripción
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Estado
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @applicants.each do |application| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= application.user.email %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= l(application.applied_at, format: :long) %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if application.pendiente? %>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                      ⏳ Pendiente
+                    </span>
+                  <% elsif application.revisado? %>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                      👁️ Revisado
+                    </span>
+                  <% elsif application.aceptado? %>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      ✅ Aceptado
+                    </span>
+                  <% elsif application.rechazado? %>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                      ❌ Rechazado
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <% if application.user.curriculum.present? %>
+                    <%= link_to "Ver CV", curriculum_path(application.user.curriculum), class: "text-blue-600 hover:text-blue-800", target: "_blank" %>
+                  <% else %>
+                    <span class="text-gray-400">Sin CV</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="p-12 text-center">
+        <p class="text-gray-500 text-lg">👤 Aún no hay participantes en esta convocatoria</p>
+      </div>
+    <% end %>
+  </div>
+</div>
