@@ -1,0 +1,68 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <!-- Título del cargo - fuera del panel -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 text-center">
+        <h1 class="text-3xl font-bold">
+          💼 <%= @job_posting.title %>
+        </h1>
+      </div>
+
+      <!-- Layout de dos paneles -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+        <!-- Panel izquierdo - Imagen -->
+        <div class="bg-gray-100 flex items-center justify-center min-h-[300px]">
+          <% if @job_posting.image.attached? %>
+            <%= image_tag @job_posting.image, class: "w-full h-full object-cover" %>
+          <% else %>
+            <div class="text-center text-gray-400">
+              <div class="text-6xl mb-4">📷</div>
+              <p class="text-sm">Sin imagen</p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Panel derecho - Información -->
+        <div class="p-8 flex flex-col">
+          <!-- Fechas -->
+          <div class="space-y-4 mb-6">
+            <div class="flex items-start gap-3">
+              <span class="text-gray-500 font-semibold min-w-[100px]">📅 Inicio:</span>
+              <span class="text-gray-900 text-lg"><%= @job_posting.start_date.strftime('%d/%m/%Y') %></span>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-gray-500 font-semibold min-w-[100px]">📅 Fin:</span>
+              <span class="text-gray-900 text-lg"><%= @job_posting.end_date.strftime('%d/%m/%Y') %></span>
+            </div>
+          </div>
+
+          <!-- Estado -->
+          <div>
+            <span class="px-4 py-2 inline-flex text-base font-semibold rounded-full bg-green-100 text-green-800">
+              ✅ Vigente
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón Participar - fuera del panel, centrado -->
+      <div class="bg-gray-50 p-8 text-center border-t border-gray-200">
+        <% if user_signed_in? && current_user.aspirante? %>
+          <% already_applied = @job_posting.job_applications.exists?(user_id: current_user.id) %>
+          <% if already_applied %>
+            <button type="button" disabled class="btn btn-success opacity-50 cursor-not-allowed px-8 py-3 text-base">
+              ✅ Ya participas en esta convocatoria
+            </button>
+          <% else %>
+            <%= button_to job_applications_path(job_posting_id: @job_posting.id), method: :post, class: "btn btn-primary px-8 py-3 text-base" do %>
+              🎯 Participar en esta convocatoria
+            <% end %>
+          <% end %>
+        <% else %>
+          <p class="text-gray-600 mb-4">Para participar, inicia sesión como aspirante.</p>
+          <%= link_to "Registrarse", register_path, class: "btn btn-primary px-8 py-3 text-base" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

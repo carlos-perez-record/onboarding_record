@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :curriculums, only: [:new, :create, :show, :edit, :update, :destroy]
 
   # Public job postings (convocatorias)
-  resources :job_postings, only: [:index]
+  resources :job_postings, only: [:index, :show]
 
   # Job applications (participación en convocatorias)
   resources :job_applications, only: [:create]

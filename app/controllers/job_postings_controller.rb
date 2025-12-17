@@ -1,7 +1,9 @@
 class JobPostingsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
-
   def index
     @job_postings = JobPosting.active.by_recent
+  end
+
+  def show
+    @job_posting = JobPosting.find(params[:id])
   end
 end

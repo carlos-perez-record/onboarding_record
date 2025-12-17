@@ -1,54 +1,34 @@
-<div class="card shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
-  <!-- Imagen -->
-  <% if job_posting.image.attached? %>
-    <div class="aspect-video overflow-hidden rounded-t-lg">
-      <%= image_tag job_posting.image,
-          class: "w-full h-full object-cover",
-          alt: job_posting.title %>
-    </div>
-  <% end %>
-
-  <!-- Contenido -->
-  <div class="p-6 flex-1 flex flex-col">
-    <!-- Título -->
-    <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+<div class="bg-white border border-gray-200 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-64 cursor-pointer" onclick="window.location='<%= job_posting_path(job_posting) %>'">
+  <!-- Área de contenido -->
+  <div class="p-4 flex flex-col h-full">
+    <!-- Título - máximo 2 líneas -->
+    <h3 class="text-base font-bold text-gray-900 mb-3 line-clamp-2">
       💼 <%= job_posting.title %>
     </h3>
 
-    <!-- Fechas -->
-    <div class="space-y-2 mb-4 text-sm text-gray-600">
-      <div class="flex items-center gap-2">
-        <span class="font-semibold">📅 Inicio:</span>
-        <%= l(job_posting.start_date, format: :long) %>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="font-semibold">📅 Fin:</span>
-        <%= l(job_posting.end_date, format: :long) %>
-      </div>
-    </div>
-
-    <!-- Badge de estado (solo vigente se muestra en público) -->
-    <div class="mb-4">
-      <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-        ✅ Convocatoria Vigente
+    <!-- Fechas y badge -->
+    <div class="flex flex-wrap items-center gap-2 mb-4 text-xs text-gray-600">
+      <span class="whitespace-nowrap">📅 <%= job_posting.start_date.strftime('%d/%m/%Y') %></span>
+      <span class="px-2 py-1 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800 whitespace-nowrap">
+        ✅ Vigente
       </span>
     </div>
 
-    <!-- Botón Participar -->
-    <div class="mt-auto">
+    <!-- Botón Participar - siempre al fondo -->
+    <div class="mt-auto" onclick="event.stopPropagation();">
       <% if user_signed_in? && current_user.aspirante? %>
         <% already_applied = job_posting.job_applications.exists?(user_id: current_user.id) %>
         <% if already_applied %>
-          <button type="button" disabled class="w-full btn btn-success opacity-50 cursor-not-allowed">
+          <button type="button" disabled class="btn btn-success opacity-50 cursor-not-allowed text-xs py-1.5 px-3 w-full">
             ✅ Ya participas
           </button>
         <% else %>
-          <%= button_to job_applications_path(job_posting_id: job_posting.id), method: :post, class: "w-full btn btn-primary" do %>
+          <%= button_to job_applications_path(job_posting_id: job_posting.id), method: :post, class: "btn btn-primary text-xs py-1.5 px-3 w-full" do %>
             🎯 Participar
           <% end %>
         <% end %>
       <% else %>
-        <%= link_to register_path, class: "w-full btn btn-primary" do %>
+        <%= link_to register_path, class: "btn btn-primary text-xs py-1.5 px-3 w-full text-center", onclick: "event.stopPropagation();" do %>
           🎯 Participar
         <% end %>
       <% end %>

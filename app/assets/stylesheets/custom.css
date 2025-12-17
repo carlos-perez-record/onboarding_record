@@ -292,18 +292,18 @@ a:focus-visible {
 
 /* Accesibilidad: Estados de focus visible */
 .btn:focus-visible {
-  outline: 3px solid var(--color-primary, #0056b3);
+  outline: 3px solid var(--color-primary, #dc3545);
   outline-offset: 2px;
 }
 
-/* Azul corporativo - Acción principal */
+/* Rojo - Acción principal */
 .btn-primary {
-  background-color: #0056b3;
+  background-color: #dc3545;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #004494;
+  background-color: #c82333;
 }
 
 /* Verde - Acciones positivas (crear, guardar, confirmar) */
